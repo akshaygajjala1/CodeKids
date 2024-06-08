@@ -62,7 +62,7 @@ nav ul li a {
     cursor: pointer;
 }
 
-.banner button:hover {
+.banner button:hover { 
     background-color: #0056b3;
 }
 
