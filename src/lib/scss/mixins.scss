@@ -1,0 +1,69 @@
+@mixin title-lg {
+    font-family: Inter, sans-serif;
+    font-size: 3rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.2;
+
+    @media screen and (max-width: 991px) {
+        font-size: 2.75rem;
+    }
+
+    @media screen and (max-width: 767px) {
+        font-size: 2rem;
+        line-height: 1.3;
+    }
+}
+
+@mixin title-md {
+    font-family: Inter, sans-serif;
+    font-size: 2.25rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.3;
+
+    @media screen and (max-width: 767px) {
+        font-size: 1.5rem;
+        line-height: 1.4;
+    }
+}
+
+@mixin paragraph-xl {
+    font-family: Inter, sans-serif;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.5;
+
+    @media screen and (max-width: 767px) {
+        font-size: 1.125rem;
+    }
+}
+
+@mixin paragraph-lg {
+    font-family: Inter, sans-serif;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.5;
+
+    @media screen and (max-width: 767px) {
+        font-size: 1rem;
+    }
+}
+
+@mixin paragraph-md {
+    font-family: Inter, sans-serif;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.5;
+}
+
+@mixin paragraph-sm {
+    font-family: Inter, sans-serif;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.5;
+}
