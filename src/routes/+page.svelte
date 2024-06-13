@@ -1,2 +1,5 @@
-<h1>CodeKids Academy</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+    import HomeNavbar from '$lib/components/HomeNavbar.svelte';
+</script>
+
+<HomeNavbar />

@@ -28,6 +28,14 @@
     }
 }
 
+@mixin title-sm {
+    font-family: Inter, sans-serif;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
 @mixin paragraph-xl {
     font-family: Inter, sans-serif;
     font-size: 1.25rem;
@@ -66,4 +74,9 @@
     font-style: normal;
     font-weight: normal;
     line-height: 1.5;
+}
+
+@mixin paragraph-sm-b { 
+    @include paragraph-sm;
+    font-weight: 600;
 }
