@@ -1,15 +1,24 @@
 <script lang="ts">
     export let variant: 'primary' | 'secondary' | 'ghost' = 'primary';
+    export let href: string | undefined = undefined;
 </script>
 
-<button class={variant}>
-    <slot>
-        Button
-    </slot>
-</button>
+{#if href}
+    <a href={href} class={variant + ' button'}>
+        <slot>
+            Button
+        </slot>
+    </a>
+{:else}
+    <button class={variant + ' button'}>
+        <slot>
+            Button
+        </slot>
+    </button>
+{/if}
 
 <style lang="scss">
-    button {
+    .button {
         display: flex;
         height: 2rem;
         background-color: transparent;
@@ -24,21 +33,21 @@
         @include paragraph-sm-b;
         line-height: 1;
 
-        :global(a) {
-            text-decoration: none;
-            color: inherit;
-
-            &:visited {
-                color: inherit;
-            }
-        }
-
         &:hover {
             cursor: pointer;
         }
 
         &.primary {
             background-color: var(--primary);
+            color: var(--background);
+
+            &:hover {
+                box-shadow: var(--shadow-sm-medium);
+            }
+
+            &:active {
+                box-shadow: var(--shadow-sm-heavy);
+            }
         }
 
         &.secondary {
@@ -63,5 +72,10 @@
                 box-shadow: var(--shadow-sm-medium);
             }
         }
+    }
+
+    a.button {
+        text-decoration: none;
+        color: inherit;
     }
 </style>

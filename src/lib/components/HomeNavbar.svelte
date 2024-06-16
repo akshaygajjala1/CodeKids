@@ -1,10 +1,10 @@
 <script>
-    import Button from '$lib/components/Button.svelte';
+	import HomeMainAction from './HomeMainAction.svelte';
 </script>
 
 <nav>
     <div class="logo-text-container">
-        <h3>CodeKids Academy</h3>
+        <h3><a href='/'>CodeKids Academy</a></h3>
     </div>
     <div class="nav-links">
         <p><a href='/#'>Home</a></p>
@@ -13,8 +13,7 @@
         <p><a href='/#contact-us'>Contact Us</a></p>
     </div>
     <div class="login-signup-links">
-        <Button variant='ghost'><a href='/login'>Log In</a></Button>
-        <Button variant='secondary'><a href='/signup'>Sign Up</a></Button>
+        <HomeMainAction loggedIn={false} />
     </div>
 </nav>
 
@@ -29,21 +28,34 @@
         position: fixed;
         top: 0;
         width: 100%;
+        background: transparent;
         backdrop-filter: blur(24px);
 
         .logo-text-container {
             flex: 1 0 0;
+
+            a {
+                text-decoration: none;
+                color: inherit;
+
+                &:visited {
+                    color: inherit;
+                }
+            }
         }
 
         .nav-links {
             display: flex;
             align-items: center;
             gap: var(--padding-lg);
+            flex: 1 0 0;
+            justify-content: center;
             align-self: stretch;
 
             p {
                 @include paragraph-md;
                 color: var(--gray);
+                white-space: nowrap;
 
                 a {
                     text-decoration: none;
@@ -64,7 +76,6 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            gap: var(--padding-smd);
             flex: 1 0 0;
             align-self: stretch;
         }
