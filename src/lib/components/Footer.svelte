@@ -28,7 +28,7 @@
         display: flex;
         max-width: 90rem;
         margin: 0 auto;
-        padding: 0 var(--padding-3xl) var(--padding-3xl) var(--padding-3xl);
+        padding: 0 var(--page-padding) var(--page-padding) var(--page-padding);
         flex-direction: column;
         justify-content: flex-end;
         align-items: center;

@@ -28,8 +28,8 @@
         position: fixed;
         top: 0;
         width: 100%;
-        background: transparent;
-        backdrop-filter: blur(24px);
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(12px);
 
         .logo-text-container {
             flex: 1 0 0;

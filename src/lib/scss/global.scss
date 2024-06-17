@@ -3,7 +3,7 @@
 }
 
 html {
-    scroll-behavior: auto;
+    scroll-behavior: smooth;
 
     --background: white;
     --text: black;
@@ -20,6 +20,11 @@ html {
     --padding-xl: 1.5rem;
     --padding-2xl: 1.75rem;
     --padding-3xl: 2rem;
+
+    --page-padding: var(--padding-3xl);
+    @media screen and (max-width: 27.5rem) {
+        --page-padding: var(--padding-md);
+    }
 
     --shadow-outline: 0px 0px 2px 0px rgba(0, 0, 0, 0.25);
     --shadow-sm-light: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
