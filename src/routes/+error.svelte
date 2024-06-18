@@ -36,10 +36,6 @@
                 @include title-md;
                 line-height: 1;
             }
-
-            p {
-                color: var(--gray);
-            }
         }
     }
 </style>

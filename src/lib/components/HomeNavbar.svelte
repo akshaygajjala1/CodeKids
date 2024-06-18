@@ -54,7 +54,6 @@
 
             p {
                 @include paragraph-md;
-                color: var(--gray);
                 white-space: nowrap;
 
                 a {

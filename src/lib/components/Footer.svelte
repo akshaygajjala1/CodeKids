@@ -64,7 +64,6 @@
 
                 p {
                     text-align: end;
-                    color: var(--gray);
                     @include paragraph-md;
                 }
             }
@@ -72,7 +71,6 @@
             .nav-links {
                 display: flex;
                 gap: var(--padding-lg);
-                color: var(--gray);
 
                 p {
                     @include paragraph-md;

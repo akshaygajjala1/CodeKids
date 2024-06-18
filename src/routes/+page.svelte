@@ -48,10 +48,6 @@
                     text-align: center;
                     text-wrap: balance;
 
-                    p {
-                        color: var(--gray);
-                    }
-
                     @media screen and (max-width: 767px) {
                         padding-top: 0;
                     }

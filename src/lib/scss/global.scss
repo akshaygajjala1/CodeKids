@@ -10,7 +10,10 @@ html {
     --primary: #9309de;
     --secondary: black;
     --gray: #565656;
+    --dark-gray: #383838;
     --light-gray: #C7C7C7;
+    --success: #3BDD72;
+    --error: #FF4747;
 
     --padding-xs: 0.25rem;
     --padding-sm: 0.5rem;
@@ -27,6 +30,9 @@ html {
     }
 
     --shadow-outline: 0px 0px 2px 0px rgba(0, 0, 0, 0.25);
+    --shadow-outline-thick: 0px 0px 4px 0px rgba(0, 0, 0, 0.3);
+    --shadow-outline-success: 0px 0px 4px 0px var(--success);
+    --shadow-outline-error: 0px 0px 4px 0px var(--error);
     --shadow-sm-light: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
     --shadow-sm-medium: 0px 1px 4px 0px rgba(0, 0, 0, 0.5);
     --shadow-sm-heavy: 0px 1px 4px 0px rgba(0, 0, 0, 0.75);
@@ -72,4 +78,5 @@ h3 {
 
 p {
     @include paragraph-lg;
+    color: var(--gray);
 }
