@@ -1,10 +1,11 @@
 <script>
-	import HomeMainAction from './HomeMainAction.svelte';
+	import HomeMainAction from './MainAction.svelte';
+	import LogoText from '../LogoText.svelte';
 </script>
 
 <nav>
     <div class="logo-text-container">
-        <h3><a href='/'>CodeKids Academy</a></h3>
+        <LogoText />
     </div>
     <div class="nav-links">
         <p><a href='/#'>Home</a></p>
@@ -33,15 +34,6 @@
 
         .logo-text-container {
             flex: 1 0 0;
-
-            a {
-                text-decoration: none;
-                color: inherit;
-
-                &:visited {
-                    color: inherit;
-                }
-            }
         }
 
         .nav-links {
@@ -58,11 +50,6 @@
 
                 a {
                     text-decoration: none;
-                    color: inherit;
-
-                    &:visited {
-                        color: inherit;
-                    }
 
                     &:hover {
                         text-decoration: underline;

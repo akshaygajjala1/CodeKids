@@ -1,8 +1,8 @@
 <script lang="ts">
     import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
-	import Footer from '$lib/components/Footer.svelte';
-	import HomeNavbar from '$lib/components/HomeNavbar.svelte';
+	import Footer from '$lib/components/home/Footer.svelte';
+	import HomeNavbar from '$lib/components/home/Navbar.svelte';
 </script>
 
 <HomeNavbar />

@@ -1,11 +1,13 @@
 <script lang="ts">
+	import LogoText from "../LogoText.svelte";
+
     export let hasReturnToTop: boolean = true;
 </script>
 
 <div class="container">
     <footer>
         <div class="logo-text">
-            <h3><a href='/'>CodeKids Academy</a></h3>
+            <LogoText />
             {#if hasReturnToTop}
                 <p><a href='#top'>Return to Top</a></p>
             {/if}
@@ -45,7 +47,6 @@
 
             a {
                 text-decoration: none;
-                color: inherit;
 
                 &:hover {
                     text-decoration: underline;
@@ -57,10 +58,9 @@
                 width: 100%;
                 justify-content: space-between;
                 align-items: center;
-
-                h3 a:hover {
-                    text-decoration: none;
-                }
+                flex-wrap: wrap;
+                gap: var(--padding-2xl);
+                row-gap: var(--padding-sm);
 
                 p {
                     text-align: end;
@@ -89,12 +89,6 @@
             }
 
             @media screen and (max-width: 27.5rem) {
-                .logo-text {
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: var(--padding-sm);
-                }
-
                 .nav-links {
                     flex-direction: column;
                     gap: var(--padding-sm);

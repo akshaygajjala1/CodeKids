@@ -80,3 +80,7 @@ p {
     @include paragraph-lg;
     color: var(--gray);
 }
+
+a {
+    color: inherit;
+}
