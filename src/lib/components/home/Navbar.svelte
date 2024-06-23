@@ -1,12 +1,34 @@
-<script>
+<script lang='ts'>
+    import { fly } from 'svelte/transition';
+
 	import HomeMainAction from './MainAction.svelte';
 	import LogoText from '../LogoText.svelte';
 	import Logo from '../Logo.svelte';
+	import { onMount } from 'svelte';
 
     let menuActive = false;
+
+    const onResize = () => {
+        const width = window.innerWidth / parseFloat(getComputedStyle(document.querySelector('html')!).fontSize);
+        if (width > 64) {
+            menuActive = false;
+        }
+    }
+
+    const closeMenu = () => {
+        menuActive = false;
+    }
+
+    onMount(() => {
+        window.addEventListener('resize', () => {
+            onResize();
+        })
+
+        return () => window.removeEventListener('resize', onResize);
+    });
 </script>
 
-<nav>
+<nav class={menuActive ? 'menu-active' : ''}>
     <div class="logo-text-container">
         <div id="logo-visibility">
             <Logo />
@@ -34,6 +56,14 @@
         </button>
     </div>
 </nav>
+{#if menuActive}
+    <aside in:fly={{ x: '100%', duration: 600 }} out:fly={{ x: '100%', duration: 600 }}>
+        <p><a href='/#' on:click={closeMenu}>Home</a></p>
+        <p><a href='/#about' on:click={closeMenu}>About</a></p>
+        <p><a href='/#meet-the-tutors' on:click={closeMenu}>Meet the Tutors</a></p>
+        <p><a href='/#contact-us' on:click={closeMenu}>Contact Us</a></p>
+    </aside>
+{/if}
 
 <style lang="scss">
     nav {
@@ -47,6 +77,7 @@
         top: 0;
         width: 100%;
         background: rgba(255, 255, 255, 0.4);
+        transition: background 600ms ease;
         backdrop-filter: blur(12px);
 
         .logo-text-container {
@@ -174,6 +205,30 @@
                     display: grid;
                 }
             }
+        }
+    }
+
+    nav.menu-active {
+        background: var(--background);
+    }
+
+    aside {
+        position: fixed;
+        top: 3.75rem;
+        right: 0;
+        bottom: 0;
+        width: 20rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: var(--padding-3xl) var(--page-padding);
+        gap: var(--padding-3xl);
+        background: var(--background);
+        overflow: auto;
+
+        @media screen and (max-width: 27.5rem) {
+            width: 100%;
         }
     }
 </style>
