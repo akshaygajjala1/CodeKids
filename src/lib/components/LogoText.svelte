@@ -1,7 +1,7 @@
 <script>
 	import Logo from "./Logo.svelte";
-
 </script>
+
 <a class="logo-text" href='/'>
     <Logo />
     <h3>CodeKids Academy</h3>
@@ -13,7 +13,6 @@
         gap: var(--padding-smd);
         object-fit: cover;
         width: fit-content;
-
         text-decoration: none;
     }
 </style>

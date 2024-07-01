@@ -1,16 +1,12 @@
-<a href='/'>
-    <img src='/CodeKidsAcademy Logo.png' alt='logo' />
-</a>
+<script lang="ts">
+    import logo from '$lib/assets/CodeKidsAcademy Logo.png';
+</script>
+
+<img src={logo} alt='logo' />
 
 <style lang="scss">
-    a {
-        display: block;
-        width: fit-content;
-
-        img {
-            width: 1.6875rem;
-            height: 2.0625rem;
-        }
+   img {
+        width: 1.6875rem;
+        height: 2.0625rem;
     }
-
 </style>
