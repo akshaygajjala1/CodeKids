@@ -1,3 +1,6 @@
+<script lang='ts'>
+</script>
+
 <div class="container">
     <div class="text-container">
         <h1>Log In</h1>

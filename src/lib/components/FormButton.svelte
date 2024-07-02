@@ -1,36 +1,28 @@
 <script lang="ts">
     export let variant: 'primary' | 'secondary' | 'ghost' = 'primary';
-    export let href: string | undefined = undefined;
 </script>
 
-{#if href}
-    <a href={href} class={variant + ' button'} on:click>
-        <slot>
-            Button
-        </slot>
-    </a>
-{:else}
-    <button class={variant + ' button'} on:click>
-        <slot>
-            Button
-        </slot>
-    </button>
-{/if}
+<button class={variant} on:click|preventDefault {...$$restProps}>
+    <slot>
+        Button
+    </slot>
+</button>
 
 <style lang="scss">
-    .button {
+    button {
         display: flex;
-        height: 2rem;
+        width: 100%;
+        height: 2.5rem;
         background-color: transparent;
         border: none;
         align-items: center;
         justify-content: center;
         gap: var(--padding-sm);
         padding: var(--padding-md);
-        border-radius: 1rem;
+        border-radius: 0.5rem;
         transition: 300ms box-shadow ease;
 
-        @include paragraph-sm-b;
+        @include paragraph-md-b;
         line-height: 1;
 
         &:hover {
@@ -72,9 +64,5 @@
                 box-shadow: var(--shadow-sm-medium);
             }
         }
-    }
-
-    a.button {
-        text-decoration: none;
     }
 </style>
