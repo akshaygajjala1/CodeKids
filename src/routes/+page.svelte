@@ -14,6 +14,21 @@
                 <HomeMainAction loggedIn={false} />
             </div>
         </section>
+        <section id='about'>
+            <div class="about-container">
+                <p>At CodeKids Academy, we believe in shaping future innovators with a robust and engaging learning experience. Our platform offers weekly classes, asynchronous learning opportunities, and coding assignments that provide instant feedback. Designed specifically for young learners, CodeKids Academy combines interactive lessons with practical coding exercises to foster a deep understanding of programming and computational thinking. Join us and ignite your child's passion for coding today!</p>
+            </div>
+        </section>
+        <section id='meettutors'>
+            <div class="meet-container">
+                <p>Pranav: Akshay: Ram:</p>
+            </div>
+        </section>
+        <section id='contact'>  
+            <div class="contact-container">
+                <p><a>Contact Us!</a></p>
+            </div>
+        </section>
     </div>
     <Footer />
 </div>
@@ -39,6 +54,84 @@
                 padding: 0 var(--page-padding);
 
                 .title-container {
+                    padding-top: var(--padding-md);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: flex-start;
+                    gap: var(--padding-md);
+                    text-align: center;
+                    text-wrap: balance;
+
+                    @media screen and (max-width: 74rem) {
+                        .desktop-only {
+                            display: none;
+                        }
+                    }
+
+                    @media screen and (max-width: 767px) {
+                        padding-top: 0;
+                    }
+                }
+            }
+            #about {
+                max-width: 90rem;
+                margin: 0 auto;
+                padding: 0 var(--page-padding);
+
+                .about-container {
+                    padding-top: var(--padding-md);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: flex-start;
+                    gap: var(--padding-md);
+                    text-align: center;
+                    text-wrap: balance;
+
+                    @media screen and (max-width: 74rem) {
+                        .desktop-only {
+                            display: none;
+                        }
+                    }
+
+                    @media screen and (max-width: 767px) {
+                        padding-top: 0;
+                    }
+                }
+            }
+            #meettutors {
+                max-width: 90rem;
+                margin: 0 auto;
+                padding: 0 var(--page-padding);
+
+                .meet-container {
+                    padding-top: var(--padding-md);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: flex-start;
+                    gap: var(--padding-md);
+                    text-align: center;
+                    text-wrap: balance;
+
+                    @media screen and (max-width: 74rem) {
+                        .desktop-only {
+                            display: none;
+                        }
+                    }
+
+                    @media screen and (max-width: 767px) {
+                        padding-top: 0;
+                    }
+                }
+            }
+            #contact {
+                max-width: 90rem;
+                margin: 0 auto;
+                padding: 0 var(--page-padding);
+
+                .contact-container {
                     padding-top: var(--padding-md);
                     display: flex;
                     flex-direction: column;
