@@ -20,11 +20,9 @@
         if (!validate(value.text)) {
             status = 'error';
             value.isValid = false;
-            input.setCustomValidity(errorText);
         } else {
             status = 'success';
             value.isValid = true;
-            input.setCustomValidity('');
         }
         return value.isValid;
     }
@@ -33,10 +31,8 @@
         status = validity;
         if (validity === 'error') {
             value.isValid = false;
-            input.setCustomValidity(errorText);
         } else {
             value.isValid = true;
-            input.setCustomValidity('');
         }
     }
 
@@ -61,6 +57,7 @@
         {required}
         {placeholder} 
         {...{ type: fieldType }}
+        {...$$restProps}
         on:focusout={() => {
             if (manualValidationOnly) {
                 return;
@@ -93,6 +90,7 @@
             align-items: flex-end;
             justify-content: space-between;
             flex-wrap: wrap;
+            column-gap: var(--padding-sm);
 
             label {
                 @include paragraph-lg;

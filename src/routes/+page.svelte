@@ -26,7 +26,7 @@
         </section>
         <section id='contact'>  
             <div class="contact-container">
-                <p><a>Contact Us!</a></p>
+                <p><a href='contact@example.com'>Contact Us!</a></p>
             </div>
         </section>
     </div>

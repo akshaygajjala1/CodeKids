@@ -69,6 +69,13 @@
                 align-self: stretch;
             }
 
+            :global(.fields) {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                gap: var(--padding-md);
+            }
+
             @media screen and (max-width: 40rem) {
                 padding: 5.9375rem var(--page-padding);
             }

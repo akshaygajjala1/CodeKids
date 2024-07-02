@@ -1,10 +1,9 @@
 <script lang="ts">
 	import FormButton from '$lib/components/FormButton.svelte';
     import FormField, { type FieldValue } from '$lib/components/FormField.svelte';
+	import { emailRegex } from '$lib/helpers/regex';
 	import type { SvelteComponent } from 'svelte';
 
-	const emailRegex =
-		/^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/i;
 	let emailStatus: FieldValue = { text: '', isValid: false };
 	let nameStatus: FieldValue = { text: '', isValid: false };
 	let passwordStatus: FieldValue = { text: '', isValid: false };
@@ -26,7 +25,7 @@
     }
 </script>
 
-<form method='POST' class="container" bind:this={form}>
+<form method='POST' class="container" bind:this={form} novalidate on:submit|preventDefault={handleSubmit}>
 	<div class="text-container">
 		<h1>Sign Up</h1>
 		<p>Hello! We're glad you're here. Please enter your information below.</p>
@@ -75,19 +74,12 @@
 	<div class="links">
 		<p><a href="/login">Log in instead</a></p>
 	</div>
-    <FormButton on:click={handleSubmit}>
+    <FormButton>
         Sign Up
     </FormButton>
 </form>
 
 <style lang="scss">
-	.fields {
-		display: flex;
-		width: 100%;
-		flex-direction: column;
-		gap: var(--padding-md);
-	}
-
 	.links {
 		display: flex;
 		justify-content: left;

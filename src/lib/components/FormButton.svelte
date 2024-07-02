@@ -2,7 +2,7 @@
     export let variant: 'primary' | 'secondary' | 'ghost' = 'primary';
 </script>
 
-<button class={variant} on:click|preventDefault {...$$restProps}>
+<button class={variant} on:click {...$$restProps}>
     <slot>
         Button
     </slot>
