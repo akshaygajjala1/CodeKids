@@ -1,5 +1,5 @@
 <script lang='ts'>
-	import FormField, { type FieldValue } from "$lib/components/FormField.svelte";
+	import FormField from "$lib/components/FormField.svelte";
     import FormButton from '$lib/components/FormButton.svelte';
 	import type { SvelteComponent } from "svelte";
 	import { enhance } from "$app/forms";
@@ -7,23 +7,32 @@
 
     let errorText: string = 'Invalid email / password.';
 
-    let emailStatus: FieldValue = { text: '', isValid: false }
-    let passwordStatus: FieldValue = { text: '', isValid: false }
+    let email: string = '';
+    let password: string = '';
 
-    let email: SvelteComponent;
-    let password: SvelteComponent;
+    let emailComponent: SvelteComponent;
+    let passwordComponent: SvelteComponent;
 
     const resetValidity = () => {
-        email.setValidity('normal');
-        password.setValidity('normal');
+        if (errorText === 'Missing fields.' && email !== '' && password !== '' || errorText !== 'Missing fields.') {
+            emailComponent.setValidity('normal');
+            passwordComponent.setValidity('normal');
+        }
     }
 
-    const enhanced: SubmitFunction = () => {
+    const enhanced: SubmitFunction = ({ cancel }) => {
+        if (email === '' || password === '') {
+            emailComponent.setValidity('error');
+            passwordComponent.setValidity('error');
+            errorText = 'Missing fields.';
+            cancel();
+        }
+
         return async ({ result, update }) => {
             if (result.type === 'failure') {
                 errorText = result.data?.error;
-                email.setValidity('error');
-                password.setValidity('error');
+                emailComponent.setValidity('error');
+                passwordComponent.setValidity('error');
             } else {
                 update();
             }
@@ -41,8 +50,8 @@
             fieldName="Email"
             fieldType="email"
             placeholder="email@domain.com"
-            bind:value={emailStatus}
-            bind:this={email}
+            bind:value={email}
+            bind:this={emailComponent}
             manualValidationOnly={true}
             errorText={errorText}
             on:input={resetValidity}
@@ -51,8 +60,8 @@
             fieldName='Password'
             fieldType='password'
             placeholder='••••••••'
-            bind:value={passwordStatus}
-            bind:this={password}
+            bind:value={password}
+            bind:this={passwordComponent}
             manualValidationOnly={true}
             errorText=''
             on:input={resetValidity}

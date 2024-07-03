@@ -1,23 +1,35 @@
 <script lang="ts">
 	import FormButton from '$lib/components/FormButton.svelte';
-    import FormField, { type FieldValue } from '$lib/components/FormField.svelte';
+    import FormField from '$lib/components/FormField.svelte';
 	import { emailRegex } from '$lib/helpers/regex';
 	import type { SvelteComponent } from 'svelte';
 
-	let emailStatus: FieldValue = { text: '', isValid: false };
-	let nameStatus: FieldValue = { text: '', isValid: false };
-	let passwordStatus: FieldValue = { text: '', isValid: false };
-	let confirmPasswordStatus: FieldValue = { text: '', isValid: false };
+	let email: string = '';
+	let name: string = '';
+	let password: string = '';
+	let confirmPassword: string = '';
 
-	let email: SvelteComponent;
-	let name: SvelteComponent;
-	let password: SvelteComponent;
-	let confirmPassword: SvelteComponent;
+    let confPassErrText: string = 'Enter a password.';
+
+	let emailComponent: SvelteComponent;
+	let nameComponent: SvelteComponent;
+	let passwordComponent: SvelteComponent;
+	let confirmPasswordComponent: SvelteComponent;
 
     let form: HTMLFormElement;
 
+    const setConfPassErrText = () => {
+        if (confirmPassword === '') {
+            confPassErrText = 'Enter a password.';
+        }
+        else {
+            confPassErrText = 'Passwords must match.';
+        }
+    }
+
     const handleSubmit = () => {
-        const fields = [name, email, password, confirmPassword];
+        setConfPassErrText();
+        const fields = [nameComponent, emailComponent, passwordComponent, confirmPasswordComponent];
         const isValid = fields.reduce((allValid, field) => field.checkValidity() && allValid, true);
         if (isValid) {
             form.submit();
@@ -34,8 +46,8 @@
 		<FormField
 			fieldName="Name"
 			placeholder="First Last"
-			bind:value={nameStatus}
-            bind:this={name}
+			bind:value={name}
+            bind:this={nameComponent}
 			errorText="Names must be longer than 2 characters."
 			minLength={2}
 			validate={(value) => value.replace(/\s+/, '').length >= 2}
@@ -44,8 +56,8 @@
 			fieldName="Email"
 			fieldType="email"
 			placeholder="email@domain.com"
-			bind:value={emailStatus}
-            bind:this={email}
+			bind:value={email}
+            bind:this={emailComponent}
 			errorText="Please enter a valid email address."
 			validate={(value) => emailRegex.exec(value) !== null}
 		/>
@@ -53,22 +65,23 @@
 			fieldName="Password"
 			fieldType="password"
 			placeholder="••••••••"
-			bind:value={passwordStatus}
-            bind:this={password}
+			bind:value={password}
+            bind:this={passwordComponent}
 			errorText="Passwords must be at least 8 characters long."
 			minLength={8}
 			validate={(value) => value.length >= 8}
-			on:input={() => confirmPassword.checkValidity()}
+			on:input={() => confirmPasswordComponent.checkValidity()}
 		/>
 		<FormField
 			fieldName="Confirm Password"
 			fieldType="password"
 			placeholder="••••••••"
-			bind:value={confirmPasswordStatus}
-			bind:this={confirmPassword}
-			errorText="Passwords must match."
+			bind:value={confirmPassword}
+			bind:this={confirmPasswordComponent}
+			errorText={confPassErrText}
 			minLength={8}
-			validate={(value) => value === passwordStatus.text && value.length > 0}
+			validate={(value) => value === password && value.length > 0}
+            on:input={setConfPassErrText}
 		/>
 	</div>
 	<div class="links">

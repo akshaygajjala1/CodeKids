@@ -1,14 +1,10 @@
-<script context='module' lang='ts'>
-    export type FieldValue = { text: string, isValid: boolean };
-</script>
-
 <script lang='ts'>
 	import { fade } from "svelte/transition";
 
     export let fieldName: string;
     export let placeholder: string = '';
     export let fieldType: 'text' | 'password' | 'tel' | 'email' | 'number' = 'text';
-    export let value: FieldValue = { text: '', isValid: false };
+    export let value: string =  '';
     export let minLength: number = 0;
     export let maxLength: number = 128;
     export let required: boolean = true;
@@ -17,23 +13,17 @@
     export let errorText: string = 'Invalid input';
     
     export const checkValidity = () => {
-        if (!validate(value.text)) {
+        if (!validate(value)) {
             status = 'error';
-            value.isValid = false;
+            return false;
         } else {
             status = 'success';
-            value.isValid = true;
+            return true;
         }
-        return value.isValid;
     }
 
     export const setValidity = (validity: 'normal' | 'success' | 'error') => {
         status = validity;
-        if (validity === 'error') {
-            value.isValid = false;
-        } else {
-            value.isValid = true;
-        }
     }
 
     let status: 'normal' | 'success' | 'error' = 'normal';
@@ -49,7 +39,7 @@
     </div>
     <input 
         class={status}
-        bind:value={value.text}
+        bind:value={value}
         bind:this={input}
         name={fieldName} 
         minlength={minLength} 
@@ -62,7 +52,7 @@
             if (manualValidationOnly) {
                 return;
             }
-            if (status !== 'normal' || value.text.length > 0) {
+            if (status !== 'normal' || value.length > 0) {
                 checkValidity();
             }
         }}
@@ -75,6 +65,7 @@
             }
         }}
         on:input
+        on:focusout
     />
 </div>
 
