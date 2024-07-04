@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="text-container">
-        <h1>Sign Up</h1>
+        <h1>Email Confirmation</h1>
         <p>
             We've sent an email confirmation to {data.email.trim()}. Please click on the link in the
             email to proceed. You may close this tab afterwards.

@@ -32,7 +32,7 @@ export const actions = {
             .from(users)
             .where(eq(sql`lower(${users.email})`, email.toLowerCase()));
 
-        if (user.length > 0 && user[0].verified) {
+        if (user.length > 0) {
             return fail(400, { error: 'Email already in use.' });
         }
 

@@ -12,6 +12,7 @@
     let confirmPassword: string = '';
 
     let confPassErrText: string = 'Enter a password.';
+    let emailErrText: string = 'Please enter a valid email address.';
 
     let emailComponent: SvelteComponent;
     let nameComponent: SvelteComponent;
@@ -26,6 +27,10 @@
         }
     };
 
+    const resetEmailErrText = () => {
+        emailErrText = 'Please enter a valid email address.';
+    };
+
     const enhanced: SubmitFunction = ({ cancel }) => {
         setConfPassErrText();
         const fields = [nameComponent, emailComponent, passwordComponent, confirmPasswordComponent];
@@ -36,7 +41,8 @@
 
         return async ({ result, update }) => {
             if (result.type === 'failure') {
-                alert(result.data?.error);
+                emailErrText = result.data?.error;
+                emailComponent.setValidity('error');
             } else {
                 update();
             }
@@ -65,8 +71,9 @@
             placeholder="email@domain.com"
             bind:value={email}
             bind:this={emailComponent}
-            errorText="Please enter a valid email address."
+            errorText={emailErrText}
             validate={(value) => emailRegex.exec(value) !== null}
+            on:input={resetEmailErrText}
         />
         <FormField
             fieldName="Password"

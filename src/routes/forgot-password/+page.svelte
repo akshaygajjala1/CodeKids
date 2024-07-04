@@ -1,22 +1,20 @@
 <script lang="ts">
     import FormButton from '$lib/components/FormButton.svelte';
     import FormField from '$lib/components/FormField.svelte';
-	import { emailRegex } from '$lib/helpers/regex';
-	import type { SvelteComponent } from 'svelte';
-    import { enhance } from "$app/forms";
-	import type { SubmitFunction } from "@sveltejs/kit";
+    import { emailRegex } from '$lib/helpers/regex';
+    import type { SvelteComponent } from 'svelte';
+    import { enhance } from '$app/forms';
+    import type { SubmitFunction } from '@sveltejs/kit';
 
-	let email: string = '';
+    let email: string = '';
 
     let errorText: string = 'Please enter a valid email.';
 
-	let emailComponent: SvelteComponent;
+    let emailComponent: SvelteComponent;
 
-    const resetValidity = () => {
-        if (errorText === 'Please enter a valid email.' && email !== '' || errorText !== 'Please enter a valid email.') {
-            emailComponent.setValidity('normal');
-        }
-    }
+    const resetErrorText = () => {
+        errorText = 'Please enter a valid email.';
+    };
 
     const enhanced: SubmitFunction = ({ cancel }) => {
         if (email === '') {
@@ -36,13 +34,11 @@
             } else {
                 update();
             }
-        }
-    }
-
+        };
+    };
 </script>
 
-<form method='POST' class="container" novalidate use:enhance={enhanced}>
-
+<form method="POST" class="container" novalidate use:enhance={enhanced}>
     <div class="text-container">
         <h1>Forgot Password</h1>
         <p>
@@ -50,29 +46,23 @@
             you receieve.
         </p>
     </div>
-
-	<div class="fields">
-		<FormField
-			fieldName="Email"
-			fieldType="email"
-			placeholder="email@domain.com"
-			bind:value={email}
+    <div class="fields">
+        <FormField
+            fieldName="Email"
+            fieldType="email"
+            placeholder="email@domain.com"
+            bind:value={email}
             bind:this={emailComponent}
-			errorText={errorText}
-			validate={(value) => emailRegex.exec(value) !== null}
-		/>
-	
-	</div>
+            {errorText}
+            validate={(value) => emailRegex.exec(value) !== null}
+            on:input={resetErrorText}
+        />
+    </div>
     <div class="links">
         <p><a href="/login">Go back</a></p>
     </div>
-    <FormButton>
-        Send Email
-    </FormButton>
+    <FormButton>Send Email</FormButton>
 </form>
-
-
-
 
 <style lang="scss">
     .links {
