@@ -1,9 +1,9 @@
-<script lang='ts'>
-	import FormField from "$lib/components/FormField.svelte";
+<script lang="ts">
+    import FormField from '$lib/components/FormField.svelte';
     import FormButton from '$lib/components/FormButton.svelte';
-	import type { SvelteComponent } from "svelte";
-	import { enhance } from "$app/forms";
-	import type { SubmitFunction } from "@sveltejs/kit";
+    import type { SvelteComponent } from 'svelte';
+    import { enhance } from '$app/forms';
+    import type { SubmitFunction } from '@sveltejs/kit';
 
     let errorText: string = 'Invalid email / password.';
 
@@ -14,11 +14,14 @@
     let passwordComponent: SvelteComponent;
 
     const resetValidity = () => {
-        if (errorText === 'Missing fields.' && email !== '' && password !== '' || errorText !== 'Missing fields.') {
+        if (
+            (errorText === 'Missing fields.' && email !== '' && password !== '') ||
+            errorText !== 'Missing fields.'
+        ) {
             emailComponent.setValidity('normal');
             passwordComponent.setValidity('normal');
         }
-    }
+    };
 
     const enhanced: SubmitFunction = ({ cancel }) => {
         if (email === '' || password === '') {
@@ -36,11 +39,11 @@
             } else {
                 update();
             }
-        }
-    }
+        };
+    };
 </script>
 
-<form class="container" method='POST' novalidate use:enhance={enhanced}>
+<form class="container" method="POST" novalidate use:enhance={enhanced}>
     <div class="text-container">
         <h1>Log In</h1>
         <p>Welcome back! Please enter your login info.</p>
@@ -53,27 +56,25 @@
             bind:value={email}
             bind:this={emailComponent}
             manualValidationOnly={true}
-            errorText={errorText}
+            {errorText}
             on:input={resetValidity}
         />
-        <FormField 
-            fieldName='Password'
-            fieldType='password'
-            placeholder='••••••••'
+        <FormField
+            fieldName="Password"
+            fieldType="password"
+            placeholder="••••••••"
             bind:value={password}
             bind:this={passwordComponent}
             manualValidationOnly={true}
-            errorText=''
+            errorText=""
             on:input={resetValidity}
         />
     </div>
     <div class="links">
-        <p><a href='/signup'>Sign up instead</a></p>
-        <p><a href='/forgot-password'>Forgot password?</a></p>
+        <p><a href="/signup">Sign up instead</a></p>
+        <p><a href="/forgot-password">Forgot password?</a></p>
     </div>
-    <FormButton>
-        Log In
-    </FormButton>
+    <FormButton>Log In</FormButton>
 </form>
 
 <style lang="scss">

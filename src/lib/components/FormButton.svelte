@@ -3,9 +3,7 @@
 </script>
 
 <button class={variant} on:click {...$$restProps}>
-    <slot>
-        Button
-    </slot>
+    <slot>Button</slot>
 </button>
 
 <style lang="scss">

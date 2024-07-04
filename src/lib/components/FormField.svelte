@@ -1,17 +1,17 @@
-<script lang='ts'>
-	import { fade } from "svelte/transition";
+<script lang="ts">
+    import { fade } from 'svelte/transition';
 
     export let fieldName: string;
     export let placeholder: string = '';
     export let fieldType: 'text' | 'password' | 'tel' | 'email' | 'number' = 'text';
-    export let value: string =  '';
+    export let value: string = '';
     export let minLength: number = 0;
     export let maxLength: number = 128;
     export let required: boolean = true;
     export let validate: (value: string) => boolean = () => true;
     export let manualValidationOnly: boolean = false;
     export let errorText: string = 'Invalid input';
-    
+
     export const checkValidity = () => {
         if (!validate(value)) {
             status = 'error';
@@ -20,11 +20,11 @@
             status = 'success';
             return true;
         }
-    }
+    };
 
     export const setValidity = (validity: 'normal' | 'success' | 'error') => {
         status = validity;
-    }
+    };
 
     let status: 'normal' | 'success' | 'error' = 'normal';
     let input: HTMLInputElement;
@@ -37,15 +37,15 @@
             <p transition:fade={{ duration: 300 }}>{errorText}</p>
         {/if}
     </div>
-    <input 
+    <input
         class={status}
-        bind:value={value}
+        bind:value
         bind:this={input}
-        name={fieldName} 
-        minlength={minLength} 
-        maxlength={maxLength} 
+        name={fieldName}
+        minlength={minLength}
+        maxlength={maxLength}
         {required}
-        {placeholder} 
+        {placeholder}
         {...{ type: fieldType }}
         {...$$restProps}
         on:focusout={() => {
@@ -69,7 +69,7 @@
     />
 </div>
 
-<style lang='scss'>
+<style lang="scss">
     .form-field {
         display: flex;
         flex-direction: column;
@@ -102,7 +102,9 @@
             border-radius: 0.5rem;
             @include paragraph-md;
             color: var(--gray);
-            transition: 300ms box-shadow ease, 300ms border ease;
+            transition:
+                300ms box-shadow ease,
+                300ms border ease;
 
             &::placeholder {
                 color: var(--light-gray);

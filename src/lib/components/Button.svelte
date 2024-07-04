@@ -4,16 +4,12 @@
 </script>
 
 {#if href}
-    <a href={href} class={variant + ' button'} on:click>
-        <slot>
-            Button
-        </slot>
+    <a {href} class={variant + ' button'} on:click>
+        <slot>Button</slot>
     </a>
 {:else}
     <button class={variant + ' button'} on:click>
-        <slot>
-            Button
-        </slot>
+        <slot>Button</slot>
     </button>
 {/if}
 

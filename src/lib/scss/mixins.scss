@@ -81,7 +81,7 @@
     line-height: 1.5;
 }
 
-@mixin paragraph-sm-b { 
+@mixin paragraph-sm-b {
     @include paragraph-sm;
     font-weight: 600;
 }

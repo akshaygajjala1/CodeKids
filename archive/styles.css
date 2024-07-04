@@ -7,7 +7,7 @@ body {
 }
 
 header {
-    background-color: #007BFF;
+    background-color: #007bff;
     color: white;
     padding: 15px 20px;
     display: flex;
@@ -56,13 +56,13 @@ nav ul li a {
 .banner button {
     font-size: 18px;
     padding: 10px 20px;
-    background-color: #007BFF;
+    background-color: #007bff;
     color: white;
     border: none;
     cursor: pointer;
 }
 
-.banner button:hover { 
+.banner button:hover {
     background-color: #0056b3;
 }
 
@@ -80,7 +80,7 @@ section h2 {
 footer {
     text-align: center;
     padding: 10px;
-    background-color: #007BFF;
+    background-color: #007bff;
     color: white;
     position: fixed;
     width: 100%;

@@ -1,28 +1,30 @@
-<script lang='ts'>
+<script lang="ts">
     import { fly } from 'svelte/transition';
 
-	import HomeMainAction from './MainAction.svelte';
-	import LogoText from '../LogoText.svelte';
-	import Logo from '../Logo.svelte';
-	import { onMount } from 'svelte';
+    import HomeMainAction from './MainAction.svelte';
+    import LogoText from '../LogoText.svelte';
+    import Logo from '../Logo.svelte';
+    import { onMount } from 'svelte';
 
     let menuActive = false;
 
     const onResize = () => {
-        const width = window.innerWidth / parseFloat(getComputedStyle(document.querySelector('html')!).fontSize);
+        const width =
+            window.innerWidth /
+            parseFloat(getComputedStyle(document.querySelector('html')!).fontSize);
         if (width > 64) {
             menuActive = false;
         }
-    }
+    };
 
     const closeMenu = () => {
         menuActive = false;
-    }
+    };
 
     onMount(() => {
         window.addEventListener('resize', () => {
             onResize();
-        })
+        });
 
         return () => window.removeEventListener('resize', onResize);
     });
@@ -38,14 +40,18 @@
         </div>
     </div>
     <div class="nav-links">
-        <p><a href='/#'>Home</a></p>
-        <p><a href='/#about'>About</a></p>
-        <p><a href='/#meet-the-tutors'>Meet the Tutors</a></p>
-        <p><a href='/#contact-us'>Contact Us</a></p>
+        <p><a href="/#">Home</a></p>
+        <p><a href="/#about">About</a></p>
+        <p><a href="/#meet-the-tutors">Meet the Tutors</a></p>
+        <p><a href="/#contact-us">Contact Us</a></p>
     </div>
     <div class="login-signup-links">
         <HomeMainAction loggedIn={false} />
-        <button id="menu-button" class={menuActive ? 'menu-active' : ''} on:click={() => menuActive = !menuActive}>
+        <button
+            id="menu-button"
+            class={menuActive ? 'menu-active' : ''}
+            on:click={() => (menuActive = !menuActive)}
+        >
             <div id="menu-icon">
                 <div id="menu-icon-bar-1"></div>
                 <div id="menu-icon-bar-2">
@@ -58,10 +64,10 @@
 </nav>
 {#if menuActive}
     <aside in:fly={{ x: '100%', duration: 600 }} out:fly={{ x: '100%', duration: 600 }}>
-        <p><a href='/#' on:click={closeMenu}>Home</a></p>
-        <p><a href='/#about' on:click={closeMenu}>About</a></p>
-        <p><a href='/#meet-the-tutors' on:click={closeMenu}>Meet the Tutors</a></p>
-        <p><a href='/#contact-us' on:click={closeMenu}>Contact Us</a></p>
+        <p><a href="/#" on:click={closeMenu}>Home</a></p>
+        <p><a href="/#about" on:click={closeMenu}>About</a></p>
+        <p><a href="/#meet-the-tutors" on:click={closeMenu}>Meet the Tutors</a></p>
+        <p><a href="/#contact-us" on:click={closeMenu}>Contact Us</a></p>
     </aside>
 {/if}
 
@@ -136,7 +142,9 @@
                 padding: 0.375rem var(--padding-md);
                 margin-left: var(--padding-smd);
                 border-radius: 1rem;
-                transition: background-color 600ms ease, box-shadow 600ms ease;
+                transition:
+                    background-color 600ms ease,
+                    box-shadow 600ms ease;
 
                 &:hover {
                     box-shadow: var(--shadow-sm-light);
@@ -157,7 +165,10 @@
                     div {
                         background-color: var(--secondary);
                         height: calc(1.6rem / 16);
-                        transition: background-color 600ms ease, opacity 600ms ease, transform 500ms ease;
+                        transition:
+                            background-color 600ms ease,
+                            opacity 600ms ease,
+                            transform 500ms ease;
                     }
                 }
 
@@ -171,9 +182,10 @@
                     &:active {
                         box-shadow: var(--shadow-sm-black);
                     }
-                    
+
                     #menu-icon {
-                        #menu-icon-bar-2, #menu-icon-bar-flip {
+                        #menu-icon-bar-2,
+                        #menu-icon-bar-flip {
                             background-color: var(--background);
                         }
 
@@ -185,7 +197,8 @@
                             transform: rotate(-90deg);
                         }
 
-                        #menu-icon-bar-1, #menu-icon-bar-3 {
+                        #menu-icon-bar-1,
+                        #menu-icon-bar-3 {
                             opacity: 0;
                         }
                     }

@@ -1,8 +1,8 @@
-<script lang='ts'>
-	import Logo from "./Logo.svelte";
+<script lang="ts">
+    import Logo from './Logo.svelte';
 </script>
 
-<a class="logo-text" href='/'>
+<a class="logo-text" href="/">
     <Logo />
     <h3>CodeKids Academy</h3>
 </a>

@@ -1,5 +1,5 @@
 <script>
-	import LogoText from "../LogoText.svelte";
+    import LogoText from '../LogoText.svelte';
 </script>
 
 <div class="container">
@@ -34,14 +34,6 @@
                 display: flex;
                 align-items: center;
                 padding: var(--page-padding);
-            }
-
-            :global(.transition) {
-                height: 100%;
-                grid-column-start: 1;
-                grid-column-end: 2;
-                grid-row-start: 1;
-                grid-row-end: 2;
             }
 
             :global(.container) {
@@ -85,7 +77,7 @@
             height: 100vh;
             flex: 1 0 0;
             align-self: stretch;
-            background: linear-gradient(31deg, rgba(147, 9, 222, 0.50) 0%, #9309DE 100%);
+            background: linear-gradient(31deg, rgba(147, 9, 222, 0.5) 0%, #9309de 100%);
         }
     }
 </style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LogoText from "../LogoText.svelte";
+    import LogoText from '../LogoText.svelte';
 
     export let hasReturnToTop: boolean = true;
 </script>
@@ -9,17 +9,19 @@
         <div class="logo-text">
             <LogoText />
             {#if hasReturnToTop}
-                <p><a href='#top'>Return to Top</a></p>
+                <p><a href="#top">Return to Top</a></p>
             {/if}
         </div>
         <div class="nav-links">
-            <p><a href='/#'>Home</a></p>
-            <p><a href='/#about'>About</a></p>
-            <p><a href='/#meet-the-tutors'>Meet the Tutors</a></p>
-            <p><a href='/#contact-us'>Contact Us</a></p>
+            <p><a href="/#">Home</a></p>
+            <p><a href="/#about">About</a></p>
+            <p><a href="/#meet-the-tutors">Meet the Tutors</a></p>
+            <p><a href="/#contact-us">Contact Us</a></p>
         </div>
         <p class="info">
-            ©️ CodeKids Academy 2024.  Created using SvelteKit & Typescript. Designed from scratch in Figma. Developed by <a href='https://pranav-pakanati.netlify.app'>Pranav Pakanati</a>, Akshay Gajjala, and Ram Sarma. 
+            ©️ CodeKids Academy 2024. Created using SvelteKit & Typescript. Designed from scratch in
+            Figma. Developed by <a href="https://pranav-pakanati.netlify.app">Pranav Pakanati</a>,
+            Akshay Gajjala, and Ram Sarma.
         </p>
     </footer>
 </div>
