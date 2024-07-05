@@ -6,7 +6,7 @@ export default defineConfig({
     schema: './src/lib/server/db/schema/*',
     out: './drizzle',
     dbCredentials: {
-        url: process.env.DATABASE_URL ?? '',
+        url: (process.env.DATABASE_URL ?? '') + '?sslmode=require',
         ssl: {
             rejectUnauthorized: true,
             ca: readFileSync('.env.pg-cert.pem').toString()
