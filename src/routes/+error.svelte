@@ -3,11 +3,10 @@
     import Button from '$lib/components/Button.svelte';
     import Footer from '$lib/components/home/Footer.svelte';
     import HomeNavbar from '$lib/components/home/Navbar.svelte';
+    import { authURLs } from '$lib/helpers/constants';
     import type { LayoutData } from './$types';
 
     export let data: LayoutData;
-
-    const authURLs = ['/login', '/signup', '/forgot-password', '/reset-password', '/confirmation'];
 </script>
 
 {#if authURLs.includes(data.url)}

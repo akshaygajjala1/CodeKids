@@ -22,7 +22,7 @@
     };
     const enhanced: SubmitFunction = ({ cancel }) => {
         setConfPassErrText();
-        const fields = [ passwordComponent, confirmPasswordComponent ];
+        const fields = [passwordComponent, confirmPasswordComponent];
         const isValid = fields.reduce((allValid, field) => field.checkValidity() && allValid, true);
         if (!isValid) {
             cancel();
@@ -62,20 +62,5 @@
             on:input={setConfPassErrText}
         />
     </div>
-    <!--<div class="links">
-    </div>
-    -->
     <FormButton>Reset Password</FormButton>
 </form>
-
-<style lang="scss">
-    .links {
-        display: flex;
-        justify-content: left;
-        align-self: stretch;
-
-        p {
-            @include paragraph-sm;
-        }
-    }
-</style>

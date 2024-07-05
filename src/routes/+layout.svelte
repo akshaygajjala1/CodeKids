@@ -6,10 +6,9 @@
     import '$lib/scss/global.scss';
 
     import type { LayoutData } from './$types';
+    import { authURLs } from '$lib/helpers/constants';
 
     export let data: LayoutData;
-
-    const authURLs = ['/login', '/signup', '/forgot-password', '/reset-password', '/confirmation'];
 
     const urlType = (url: string): string => {
         if (authURLs.includes(url)) {

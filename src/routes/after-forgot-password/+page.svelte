@@ -6,15 +6,15 @@
 
 <div class="container">
     <div class="text-container">
-        <h1>Email Confirmation</h1>
+        <h1>Forgot Password</h1>
         <p>
-            We've sent an email confirmation to {data.email.trim()}. Please click on the link in the
-            email to proceed. You may close this tab afterwards.
+            We've sent an email to {data.email.trim()}. Please click on the link in the email to
+            reset your password. You may close this tab.
         </p>
     </div>
     <div class="links">
         <p>
-            <a href="/signup">Go back</a>
+            <a href="/forgot-password">Go back</a>
         </p>
     </div>
 </div>
