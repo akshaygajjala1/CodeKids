@@ -2,9 +2,15 @@
     import Footer from '$lib/components/home/Footer.svelte';
     import HomeNavbar from '$lib/components/home/Navbar.svelte';
     import HomeMainAction from '$lib/components/home/MainAction.svelte';
+    import type { PageData } from './$types';
+
+    export let data: PageData;
+    let loggedIn: boolean;
+
+    $: loggedIn = data.id !== undefined;
 </script>
 
-<HomeNavbar />
+<HomeNavbar {loggedIn} />
 <div class="container">
     <div class="content">
         <section id="home">
@@ -19,7 +25,7 @@
                     instant feedback, CodeKids Academy is a platform designed for the newest
                     generation of learners.
                 </p>
-                <HomeMainAction loggedIn={false} />
+                <HomeMainAction {loggedIn} hideSignOut />
             </div>
         </section>
         <section id="about">

@@ -7,6 +7,7 @@ import { eq, sql } from 'drizzle-orm';
 import * as crypto from 'node:crypto';
 import { confirmations } from '$lib/server/db/schema/confirmations';
 import { setAfterCookie } from '$lib/server/db/ephemeral-state';
+import { lucia } from '$lib/server/auth';
 
 export const actions = {
     default: async ({ request, cookies, url }) => {
@@ -47,6 +48,13 @@ export const actions = {
             setAfterCookie(cookies, email);
             redirect(302, '/after-signup');
         }
+
+        const session = await lucia.createSession(user[0].id, {});
+        const sessionCookie = lucia.createSessionCookie(session.id);
+        cookies.set(sessionCookie.name, sessionCookie.value, {
+            path: '.',
+            ...sessionCookie.attributes
+        });
 
         redirect(302, '/');
     }

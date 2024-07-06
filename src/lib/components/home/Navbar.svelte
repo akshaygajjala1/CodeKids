@@ -6,6 +6,7 @@
     import Logo from '../Logo.svelte';
     import { onMount } from 'svelte';
 
+    export let loggedIn: boolean;
     let menuActive = false;
 
     const onResize = () => {
@@ -46,7 +47,7 @@
         <p><a href="/#contact-us">Contact Us</a></p>
     </div>
     <div class="login-signup-links">
-        <HomeMainAction loggedIn={false} />
+        <HomeMainAction {loggedIn} />
         <button
             id="menu-button"
             class={menuActive ? 'menu-active' : ''}

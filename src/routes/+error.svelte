@@ -16,7 +16,7 @@
         <Button variant="secondary" href="/">Return to Homepage</Button>
     </div>
 {:else}
-    <HomeNavbar />
+    <HomeNavbar loggedIn={data.id !== undefined} />
     <div class="content">
         <div class="center-text">
             <h1>{$page.status}</h1>
