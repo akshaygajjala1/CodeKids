@@ -1,11 +1,11 @@
+import { lucia } from '$lib/server/auth';
 import { db } from '$lib/server/db';
 import { setAfterCookie } from '$lib/server/db/ephemeral-state';
 import { confirmations } from '$lib/server/db/schema/confirmations';
 import { users } from '$lib/server/db/schema/users';
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import * as argon2 from 'argon2';
-import { sql, eq, and } from 'drizzle-orm';
-import * as crypto from 'node:crypto';
+import { eq, and } from 'drizzle-orm';
 
 export const actions = {
     default: async ({ request, cookies, url }) => {
@@ -37,6 +37,7 @@ export const actions = {
             error(403, 'The token has expired. Try logging in again.');
         }
 
+        await lucia.invalidateUserSessions(confirmation[0].userId);
         const hash = await argon2.hash(password);
         await db
             .update(users)
