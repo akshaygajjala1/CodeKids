@@ -3,14 +3,16 @@ import { DATABASE_URL } from '$env/static/private';
 import { readFileSync } from 'fs';
 import pg from 'pg';
 
-const { Client } = pg;
+const { Pool } = pg;
 
-const client = new Client({
+const pool = new Pool({
     connectionString: DATABASE_URL,
     ssl: {
         ca: readFileSync('.env.pg-cert.pem').toString()
-    }
+    },
+    idleTimeoutMillis: 0,
+    connectionTimeoutMillis: 0,
 });
 
-await client.connect();
-export const db = drizzle(client);
+await pool.connect();
+export const db = drizzle(pool);

@@ -48,6 +48,11 @@
     }
 }
 
+@mixin paragraph-xl-b {
+    @include paragraph-xl;
+    font-weight: 600;
+}
+
 @mixin paragraph-lg {
     font-family: Inter, sans-serif;
     font-size: 1.125rem;
