@@ -4,8 +4,8 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { mdsvex } from 'mdsvex';
 
 const mdsvexOptions = {
-    extensions: ['.svx', '.md'],
-}
+    extensions: ['.svx', '.md']
+};
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {

@@ -1,4 +1,4 @@
-import type { Lesson } from "../../types";
+import type { Lesson } from '../../types';
 
 export const getLesson = (file: unknown, name: string): Lesson | void => {
     const filename = name.split('/').at(-1)?.replace('.svx', '') ?? '';
@@ -11,4 +11,4 @@ export const getLesson = (file: unknown, name: string): Lesson | void => {
         const lesson: Lesson = { title, slug, index };
         return lesson;
     }
-}
+};

@@ -8,5 +8,5 @@ export const load: PageLoad = async () => {
     return {
         content: welcome.default,
         lesson
-    }
-}
+    };
+};

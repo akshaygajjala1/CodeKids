@@ -7,7 +7,9 @@ export const load = (async ({ parent }) => {
     const courseName = `${course.index}-${toUrlSafe(course.title)}`;
     const sectionName = `${section.index.toString().padStart(2, '0')}-${toUrlSafe(section.title)}`;
     const lessonName = `${lesson.index.toString().padStart(2, '0')}-${lesson.slug}`;
-    const lessonFile = await import(`../../../../../content/${courseName}/${sectionName}/${lessonName}.svx`);
+    const lessonFile = await import(
+        `../../../../../content/${courseName}/${sectionName}/${lessonName}.svx`
+    );
     const lessonObj = getLesson(lessonFile, `${lessonName}.svx`);
 
     return {

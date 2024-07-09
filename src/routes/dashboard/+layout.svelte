@@ -16,7 +16,7 @@
     <main>
         <aside class="contents">
             <div class="course-selector">
-                {#each data.content as course (course.title)}
+                {#each data.courseContent as course (course.title)}
                     <CourseSelector
                         courseName={course.title}
                         courseIcon={`/courses/${course.title}.png`}
@@ -28,7 +28,7 @@
                 {#if $page.data.course}
                     {#each $page.data.course.sections as section}
                         <div class="lesson-group">
-                            {#each section.lessons as lesson, i}
+                            {#each section.lessons as lesson, i (lesson.index)}
                                 <LessonItem
                                     text={lesson.title}
                                     current={data.path.endsWith(
@@ -43,7 +43,9 @@
             </div>
         </aside>
         <article>
-            <slot />
+            <div class="prose">
+                <slot />
+            </div>
         </article>
     </main>
 </div>
@@ -61,7 +63,7 @@
             var(--colors-background, #fff);
 
         nav {
-            height: 3.75rem;
+            min-height: 3.75rem;
             width: 100%;
             background: var(--background);
             border-radius: 0.5rem;
@@ -72,11 +74,14 @@
 
         main {
             display: flex;
+            flex: 1 0 0;
+            align-items: stretch;
             width: 100%;
-            height: 100%;
+            overflow: clip;
             gap: var(--padding-sm);
 
             .contents {
+                align-items: stretch;
                 display: flex;
                 width: 20rem;
                 padding: var(--page-padding);
@@ -117,10 +122,17 @@
 
             article {
                 width: 100%;
-                height: 100%;
+                align-items: stretch;
+                overflow-y: auto;
                 padding: var(--page-padding);
                 background: var(--background);
                 border-radius: 0.5rem;
+
+                .prose {
+                    height: auto;
+                    max-width: 60rem;
+                    margin-right: auto;
+                }
             }
         }
     }

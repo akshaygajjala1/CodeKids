@@ -11,7 +11,7 @@ const pool = new Pool({
         ca: readFileSync('.env.pg-cert.pem').toString()
     },
     idleTimeoutMillis: 0,
-    connectionTimeoutMillis: 0,
+    connectionTimeoutMillis: 0
 });
 
 await pool.connect();

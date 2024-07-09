@@ -5,15 +5,9 @@ import type { Course, Section, Lesson } from '../../types';
 
 const getDirectories = (path: string): string[] => {
     return fs.readdirSync(path).filter((file) => fs.statSync(`${path}/${file}`).isDirectory());
-}
-
-let contentCache: Course[];
+};
 
 export const getContent = async (): Promise<Course[]> => {
-    if (contentCache) {
-        return contentCache;
-    }
-
     let courses: Course[] = [];
 
     const courseDirs = getDirectories('./src/content/');
@@ -28,7 +22,10 @@ export const getContent = async (): Promise<Course[]> => {
             const lessonFiles = fs.readdirSync(dirPath).filter((file) => file.endsWith('.svx'));
             lessonFiles.forEach(async (lessonFile) => {
                 const fileName = lessonFile.split('.svx')[0];
-                const lesson = getLesson(await import(`../../content/${courseDir}/${sectionDir}/${fileName}.svx`), lessonFile);
+                const lesson = getLesson(
+                    await import(`../../content/${courseDir}/${sectionDir}/${fileName}.svx`),
+                    lessonFile
+                );
                 if (lesson) lessons.push(lesson);
             });
 
@@ -42,13 +39,16 @@ export const getContent = async (): Promise<Course[]> => {
         sections.sort((a, b) => a.index - b.index);
         const courseName = toTitleCase(courseDir.replace(/\d+-/, '').replace(/-/g, ' '));
         const index = parseInt(courseDir.split('-')[0] ?? '');
-        const getDefault = await import(`../../content/${courseDir}/index.svx`)
-        const defaultLesson = getLesson(getDefault, 'index.svx') ?? { title: '', slug: '', index: 0 };
-        const course: Course = { title: courseName, default: defaultLesson, sections, index }
+        const getDefault = await import(`../../content/${courseDir}/index.svx`);
+        const defaultLesson = getLesson(getDefault, 'index.svx') ?? {
+            title: '',
+            slug: '',
+            index: 0
+        };
+        const course: Course = { title: courseName, default: defaultLesson, sections, index };
         courses.push(course);
     }
 
     courses.sort((a, b) => a.index - b.index);
-    contentCache = courses;
     return courses;
-}
+};

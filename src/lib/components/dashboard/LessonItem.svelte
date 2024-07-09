@@ -4,7 +4,7 @@
     export let href: string;
 </script>
 
-<a class="text-container" href={href}>
+<a class="text-container" {href}>
     <p class={current ? 'current' : ''}>{text}</p>
 </a>
 
