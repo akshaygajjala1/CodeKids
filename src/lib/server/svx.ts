@@ -1,43 +1,19 @@
 import { toTitleCase } from '$lib/helpers/functions';
+import { getLesson } from '$lib/helpers/svx';
 import * as fs from 'node:fs';
-
-export type Lesson = {
-    title: string;
-    slug: string;
-    index: number;
-}
-
-export type Section = {
-    title: string;
-    index: number;
-    lessons: Lesson[];
-}
-
-export type Course = {
-    title: string;
-    default: Lesson;
-    index: number;
-    sections: Section[];
-}
+import type { Course, Section, Lesson } from '../../types';
 
 const getDirectories = (path: string): string[] => {
     return fs.readdirSync(path).filter((file) => fs.statSync(`${path}/${file}`).isDirectory());
 }
 
-export const getLesson = (file: unknown, name: string): Lesson | void => {
-    const filename = name.split('/').at(-1)?.replace('.svx', '') ?? '';
-    const index = parseInt(filename.split('-').at(0) ?? '0');
-    const slug = filename.replace(/\d+-/, '');
-
-    if (file && typeof file === 'object' && 'metadata' in file) {
-        const metadata = file.metadata as { title: string };
-        const title = metadata.title;
-        const lesson: Lesson = { title, slug, index };
-        return lesson;
-    }
-}
+let contentCache: Course[];
 
 export const getContent = async (): Promise<Course[]> => {
+    if (contentCache) {
+        return contentCache;
+    }
+
     let courses: Course[] = [];
 
     const courseDirs = getDirectories('./src/content/');
@@ -48,10 +24,11 @@ export const getContent = async (): Promise<Course[]> => {
         for (const sectionDir of sectionDirs) {
             let lessons: Lesson[] = [];
 
-            const dirPath = `./src/content/${courseDir}/${sectionDir}`;
+            const dirPath = `./src/content/${courseDir}/${sectionDir}/`;
             const lessonFiles = fs.readdirSync(dirPath).filter((file) => file.endsWith('.svx'));
-            lessonFiles.forEach( async (lessonFile) => {
-                const lesson = getLesson(await import(/* @vite-ignore */ `../../../${dirPath}/${lessonFile}`), lessonFile);
+            lessonFiles.forEach(async (lessonFile) => {
+                const fileName = lessonFile.split('.svx')[0];
+                const lesson = getLesson(await import(`../../content/${courseDir}/${sectionDir}/${fileName}.svx`), lessonFile);
                 if (lesson) lessons.push(lesson);
             });
 
@@ -65,13 +42,13 @@ export const getContent = async (): Promise<Course[]> => {
         sections.sort((a, b) => a.index - b.index);
         const courseName = toTitleCase(courseDir.replace(/\d+-/, '').replace(/-/g, ' '));
         const index = parseInt(courseDir.split('-')[0] ?? '');
-        const path = `./src/content/${courseDir}/index.svx`;
-        const getDefault = await import(/* @vite-ignore */ `../../../${path}`)
-        const defaultLesson = getLesson(getDefault, path) ?? { title: '', slug: '', index: 0 };
+        const getDefault = await import(`../../content/${courseDir}/index.svx`)
+        const defaultLesson = getLesson(getDefault, 'index.svx') ?? { title: '', slug: '', index: 0 };
         const course: Course = { title: courseName, default: defaultLesson, sections, index }
         courses.push(course);
     }
 
     courses.sort((a, b) => a.index - b.index);
+    contentCache = courses;
     return courses;
 }

@@ -1,11 +1,12 @@
 <script lang="ts">
     export let text: string;
     export let current: boolean = false;
+    export let href: string;
 </script>
 
-<div class="text-container">
+<a class="text-container" href={href}>
     <p class={current ? 'current' : ''}>{text}</p>
-</div>
+</a>
 
 <style lang="scss">
     .text-container {
@@ -17,10 +18,12 @@
         align-items: center;
         flex-shrink: 0;
         border-radius: 0.5rem;
+        text-decoration: none;
         transition: 300ms box-shadow ease;
 
         &:hover {
             box-shadow: var(--shadow-sm-medium);
+            cursor: pointer;
         }
 
         p {
