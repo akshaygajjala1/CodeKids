@@ -8,6 +8,7 @@
     import type { LayoutData } from './$types';
     import { toUrlSafe } from '$lib/helpers/functions';
     import { fade } from 'svelte/transition';
+    import Breadcrumb from '$lib/components/dashboard/Breadcrumb.svelte';
 
     export let data: LayoutData;
 </script>
@@ -56,11 +57,10 @@
                 <PageTransition>
                     <div class="prose">
                         {#key $page.data.lesson}
-                            <Navigation
+                            <Breadcrumb
                                 course={$page.data.course}
                                 section={$page.data.section}
                                 lesson={$page.data.lesson}
-                                showForward={false}
                             />
                         {/key}
                         <slot />
@@ -102,8 +102,7 @@
         }
 
         main {
-            display: grid;
-            grid-template-columns: auto 1fr;
+            display: flex;
             flex: 1 0 0;
             width: 100%;
             overflow: hidden;
