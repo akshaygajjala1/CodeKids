@@ -170,16 +170,16 @@
 
             article {
                 width: 100%;
-                align-items: stretch;
+                align-self: stretch;
                 overflow-x: hidden;
                 overflow-y: auto;
                 padding: var(--page-padding);
                 background: var(--background);
                 border-radius: 0.5rem;
+                display: grid;
 
                 :global(.transition) {
                     height: auto;
-                    min-height: 100%;
                     width: 100%;
                     display: flex;
                 }
