@@ -57,20 +57,24 @@
                 <PageTransition>
                     <div class="prose">
                         {#key $page.data.lesson}
-                            <Breadcrumb
-                                course={$page.data.course}
-                                section={$page.data.section}
-                                lesson={$page.data.lesson}
-                            />
+                            {#if $page.data.content}
+                                <Breadcrumb
+                                    course={$page.data.course}
+                                    section={$page.data.section}
+                                    lesson={$page.data.lesson}
+                                />
+                            {/if}
                         {/key}
                         <slot />
                         <div class="spacer"></div>
                         {#key $page.data.lesson}
-                            <Navigation
-                                course={$page.data.course}
-                                section={$page.data.section}
-                                lesson={$page.data.lesson}
-                            />
+                            {#if $page.data.lesson}
+                                <Navigation
+                                    course={$page.data.course}
+                                    section={$page.data.section}
+                                    lesson={$page.data.lesson}
+                                />
+                            {/if}
                         {/key}
                     </div>
                 </PageTransition>
@@ -192,10 +196,6 @@
                     flex-direction: column;
                     max-width: 60rem;
                     margin-right: auto;
-
-                    :global(nav:last-child) {
-                        margin-top: 3rem;
-                    }
                 }
 
                 .spacer {

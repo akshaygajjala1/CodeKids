@@ -41,12 +41,12 @@
                 </p>
             </div>
         </section>
-        <section id="meettutors">
+        <section id="meet-the-tutors">
             <div class="meet-container">
                 <p>Pranav: Akshay: Ram:</p>
             </div>
         </section>
-        <section id="contact">
+        <section id="contact-us">
             <div class="contact-container">
                 <p><a href="contact@example.com">Contact Us!</a></p>
             </div>
@@ -100,6 +100,7 @@
                 max-width: 90rem;
                 margin: 0 auto;
                 padding: 0 var(--page-padding);
+                scroll-margin-top: 3.75rem;
 
                 .about-container {
                     padding-top: var(--padding-md);
@@ -122,7 +123,7 @@
                     }
                 }
             }
-            #meettutors {
+            #meet-the-tutors {
                 max-width: 90rem;
                 margin: 0 auto;
                 padding: 0 var(--page-padding);
@@ -148,7 +149,7 @@
                     }
                 }
             }
-            #contact {
+            #contact-us {
                 max-width: 90rem;
                 margin: 0 auto;
                 padding: 0 var(--page-padding);

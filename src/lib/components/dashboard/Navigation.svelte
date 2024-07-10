@@ -90,6 +90,7 @@
         display: flex;
         width: 100%;
         align-items: center;
+        margin-top: 3rem;
 
         a {
             display: flex;
