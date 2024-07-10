@@ -3,14 +3,13 @@ import { DATABASE_URL } from '$env/static/private';
 import { readFileSync } from 'fs';
 import pg from 'pg';
 
-const { Pool } = pg;
+const { Client } = pg;
 
-const pool = new Pool({
+const pool = new Client({
     connectionString: DATABASE_URL,
     ssl: {
         ca: readFileSync('.env.pg-cert.pem').toString()
     },
-    idleTimeoutMillis: 0,
     connectionTimeoutMillis: 0
 });
 
