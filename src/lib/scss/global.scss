@@ -104,16 +104,16 @@ a {
 .prose {
     p,
     .note {
-        padding: var(--padding-md) 0;
+        margin: var(--padding-md) 0;
     }
 
     h1,
     h3 {
-        padding-top: 3rem;
+        margin-top: 3rem;
     }
 
     h2 {
-        padding-top: 4rem;
+        margin-top: 4rem;
     }
 
     a {

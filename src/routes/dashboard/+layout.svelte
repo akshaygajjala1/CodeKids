@@ -3,8 +3,11 @@
     import { page } from '$app/stores';
     import CourseSelector from '$lib/components/dashboard/CourseSelector.svelte';
     import LessonItem from '$lib/components/dashboard/LessonItem.svelte';
+    import Navigation from '$lib/components/dashboard/Navigation.svelte';
+    import PageTransition from '$lib/components/PageTransition.svelte';
     import type { LayoutData } from './$types';
     import { toUrlSafe } from '$lib/helpers/functions';
+    import { fade } from 'svelte/transition';
 
     export let data: LayoutData;
 </script>
@@ -24,28 +27,54 @@
                     />
                 {/each}
             </div>
-            <div class="lesson-list">
-                {#if $page.data.course}
-                    {#each $page.data.course.sections as section}
-                        <div class="lesson-group">
-                            {#each section.lessons as lesson, i (lesson.index)}
-                                <LessonItem
-                                    text={lesson.title}
-                                    current={data.path.endsWith(
-                                        `/${lesson.title.toLowerCase().replaceAll(' ', '-')}`
-                                    )}
-                                    href={`/dashboard/${toUrlSafe($page.data.course.title)}/${toUrlSafe(section.title)}${i !== 0 ? `/${lesson.slug}` : ''}`}
-                                />
-                            {/each}
+            <div class="transition-container">
+                {#key $page.data.course?.index}
+                    <div class="transition" transition:fade={{ duration: 300 }}>
+                        <div class="lesson-list">
+                            {#if $page.data.course}
+                                {#each $page.data.course.sections as section}
+                                    <div class="lesson-group">
+                                        {#each section.lessons as lesson, i (lesson.index)}
+                                            <LessonItem
+                                                text={lesson.title}
+                                                current={data.path.endsWith(
+                                                    `/${lesson.title.toLowerCase().replaceAll(' ', '-')}`
+                                                )}
+                                                href={`/dashboard/${toUrlSafe($page.data.course.title)}/${toUrlSafe(section.title)}${i !== 0 ? `/${lesson.slug}` : ''}`}
+                                            />
+                                        {/each}
+                                    </div>
+                                {/each}
+                            {/if}
                         </div>
-                    {/each}
-                {/if}
+                    </div>
+                {/key}
             </div>
         </aside>
         <article>
-            <div class="prose">
-                <slot />
-            </div>
+            {#key data.url}
+                <PageTransition>
+                    <div class="prose">
+                        {#key $page.data.lesson}
+                            <Navigation
+                                course={$page.data.course}
+                                section={$page.data.section}
+                                lesson={$page.data.lesson}
+                                showForward={false}
+                            />
+                        {/key}
+                        <slot />
+                        <div class="spacer"></div>
+                        {#key $page.data.lesson}
+                            <Navigation
+                                course={$page.data.course}
+                                section={$page.data.section}
+                                lesson={$page.data.lesson}
+                            />
+                        {/key}
+                    </div>
+                </PageTransition>
+            {/key}
         </article>
     </main>
 </div>
@@ -73,15 +102,14 @@
         }
 
         main {
-            display: flex;
+            display: grid;
+            grid-template-columns: auto 1fr;
             flex: 1 0 0;
-            align-items: stretch;
             width: 100%;
-            overflow: clip;
+            overflow: hidden;
             gap: var(--padding-sm);
 
             .contents {
-                align-items: stretch;
                 display: flex;
                 width: 20rem;
                 padding: var(--page-padding);
@@ -92,7 +120,7 @@
                 align-self: stretch;
                 border-radius: 0.5rem;
                 background: var(--background);
-                overflow: auto;
+                overflow-y: auto;
 
                 .course-selector {
                     display: flex;
@@ -100,9 +128,26 @@
                     gap: var(--padding-md);
                 }
 
+                .transition-container,
+                .transition {
+                    width: 100%;
+                }
+
+                .transition-container {
+                    display: grid;
+                }
+
+                .transition {
+                    grid-column-start: 1;
+                    grid-column-end: 2;
+                    grid-row-start: 1;
+                    grid-row-end: 2;
+                }
+
                 .lesson-list {
                     display: flex;
                     flex-direction: column;
+                    height: auto;
                     width: 100%;
                     margin: 0 -0.5rem;
                     gap: var(--padding-3xl);
@@ -113,9 +158,13 @@
                         flex-direction: column;
                     }
 
+                    :global(.lesson-group a) {
+                        width: calc(100% + 1rem);
+                    }
+
                     :global(.lesson-group a:first-child) {
                         margin-left: -1rem;
-                        width: calc(100% + 1rem);
+                        width: calc(100% + 2rem);
                     }
                 }
             }
@@ -123,15 +172,35 @@
             article {
                 width: 100%;
                 align-items: stretch;
+                overflow-x: hidden;
                 overflow-y: auto;
                 padding: var(--page-padding);
                 background: var(--background);
                 border-radius: 0.5rem;
 
+                :global(.transition) {
+                    height: auto;
+                    min-height: 100%;
+                    width: 100%;
+                    display: flex;
+                }
+
                 .prose {
                     height: auto;
+                    min-height: 100%;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
                     max-width: 60rem;
                     margin-right: auto;
+
+                    :global(nav:last-child) {
+                        margin-top: 3rem;
+                    }
+                }
+
+                .spacer {
+                    flex-grow: 1;
                 }
             }
         }

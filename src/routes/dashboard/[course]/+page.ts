@@ -7,11 +7,11 @@ export const load = (async ({ parent }) => {
     const courseContent = await import(
         `../../../content/${data.course.index}-${toUrlSafe(data.course.title)}/index.svx`
     );
-    const courseDefaultLesson = getLesson(courseContent, `index.svx`)!;
+    const courseDefaultLesson = getLesson(courseContent, `00-index.svx`)!;
 
     return {
         content: courseContent.default,
-        courseDefaultLesson,
+        lesson: courseDefaultLesson,
         ...data
     };
 }) satisfies PageLoad;

@@ -9,7 +9,7 @@ export const load = (async ({ parent }) => {
     const defaultLesson = await import(
         `../../../../content/${courseName}/${sectionName}/00-index.svx`
     );
-    const lesson = getLesson(defaultLesson, 'index.svx')!;
+    const lesson = getLesson(defaultLesson, '00-index.svx')!;
 
     return {
         content: defaultLesson.default,
