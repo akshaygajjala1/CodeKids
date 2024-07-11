@@ -1,9 +1,40 @@
 import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-import { mdsvex } from 'mdsvex';
+import { escapeSvelte, mdsvex } from 'mdsvex';
+import { createHighlighter } from 'shiki';
+import {
+    transformerNotationDiff,
+    transformerNotationHighlight,
+    transformerNotationFocus,
+    transformerNotationErrorLevel
+} from '@shikijs/transformers';
 
+const highlighter = await createHighlighter({
+    themes: ['snazzy-light'],
+    langs: ['python', 'py'],
+});
+await highlighter.loadLanguage('python', 'py');
+
+/** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
-    extensions: ['.svx', '.md']
+    extensions: ['.svx', '.md'],
+    highlight: {
+        highlighter: async (code, lang = 'text') => {
+            const html = escapeSvelte(highlighter.codeToHtml(code, 
+                { 
+                    lang, 
+                    theme: 'snazzy-light',
+                    transformers: [
+                        transformerNotationDiff(),
+                        transformerNotationHighlight(),
+                        transformerNotationFocus(),
+                        transformerNotationErrorLevel()
+                    ] 
+                }
+            ));
+            return `{@html \`${html}\`}`;
+        }
+    }
 };
 
 /** @type {import('@sveltejs/kit').Config} */
