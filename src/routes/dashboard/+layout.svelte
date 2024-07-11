@@ -2,7 +2,6 @@
     import LogoText from '$lib/components/LogoText.svelte';
     import Logo from '$lib/components/Logo.svelte';
     import { page } from '$app/stores';
-    import { onMount } from 'svelte';
     import { browser } from '$app/environment';
     import CourseSelector from '$lib/components/dashboard/CourseSelector.svelte';
     import LessonItem from '$lib/components/dashboard/LessonItem.svelte';
@@ -16,8 +15,7 @@
 
     export let data: LayoutData;
     let innerWidth;
-    let menuActive;
-    let transitionDuration: number = 0;
+    let menuActive = true;
     let isDesktop;
     let isMobile;
 
@@ -36,11 +34,6 @@
         isMobile =
             innerWidth / parseFloat(getComputedStyle(document.querySelector('html')).fontSize) > 25;
     };
-
-    onMount(() => {
-        onResize();
-        setTimeout(() => (transitionDuration = 600), 150);
-    });
 </script>
 
 <svelte:window bind:innerWidth on:resize={onResize} />
@@ -58,7 +51,7 @@
     </nav>
     <main>
         {#if menuActive}
-            <aside class="contents" transition:slide={{ duration: transitionDuration, axis: 'x' }}>
+            <aside class="contents" transition:slide={{ duration: 600, axis: 'x' }}>
                 <div class="course-selector">
                     {#each data.courseContent as course (course.title)}
                         <CourseSelector

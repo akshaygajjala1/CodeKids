@@ -14,5 +14,12 @@
         object-fit: cover;
         width: fit-content;
         text-decoration: none;
+
+        h3 {
+            @media screen and (max-width: 767px) {
+                font-size: 1.5rem;
+                line-height: 1.3;
+            }
+        }
     }
 </style>
