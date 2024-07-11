@@ -71,17 +71,20 @@
 
 <nav>
     {#if backLink}
-        <a href={backLink}>
-            <img src={backIconUrl} alt="Back" />
-            <p>{backText}</p>
-        </a>
+        <div class="back">
+            <a href={backLink}>
+                <img src={backIconUrl} alt="Back" />
+                <p>{backText}</p>
+            </a>
+        </div>
     {/if}
-    <div class="spacer"></div>
     {#if showForward && forwardLink}
-        <a href={forwardLink}>
-            <p>{forwardText}</p>
-            <img src={forwardIconUrl} alt="Forward" />
-        </a>
+        <div class="forward">
+            <a href={forwardLink}>
+                <p>{forwardText}</p>
+                <img src={forwardIconUrl} alt="Forward" />
+            </a>
+        </div>
     {/if}
 </nav>
 
@@ -91,28 +94,37 @@
         width: 100%;
         align-items: center;
         margin-top: 3rem;
+        justify-content: space-between;
+        gap: var(--padding-3xl);
+        flex-wrap: wrap;
 
-        a {
+        div {
             display: flex;
-            gap: var(--padding-xs);
-            text-decoration: none;
-            align-items: center;
 
-            img {
-                width: 1.6875rem;
-                height: 1.6875rem;
-                filter: brightness(0) saturate(100%) invert(13%) sepia(91%) saturate(7360%)
-                    hue-rotate(281deg) brightness(91%) contrast(105%);
+            a {
+                width: fit-content;
+                display: flex;
+                gap: var(--padding-xs);
+                text-decoration: none;
+                align-items: center;
+
+                img {
+                    width: 1.6875rem;
+                    height: 1.6875rem;
+                    filter: brightness(0) saturate(100%) invert(13%) sepia(91%) saturate(7360%)
+                        hue-rotate(281deg) brightness(91%) contrast(105%);
+                }
+
+                p {
+                    color: var(--primary);
+                    margin: 0;
+                }
             }
 
-            p {
-                color: var(--primary);
-                margin: 0;
+            &.forward {
+                margin-left: auto;
+                justify-content: flex-end;
             }
-        }
-
-        .spacer {
-            flex-grow: 1;
         }
     }
 </style>

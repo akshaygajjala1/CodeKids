@@ -1,57 +1,100 @@
 <script lang="ts">
     import LogoText from '$lib/components/LogoText.svelte';
+    import Logo from '$lib/components/Logo.svelte';
     import { page } from '$app/stores';
+    import { onMount } from 'svelte';
+    import { browser } from '$app/environment';
     import CourseSelector from '$lib/components/dashboard/CourseSelector.svelte';
     import LessonItem from '$lib/components/dashboard/LessonItem.svelte';
     import Navigation from '$lib/components/dashboard/Navigation.svelte';
     import PageTransition from '$lib/components/PageTransition.svelte';
+    import MenuToggle from '$lib/components/MenuToggle.svelte';
     import type { LayoutData } from './$types';
     import { toUrlSafe } from '$lib/helpers/functions';
-    import { fade } from 'svelte/transition';
+    import { fade, slide } from 'svelte/transition';
     import Breadcrumb from '$lib/components/dashboard/Breadcrumb.svelte';
 
     export let data: LayoutData;
+    let innerWidth;
+    let menuActive;
+    let transitionDuration: number = 0;
+    let isDesktop;
+    let isMobile;
+
+    const onResize = () => {
+        const isNowDesktop =
+            innerWidth / parseFloat(getComputedStyle(document.querySelector('html')!).fontSize) >
+            64;
+        if (isDesktop !== isNowDesktop) {
+            if (!isNowDesktop) {
+                menuActive = false;
+            } else {
+                menuActive = true;
+            }
+        }
+        isDesktop = isNowDesktop;
+        isMobile =
+            innerWidth / parseFloat(getComputedStyle(document.querySelector('html')).fontSize) > 25;
+    };
+
+    onMount(() => {
+        onResize();
+        setTimeout(() => (transitionDuration = 600), 150);
+    });
 </script>
+
+<svelte:window bind:innerWidth on:resize={onResize} />
 
 <div class="container">
     <nav>
-        <LogoText />
+        <MenuToggle bind:menuActive />
+        {#if isMobile}
+            <LogoText />
+        {:else}
+            <a href="/">
+                <Logo />
+            </a>
+        {/if}
     </nav>
     <main>
-        <aside class="contents">
-            <div class="course-selector">
-                {#each data.courseContent as course (course.title)}
-                    <CourseSelector
-                        courseName={course.title}
-                        courseIcon={`/courses/${course.title}.png`}
-                        selected={data.path.startsWith(`/dashboard/${course.title.toLowerCase()}`)}
-                    />
-                {/each}
-            </div>
-            <div class="transition-container">
-                {#key $page.data.course?.index}
-                    <div class="transition" transition:fade={{ duration: 300 }}>
-                        <div class="lesson-list">
-                            {#if $page.data.course}
-                                {#each $page.data.course.sections as section}
-                                    <div class="lesson-group">
-                                        {#each section.lessons as lesson, i (lesson.index)}
-                                            <LessonItem
-                                                text={lesson.title}
-                                                current={data.path.endsWith(
-                                                    `/${lesson.title.toLowerCase().replaceAll(' ', '-')}`
-                                                )}
-                                                href={`/dashboard/${toUrlSafe($page.data.course.title)}/${toUrlSafe(section.title)}${i !== 0 ? `/${lesson.slug}` : ''}`}
-                                            />
-                                        {/each}
-                                    </div>
-                                {/each}
-                            {/if}
+        {#if menuActive}
+            <aside class="contents" transition:slide={{ duration: transitionDuration, axis: 'x' }}>
+                <div class="course-selector">
+                    {#each data.courseContent as course (course.title)}
+                        <CourseSelector
+                            courseName={course.title}
+                            courseIcon={`/courses/${course.title}.png`}
+                            selected={data.path.startsWith(
+                                `/dashboard/${course.title.toLowerCase()}`
+                            )}
+                        />
+                    {/each}
+                </div>
+                <div class="transition-container">
+                    {#key $page.data.course?.index}
+                        <div class="transition" transition:fade={{ duration: 300 }}>
+                            <div class="lesson-list">
+                                {#if $page.data.course}
+                                    {#each $page.data.course.sections as section}
+                                        <div class="lesson-group">
+                                            {#each section.lessons as lesson, i (lesson.index)}
+                                                <LessonItem
+                                                    text={lesson.title}
+                                                    current={data.path.endsWith(
+                                                        `/${lesson.title.toLowerCase().replaceAll(' ', '-')}`
+                                                    )}
+                                                    href={`/dashboard/${toUrlSafe($page.data.course.title)}/${toUrlSafe(section.title)}${i !== 0 ? `/${lesson.slug}` : ''}`}
+                                                />
+                                            {/each}
+                                        </div>
+                                    {/each}
+                                {/if}
+                            </div>
                         </div>
-                    </div>
-                {/key}
-            </div>
-        </aside>
+                    {/key}
+                </div>
+            </aside>
+        {/if}
         <article>
             {#key data.url}
                 <PageTransition>
@@ -103,9 +146,16 @@
             display: flex;
             align-items: center;
             padding: 0 var(--padding-md);
+            gap: var(--padding-md);
+
+            :global(#menu-button) {
+                display: grid;
+                margin-left: 0;
+            }
         }
 
         main {
+            position: relative;
             display: flex;
             flex: 1 0 0;
             width: 100%;
@@ -115,7 +165,7 @@
             .contents {
                 display: flex;
                 width: 20rem;
-                padding: var(--page-padding);
+                padding: var(--padding-3xl);
                 flex-direction: column;
                 align-items: flex-start;
                 gap: var(--padding-3xl);
@@ -124,6 +174,19 @@
                 border-radius: 0.5rem;
                 background: var(--background);
                 overflow-y: auto;
+                z-index: 1;
+
+                @media screen and (max-width: 64rem) {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    box-shadow: 0.25rem 0px 0.25rem rgba(0, 0, 0, 0.25);
+                }
+
+                & > * {
+                    min-width: calc(20rem - 2 * var(--padding-3xl));
+                }
 
                 .course-selector {
                     display: flex;

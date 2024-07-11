@@ -2,4 +2,10 @@
 title: Python
 ---
 
-# Python
+asdfasdfasdf
+
+```py
+print('java')
+print('python!!!!!!!!!!!!!!!!!!!!!!!!!!')  # [!code focus]
+print('c++')
+```

@@ -1,16 +1,8 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
-// @ts-ignore
-import autoImport from 'sveltekit-autoimport';
 
 export default defineConfig({
-    plugins: [
-        autoImport({
-            include: ['**/*.(svx|svelte)'],
-            components: [{ name: './src/lib/components', flat: true }]
-        }),
-        sveltekit()
-    ],
+    plugins: [autoimport(), sveltekit()],
     css: {
         preprocessorOptions: {
             scss: {
@@ -22,3 +14,17 @@ export default defineConfig({
         }
     }
 });
+
+function autoimport() {
+    return {
+        name: 'autoimport',
+
+        transform(src: string, id: string) {
+            if (id.endsWith('.svx')) {
+                return {
+                    code: 'import Note from "$lib/components/dashboard/content/Note.svelte";' + src
+                };
+            }
+        }
+    };
+}

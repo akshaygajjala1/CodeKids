@@ -11,28 +11,31 @@ import {
 
 const highlighter = await createHighlighter({
     themes: ['snazzy-light'],
-    langs: ['python', 'py'],
+    langs: ['python', 'py']
 });
 await highlighter.loadLanguage('python', 'py');
 
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
     extensions: ['.svx', '.md'],
+    layout: {
+        _: './src/lib/components/dashboard/content/DefaultLayout.svelte'
+    },
     highlight: {
         highlighter: async (code, lang = 'text') => {
-            const html = escapeSvelte(highlighter.codeToHtml(code, 
-                { 
-                    lang, 
+            const html = escapeSvelte(
+                highlighter.codeToHtml(code, {
+                    lang,
                     theme: 'snazzy-light',
                     transformers: [
                         transformerNotationDiff(),
                         transformerNotationHighlight(),
                         transformerNotationFocus(),
                         transformerNotationErrorLevel()
-                    ] 
-                }
-            ));
-            return `{@html \`${html}\`}`;
+                    ]
+                })
+            );
+            return `<div class="code-container">{@html \`${html}\`}</div>`;
         }
     }
 };
