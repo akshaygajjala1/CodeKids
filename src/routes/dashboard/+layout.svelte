@@ -2,6 +2,7 @@
     import LogoText from '$lib/components/LogoText.svelte';
     import Logo from '$lib/components/Logo.svelte';
     import { page } from '$app/stores';
+    import { onMount } from 'svelte';
     import { browser } from '$app/environment';
     import CourseSelector from '$lib/components/dashboard/CourseSelector.svelte';
     import LessonItem from '$lib/components/dashboard/LessonItem.svelte';
@@ -17,13 +18,13 @@
     let innerWidth;
     let menuActive = true;
     let isDesktop;
-    let isMobile;
+    let isMobile = false;
 
     const onResize = () => {
         const isNowDesktop =
             innerWidth / parseFloat(getComputedStyle(document.querySelector('html')!).fontSize) >
             64;
-        if (isDesktop !== isNowDesktop) {
+        if (isDesktop !== undefined && isDesktop !== isNowDesktop) {
             if (!isNowDesktop) {
                 menuActive = false;
             } else {
@@ -34,6 +35,10 @@
         isMobile =
             innerWidth / parseFloat(getComputedStyle(document.querySelector('html')).fontSize) > 25;
     };
+
+    onMount(() => {
+        onResize();
+    })
 </script>
 
 <svelte:window bind:innerWidth on:resize={onResize} />
