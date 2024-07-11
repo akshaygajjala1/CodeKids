@@ -1,6 +1,8 @@
 import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { escapeSvelte, mdsvex } from 'mdsvex';
+import footnotes from 'remark-footnotes';
+import supersub from 'remark-supersub';
 import { createHighlighter } from 'shiki';
 import {
     transformerNotationDiff,
@@ -20,6 +22,15 @@ const mdsvexOptions = {
     extensions: ['.svx', '.md'],
     layout: {
         _: './src/lib/components/dashboard/content/DefaultLayout.svelte'
+    },
+    remarkPlugins: [
+        footnotes,
+        supersub
+    ],
+    smartypants: {
+        quotes: true,
+        ellipses: true,
+        dashes: true
     },
     highlight: {
         highlighter: async (code, lang = 'text') => {

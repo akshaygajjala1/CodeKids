@@ -79,6 +79,8 @@ Lorem ipsum dolor sit amet.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
+Here's a sentence with a footnote. [^1]
+
 Sample code
 
 ```python
@@ -114,3 +116,12 @@ print('i\\\'m blurred')
 print('i\\\'m in focus!')  # [!code focus]
 print('i\\\'m blurred')
 ```
+
+### More stuff
+
+~~The earth is flat.~~
+
+H~2~O
+X^2^
+
+[^1]: This is the footnote.
