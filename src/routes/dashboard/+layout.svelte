@@ -3,7 +3,7 @@
     import Logo from '$lib/components/Logo.svelte';
     import { page } from '$app/stores';
     import { onMount } from 'svelte';
-    import { browser } from '$app/environment';
+    import { beforeNavigate } from '$app/navigation';
     import CourseSelector from '$lib/components/dashboard/CourseSelector.svelte';
     import LessonItem from '$lib/components/dashboard/LessonItem.svelte';
     import Navigation from '$lib/components/dashboard/Navigation.svelte';
@@ -15,9 +15,9 @@
     import Breadcrumb from '$lib/components/dashboard/Breadcrumb.svelte';
 
     export let data: LayoutData;
-    let innerWidth;
+    let innerWidth: number;
     let menuActive = true;
-    let isDesktop;
+    let isDesktop: boolean;
     let isMobile = false;
 
     const onResize = () => {
@@ -33,12 +33,28 @@
         }
         isDesktop = isNowDesktop;
         isMobile =
-            innerWidth / parseFloat(getComputedStyle(document.querySelector('html')).fontSize) > 25;
+            innerWidth / parseFloat(getComputedStyle(document.querySelector('html')!).fontSize) > 25;
     };
 
     onMount(() => {
         onResize();
-    })
+        
+        if ($page.url.hash) {
+            const element = document.getElementById($page.url.hash.slice(1));
+            if (element) {
+                element.scrollIntoView({ behavior: 'instant' });
+            }
+        } 
+    });
+
+    beforeNavigate((navigation) => {
+        if (navigation.to?.route.id) {
+            const scrollContainer = document.getElementById('content-container')!;
+            setTimeout(() => {
+                scrollContainer.scroll({ top: 0, behavior: 'instant' });
+            }, 350);
+        }
+    });
 </script>
 
 <svelte:window bind:innerWidth on:resize={onResize} />
@@ -93,7 +109,7 @@
                 </div>
             </aside>
         {/if}
-        <article>
+        <article id="content-container">
             {#key data.url}
                 <PageTransition>
                     <div class="prose">
@@ -238,6 +254,7 @@
                 align-self: stretch;
                 overflow-x: hidden;
                 overflow-y: auto;
+                scroll-behavior: smooth;
                 padding: var(--page-padding);
                 background: var(--background);
                 border-radius: 0.5rem;

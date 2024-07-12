@@ -3,6 +3,8 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { escapeSvelte, mdsvex } from 'mdsvex';
 import footnotes from 'remark-footnotes';
 import supersub from 'remark-supersub';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { createHighlighter } from 'shiki';
 import {
     transformerNotationDiff,
@@ -26,6 +28,10 @@ const mdsvexOptions = {
     remarkPlugins: [
         footnotes,
         supersub
+    ],
+    rehypePlugins: [
+        rehypeSlug,
+        [rehypeAutolinkHeadings, { behavior: 'append' }]
     ],
     smartypants: {
         quotes: true,

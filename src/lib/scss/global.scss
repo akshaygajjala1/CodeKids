@@ -295,6 +295,41 @@ a {
         border: 1px solid var(--primary);
     }
 
+    h2:has(a[aria-hidden="true"]),
+    h3:has(a[aria-hidden="true"]) {
+        scroll-margin-top: var(--padding-md);
+
+        a[aria-hidden="true"] {
+            position: relative;
+    
+            .icon-link {
+                position: absolute;
+                opacity: 0;
+                top: 0;
+                left: 0.5rem;
+                transition: opacity 300ms;
+    
+                &::before {
+                    content: "#";
+                }
+            }
+        }
+
+        &:hover a[aria-hidden="true"] {
+            .icon-link {
+                opacity: 1;
+            }
+        }
+    }
+
+    sup:has(a.footnote-ref) {
+        scroll-margin-top: var(--padding-md);
+    }
+
+    a.footnote-backref {
+        margin-left: var(--padding-sm);
+    }
+
     ul > li,
     ol > li {
         @include paragraph-lg();
