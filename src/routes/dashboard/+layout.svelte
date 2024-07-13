@@ -3,7 +3,7 @@
     import Logo from '$lib/components/Logo.svelte';
     import { page } from '$app/stores';
     import { onMount } from 'svelte';
-    import { beforeNavigate } from '$app/navigation';
+    import { beforeNavigate, afterNavigate } from '$app/navigation';
     import CourseSelector from '$lib/components/dashboard/CourseSelector.svelte';
     import LessonItem from '$lib/components/dashboard/LessonItem.svelte';
     import Navigation from '$lib/components/dashboard/Navigation.svelte';
@@ -14,46 +14,141 @@
     import { fade, slide } from 'svelte/transition';
     import Breadcrumb from '$lib/components/dashboard/Breadcrumb.svelte';
 
+    import closeIconSrc from '$lib/assets/icons/close.png';
+
     export let data: LayoutData;
     let innerWidth: number;
     let menuActive = true;
     let isDesktop: boolean;
     let isMobile = false;
+    let observer: IntersectionObserver;
+    let collapseToc: boolean = false;
+    let showToc: boolean = true;
 
-    const onResize = () => {
-        const isNowDesktop =
-            innerWidth / parseFloat(getComputedStyle(document.querySelector('html')!).fontSize) >
-            64;
-        if (isDesktop !== undefined && isDesktop !== isNowDesktop) {
-            if (!isNowDesktop) {
-                menuActive = false;
-            } else {
-                menuActive = true;
+    const pxToRem = (px: number) => {
+        return px / parseFloat(getComputedStyle(document.querySelector('html')!).fontSize);
+    }
+
+    const registerTocLinks = () => {
+        const inThisLessonLink = document.querySelector('#in-this-lesson-link')! as HTMLElement;
+        if (inThisLessonLink) inThisLessonLink.style.display = collapseToc ? 'inline' : 'none';
+        const inThisLessonButton = document.querySelector('#in-this-lesson-button')! as HTMLElement;
+        if (inThisLessonButton) {
+            inThisLessonButton.onclick = () => {
+                showToc = !showToc;
             }
         }
+    }
+
+    const onResize = () => {
+        const isNowDesktop = pxToRem(innerWidth) > 64;
+        // if (isDesktop !== undefined && isDesktop !== isNowDesktop) {
+        //     if (!isNowDesktop) {
+        //         menuActive = false;
+        //     } else {
+        //         menuActive = true;
+        //     }
+        // }
         isDesktop = isNowDesktop;
-        isMobile =
-            innerWidth / parseFloat(getComputedStyle(document.querySelector('html')!).fontSize) > 25;
+        isMobile = pxToRem(innerWidth) > 25;
+        
+        const scrollContainer = document.querySelector('#content-container')! as HTMLElement;
+        collapseToc = pxToRem(scrollContainer.getBoundingClientRect().width) < 64;
+        if (!collapseToc) {
+            showToc = true;
+        }
+        registerTocLinks();
+    };
+
+    const indexOfEntry = (target: Element) => {
+        const heading = $page.data.lesson.toc.find((heading: { text: string }) => {
+            return heading.text.replaceAll(' ', '-') === target.id
+        });
+        return $page.data.lesson.toc.indexOf(heading);
+    }
+
+    const observe = () => {
+        if ($page.data.lesson?.toc) {
+            const scrollContainer = document.querySelector('#content-container')! as HTMLElement;
+
+            observer = new IntersectionObserver(([entry]) => {
+                const containerRect = scrollContainer.getBoundingClientRect();
+                if (entry.isIntersecting && entry.boundingClientRect.top < containerRect.top + containerRect.height / 2) {
+                    const index = indexOfEntry(entry.target);
+                    scrollContainer.style.setProperty('--contents-tracker', (index - 1).toString());
+                }
+                else if (entry.boundingClientRect.top < containerRect.top + containerRect.height / 2) {
+                    const index = indexOfEntry(entry.target);
+                    scrollContainer.style.setProperty('--contents-tracker', index.toString());
+                }
+                else if (entry.isIntersecting) {
+                    const index = indexOfEntry(entry.target);
+                    if (index === $page.data.lesson.toc.length - 1 && parseInt(scrollContainer.style.getPropertyValue('--contents-tracker')) === $page.data.lesson.toc.length - 2) {
+                        scrollContainer.style.setProperty('--contents-tracker', index.toString());
+                    }
+                }
+                else {
+                    const index = indexOfEntry(entry.target);
+                    if (index === $page.data.lesson.toc.length - 1 && parseInt(scrollContainer.style.getPropertyValue('--contents-tracker')) === $page.data.lesson.toc.length - 1) {
+                        scrollContainer.style.setProperty('--contents-tracker', (index - 1).toString());
+                    }
+                }
+            }, {
+                root: scrollContainer,
+                threshold: 1,
+                rootMargin: "-96px 0px 0px 0px"
+            });
+
+            $page.data.lesson.toc.forEach((heading: { text: string, original: string, depth: 2 | 3 }) => {
+                observer.observe(document.querySelector(`#${heading.text.replaceAll(' ', '-')}`)!);
+            });
+    
+            return () => {
+                console.log('disconnect');
+                observer.disconnect();
+            };
+        }
     };
 
     onMount(() => {
         onResize();
+        observe();
         
         if ($page.url.hash) {
             const element = document.getElementById($page.url.hash.slice(1));
             if (element) {
                 element.scrollIntoView({ behavior: 'instant' });
             }
-        } 
+
+            if ($page.data.lesson.toc) {
+                setTimeout(() => {
+                    const scrollContainer = document.getElementById('content-container')!;
+                    const index = indexOfEntry(document.querySelector($page.url.hash)!);
+                    scrollContainer.style.setProperty('--contents-tracker', index.toString());
+                }, 400);
+            }
+        }
     });
 
     beforeNavigate((navigation) => {
         if (navigation.to?.route.id) {
             const scrollContainer = document.getElementById('content-container')!;
+            scrollContainer.style.setProperty('--contents-tracker', '-1');
+
+            if (observer && $page.data.lesson?.toc) {
+                $page.data.lesson.toc.forEach((heading: { text: string, original: string, depth: 2 | 3 }) => {
+                    observer.unobserve(document.querySelector(`#${heading.text.replaceAll(' ', '-')}`)!);
+                });
+            }
+
             setTimeout(() => {
                 scrollContainer.scroll({ top: 0, behavior: 'instant' });
             }, 350);
         }
+    });
+
+    afterNavigate(() => {
+        setTimeout(() => { registerTocLinks(); observe(); }, 300);
     });
 </script>
 
@@ -72,7 +167,11 @@
     </nav>
     <main>
         {#if menuActive}
-            <aside class="contents" transition:slide={{ duration: 600, axis: 'x' }}>
+            <aside class="contents" 
+                transition:slide={{ duration: 600, axis: 'x' }}
+                on:outroend={onResize}
+                on:introend={onResize}    
+            >
                 <div class="course-selector">
                     {#each data.courseContent as course (course.title)}
                         <CourseSelector
@@ -109,28 +208,51 @@
                 </div>
             </aside>
         {/if}
-        <article id="content-container">
+        <article id="content-container" style="--contents-tracker: -1;">
             {#key data.url}
                 <PageTransition>
-                    <div class="prose">
-                        {#key $page.data.lesson}
-                            {#if $page.data.content}
-                                <Breadcrumb
-                                    course={$page.data.course}
-                                    section={$page.data.section}
-                                    lesson={$page.data.lesson}
-                                />
-                            {/if}
-                        {/key}
-                        <slot />
-                        <div class="spacer"></div>
+                    <div class="lesson-container">
+                        <div class="prose">
+                            {#key $page.data.lesson}
+                                {#if $page.data.content}
+                                    <Breadcrumb
+                                        course={$page.data.course}
+                                        section={$page.data.section}
+                                        lesson={$page.data.lesson}
+                                    />
+                                {/if}
+                            {/key}
+                            <slot />
+                            <div class="spacer"></div>
+                            {#key $page.data.lesson}
+                                {#if $page.data.lesson}
+                                    <Navigation
+                                        course={$page.data.course}
+                                        section={$page.data.section}
+                                        lesson={$page.data.lesson}
+                                    />
+                                {/if}
+                            {/key}
+                        </div>
                         {#key $page.data.lesson}
                             {#if $page.data.lesson}
-                                <Navigation
-                                    course={$page.data.course}
-                                    section={$page.data.section}
-                                    lesson={$page.data.lesson}
-                                />
+                                <div class="wrap" style={collapseToc ? "position: absolute" : ""}>
+                                    {#if showToc}
+                                        <aside class={collapseToc ? "collapsed" : ""} transition:slide={{ axis: 'x' }}>
+                                            <div class="in-this-lesson">
+                                                <p>In this lesson</p>
+                                                {#each $page.data.lesson.toc as heading}
+                                                    <p class="depth-{heading.depth}">
+                                                        <a href={`#${heading.text.replaceAll(' ', '-')}`}>{heading.original}</a>
+                                                    </p>
+                                                {/each}
+                                            </div>
+                                        </aside>
+                                        <button id="toc-close-button" on:click={() => (showToc = false)} transition:fade={{ duration: 200 }} style={!collapseToc ? "display: none" : ""}>
+                                            <img src={closeIconSrc} alt="Close" />
+                                        </button>
+                                    {/if}
+                                </div>
                             {/if}
                         {/key}
                     </div>
@@ -179,6 +301,7 @@
             .contents {
                 display: flex;
                 width: 20rem;
+                max-width: calc(100vw - 2 * var(--padding-sm));
                 padding: var(--padding-3xl);
                 flex-direction: column;
                 align-items: flex-start;
@@ -188,7 +311,7 @@
                 border-radius: 0.5rem;
                 background: var(--background);
                 overflow-y: auto;
-                z-index: 1;
+                z-index: 3;
 
                 @media screen and (max-width: 64rem) {
                     position: absolute;
@@ -263,21 +386,129 @@
                 :global(.transition) {
                     height: auto;
                     width: 100%;
+                    max-width: 88rem;
+                    margin: 0 auto;
                     display: flex;
                 }
 
-                .prose {
-                    height: auto;
-                    min-height: 100%;
+                :global(.transition.is-animating aside) {
+                    padding-top: 0 !important;
+                }
+
+                .lesson-container {
                     width: 100%;
+                    max-width: 70rem;
                     display: flex;
-                    flex-direction: column;
-                    max-width: 60rem;
-                    margin-right: auto;
-                }
+                    gap: 4rem;
+                    margin-left: auto;
 
-                .spacer {
-                    flex-grow: 1;
+                    .prose {
+                        height: auto;
+                        min-height: 100%;
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    .wrap {
+                        min-width: 14rem;
+                        margin-top: calc(-1 * var(--page-padding));
+                    }
+
+                    aside {
+                        position: fixed;
+                        width: 14rem;
+                        height: calc(100vh - (3 * var(--padding-sm) + 3.75rem));
+                        top: 0;
+                        margin-top: calc(2 * var(--padding-sm) + 3.75rem);
+                        padding-top: var(--page-padding);
+                        padding-left: var(--padding-3xl);
+                        padding-bottom: var(--padding-sm);
+                        margin-bottom: var(--padding-sm);
+                        overflow-y: hidden;
+                        display: grid;
+
+                        &.collapsed {
+                            right: var(--padding-sm);
+                            background: var(--background);
+                            border-radius: 0.5rem;
+                            box-shadow: -0.25rem 0px 0.25rem rgba(0, 0, 0, 0.125);
+                        }
+                        
+                        .in-this-lesson {
+                            position: relative;
+                            min-width: 12rem;
+                            padding-left: var(--padding-md);
+                            padding-bottom: var(--page-padding);
+                            display: flex;
+                            flex-direction: column;
+                            overflow-y: auto;
+
+                            p {
+                                @include paragraph-sm;
+                                position: relative;
+                                padding: var(--padding-xs) 0;
+    
+                                a {
+                                    text-decoration: none;
+                                }
+
+                                &::before {
+                                    content: "";
+                                    display: inline-block;
+                                    position: absolute;
+                                    top: calc(-1 * var(--padding-xs));
+                                    left: calc(-1 * var(--padding-md));
+                                    width: 1px;
+                                    height: calc(100% + var(--padding-xs));
+                                    background-color: var(--light-gray);
+                                }
+
+                                &.depth-3 {
+                                    padding-left: var(--padding-md);
+                                }
+                            }
+    
+                            p:first-child {
+                                @include paragraph-sm-b;
+                                color: black;
+                            }
+
+                            &::before {
+                                content: "";
+                                position: absolute;
+                                top: calc(1.8125rem * (var(--contents-tracker, 0) + 1));
+                                left: 0;
+                                height: 1.8125rem;
+                                width: 2px;
+                                border-radius: 1px;
+                                background-color: var(--primary);
+                                opacity: calc(var(--contents-tracker, -1) + 1);
+                                transition: 300ms top ease, 300ms opacity ease;
+                            }
+                        }
+                    }
+
+                    button {
+                        position: fixed;
+                        cursor: pointer;
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        top: var(--padding-sm);
+                        margin-top: calc(2 * var(--padding-sm) + 3.75rem);
+                        margin-right: var(--padding-sm);
+                        right: var(--padding-sm);
+                        background: transparent;
+                        border: none;
+                        padding: 0;
+                        border-radius: 0.5rem;
+                        display: grid;
+                        place-items: center;
+
+                        img {
+                            filter: brightness(0) contrast(50%);
+                        }
+                    }
                 }
             }
         }

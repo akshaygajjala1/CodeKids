@@ -6,6 +6,10 @@
     class="transition"
     in:fly={{ x: 40, duration: 300, delay: 400 }}
     out:fly={{ x: -40, duration: 300 }}
+    on:outrostart={e => e?.target?.classList?.add('is-animating')}
+    on:outroend={e => e?.target?.classList?.remove('is-animating')}
+    on:introstart={e => e?.target?.classList?.add('is-animating')}
+    on:introend={e => e?.target?.classList?.remove('is-animating')}
 >
     <slot />
 </div>

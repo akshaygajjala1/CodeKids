@@ -1,10 +1,12 @@
 import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { escapeSvelte, mdsvex } from 'mdsvex';
+import { visit } from 'unist-util-visit';
 import footnotes from 'remark-footnotes';
 import supersub from 'remark-supersub';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import readingTime from 'mdsvex-reading-time';
 import { createHighlighter } from 'shiki';
 import {
     transformerNotationDiff,
@@ -19,6 +21,31 @@ const highlighter = await createHighlighter({
 });
 await highlighter.loadLanguage('python', 'py');
 
+const injectTocFrontmatter = () => {
+    return (tree, file) => {
+        const headings = [];
+
+        visit(tree, 'heading', (node) => {
+            const heading = {
+                text: node.children[0].value.toLowerCase().replaceAll('\W', '-'),
+                original: node.children[0].value,
+                depth: node.depth
+            };
+            if (headings.find((h) => h.text === heading.text)) {
+                if (headings.find((h) => h.text.split('-').slice(0, -1).join('-') === heading.text)) {
+                    heading.text = `${heading.text}-${headings.filter((h) => h.text.split('-').slice(0, -1).join('-') === heading.text).length + 1}`;
+                }
+                else {
+                    heading.text = `${heading.text}-1`;
+                }
+            }
+            headings.push(heading);
+        });
+
+        file.data.fm['toc'] = headings;
+    }
+}
+
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
     extensions: ['.svx', '.md'],
@@ -27,7 +54,9 @@ const mdsvexOptions = {
     },
     remarkPlugins: [
         footnotes,
-        supersub
+        supersub,
+        [readingTime, { wpm: 170 } ],
+        injectTocFrontmatter
     ],
     rehypePlugins: [
         rehypeSlug,

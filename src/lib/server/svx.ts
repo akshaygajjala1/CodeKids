@@ -40,11 +40,7 @@ export const getContent = async (): Promise<Course[]> => {
         const courseName = toTitleCase(courseDir.replace(/\d+-/, '').replace(/-/g, ' '));
         const index = parseInt(courseDir.split('-')[0] ?? '');
         const getDefault = await import(`../../content/${courseDir}/index.svx`);
-        const defaultLesson = getLesson(getDefault, 'index.svx') ?? {
-            title: '',
-            slug: '',
-            index: 0
-        };
+        const defaultLesson = getLesson(getDefault, 'index.svx')!;
         const course: Course = { title: courseName, default: defaultLesson, sections, index };
         courses.push(course);
     }

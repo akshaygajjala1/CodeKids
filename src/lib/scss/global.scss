@@ -280,6 +280,10 @@ a {
         border-radius: 0.25rem;
     }
 
+    h1, h2, h3 {
+        width: fit-content
+    }
+
     & > h1,
     & > h3 {
         margin-top: 3rem;
