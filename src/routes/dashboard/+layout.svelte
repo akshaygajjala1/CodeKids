@@ -24,9 +24,14 @@
     let observer: IntersectionObserver;
     let collapseToc: boolean = false;
     let showToc: boolean = true;
+    let containerHeight: number;
 
     const pxToRem = (px: number) => {
         return px / parseFloat(getComputedStyle(document.querySelector('html')!).fontSize);
+    }
+
+    const remToPx = (rem: string) => {
+        return parseFloat(rem.split('rem')[0]) * parseFloat(getComputedStyle(document.querySelector('html')!).fontSize);
     }
 
     const registerTocLinks = () => {
@@ -38,6 +43,12 @@
                 showToc = !showToc;
             }
         }
+    }
+
+    const setProseHeight = () => {
+        const prose = document.querySelector('.prose')! as HTMLElement;
+        containerHeight = prose.getBoundingClientRect().height;
+        console.log(containerHeight);
     }
 
     const onResize = () => {
@@ -58,6 +69,7 @@
             showToc = true;
         }
         registerTocLinks();
+        setProseHeight();
     };
 
     const indexOfEntry = (target: Element) => {
@@ -96,7 +108,7 @@
             }, {
                 root: scrollContainer,
                 threshold: 1,
-                rootMargin: "-96px 0px 0px 0px"
+                rootMargin: "-84px 0px 0px 0px"
             });
 
             $page.data.lesson.toc.forEach((heading: { text: string, original: string, depth: 2 | 3 }) => {
@@ -109,6 +121,12 @@
             };
         }
     };
+
+    const beforePageTransition = (e: Event) => {
+        const el = e?.target as HTMLElement;
+        el.style.maxHeight = `${containerHeight}px`;
+        el.style.maxWidth = `${el.getBoundingClientRect().width}px`;
+    }
 
     onMount(() => {
         onResize();
@@ -148,7 +166,8 @@
     });
 
     afterNavigate(() => {
-        setTimeout(() => { registerTocLinks(); observe(); }, 300);
+        setTimeout(() => { registerTocLinks(); observe(); setProseHeight(); }, 300);
+        setTimeout(() => { registerTocLinks(); }, 600);
     });
 </script>
 
@@ -185,7 +204,7 @@
                 </div>
                 <div class="transition-container">
                     {#key $page.data.course?.index}
-                        <div class="transition" transition:fade={{ duration: 300 }}>
+                        <div class="transition" in:fade={{ duration: 300, delay: 400 }} out:fade={{ duration: 300 }}>
                             <div class="lesson-list">
                                 {#if $page.data.course}
                                     {#each $page.data.course.sections as section}
@@ -209,55 +228,63 @@
             </aside>
         {/if}
         <article id="content-container" style="--contents-tracker: -1;">
-            {#key data.url}
-                <PageTransition>
-                    <div class="lesson-container">
-                        <div class="prose">
-                            {#key $page.data.lesson}
-                                {#if $page.data.content}
-                                    <Breadcrumb
-                                        course={$page.data.course}
-                                        section={$page.data.section}
-                                        lesson={$page.data.lesson}
-                                    />
-                                {/if}
-                            {/key}
-                            <slot />
-                            <div class="spacer"></div>
-                            {#key $page.data.lesson}
-                                {#if $page.data.lesson}
-                                    <Navigation
-                                        course={$page.data.course}
-                                        section={$page.data.section}
-                                        lesson={$page.data.lesson}
-                                    />
-                                {/if}
-                            {/key}
-                        </div>
-                        {#key $page.data.lesson}
-                            {#if $page.data.lesson}
-                                <div class="wrap" style={collapseToc ? "position: absolute" : ""}>
-                                    {#if showToc}
-                                        <aside class={collapseToc ? "collapsed" : ""} transition:slide={{ axis: 'x' }}>
-                                            <div class="in-this-lesson">
-                                                <p>In this lesson</p>
-                                                {#each $page.data.lesson.toc as heading}
-                                                    <p class="depth-{heading.depth}">
-                                                        <a href={`#${heading.text.replaceAll(' ', '-')}`}>{heading.original}</a>
-                                                    </p>
-                                                {/each}
-                                            </div>
-                                        </aside>
-                                        <button id="toc-close-button" on:click={() => (showToc = false)} transition:fade={{ duration: 200 }} style={!collapseToc ? "display: none" : ""}>
-                                            <img src={closeIconSrc} alt="Close" />
-                                        </button>
-                                    {/if}
+            <div class="lesson-contents-container">
+                <div class="lesson-container">
+                    <div class="prose-container">
+                        {#key data.url}
+                            <PageTransition on:outrostart={beforePageTransition}>
+                                <div class="prose">
+                                    {#key $page.data.lesson}
+                                        {#if $page.data.content}
+                                            <Breadcrumb
+                                                course={$page.data.course}
+                                                section={$page.data.section}
+                                                lesson={$page.data.lesson}
+                                            />
+                                        {/if}
+                                    {/key}
+                                    <slot />
+                                    <div class="spacer"></div>
+                                    {#key $page.data.lesson}
+                                        {#if $page.data.lesson}
+                                            <Navigation
+                                                course={$page.data.course}
+                                                section={$page.data.section}
+                                                lesson={$page.data.lesson}
+                                            />
+                                        {/if}
+                                    {/key}
                                 </div>
-                            {/if}
+                            </PageTransition>
                         {/key}
                     </div>
-                </PageTransition>
-            {/key}
+                    <div class="toc-transition-container">
+                        {#key $page.data.lesson}
+                            <div class="toc-transition" transition:fade={{ duration: 300 }}>
+                                {#if $page.data.lesson?.toc}
+                                    <div class="wrap" style={collapseToc ? "position: absolute" : ""}>
+                                        {#if showToc}
+                                            <aside class={collapseToc ? "collapsed" : ""} transition:slide={{ axis: 'x' }}>
+                                                <div class="in-this-lesson">
+                                                    <p>In this lesson</p>
+                                                    {#each $page.data.lesson.toc as heading}
+                                                        <p class="depth-{heading.depth}">
+                                                            <a href={`#${heading.text.replaceAll(' ', '-')}`}>{heading.original}</a>
+                                                        </p>
+                                                    {/each}
+                                                </div>
+                                            </aside>
+                                            <button id="toc-close-button" on:click={() => (showToc = false)} transition:fade={{ duration: 200 }} style={!collapseToc ? "display: none" : ""}>
+                                                <img src={closeIconSrc} alt="Close" />
+                                            </button>
+                                        {/if}
+                                    </div>
+                                {/if}
+                            </div>
+                        {/key}
+                    </div>
+                </div>
+            </div>
         </article>
     </main>
 </div>
@@ -383,7 +410,7 @@
                 border-radius: 0.5rem;
                 display: grid;
 
-                :global(.transition) {
+                .lesson-contents-container {
                     height: auto;
                     width: 100%;
                     max-width: 88rem;
@@ -391,9 +418,9 @@
                     display: flex;
                 }
 
-                :global(.transition.is-animating aside) {
-                    padding-top: 0 !important;
-                }
+                // :global(.transition.is-animating aside) {
+                //     padding-top: 0 !important;
+                // }
 
                 .lesson-container {
                     width: 100%;
@@ -402,111 +429,143 @@
                     gap: 4rem;
                     margin-left: auto;
 
-                    .prose {
-                        height: auto;
-                        min-height: 100%;
+                    .prose-container {
                         width: 100%;
-                        display: flex;
-                        flex-direction: column;
+                        height: auto;
+                        display: grid;
+
+                        :global(.transition) {
+                            width: 100%;
+                            height: 100%;
+                            display: flex;
+                        }
+
+                        // :global(.transition.animating-out) {
+                        //     max-height: calc(100vh - 3 * var(--padding-sm) - 2 * var(--page-padding) - 3.75rem);
+                        // }
+
+                        .prose {
+                            height: auto;
+                            min-height: 100%;
+                            width: 100%;
+                            display: flex;
+                            flex-direction: column;
+
+                            .spacer {
+                                flex: 1 0 0;
+                            }
+                        }
+                    }
+
+                    .toc-transition-container {
+                        display: grid;
+
+                        .toc-transition {
+                            grid-row-start: 1;
+                            grid-row-end: 2;
+                            grid-column-start: 1;
+                            grid-column-end: 2;
+                        }
                     }
 
                     .wrap {
                         min-width: 14rem;
                         margin-top: calc(-1 * var(--page-padding));
-                    }
 
-                    aside {
-                        position: fixed;
-                        width: 14rem;
-                        height: calc(100vh - (3 * var(--padding-sm) + 3.75rem));
-                        top: 0;
-                        margin-top: calc(2 * var(--padding-sm) + 3.75rem);
-                        padding-top: var(--page-padding);
-                        padding-left: var(--padding-3xl);
-                        padding-bottom: var(--padding-sm);
-                        margin-bottom: var(--padding-sm);
-                        overflow-y: hidden;
-                        display: grid;
-
-                        &.collapsed {
-                            right: var(--padding-sm);
-                            background: var(--background);
-                            border-radius: 0.5rem;
-                            box-shadow: -0.25rem 0px 0.25rem rgba(0, 0, 0, 0.125);
-                        }
-                        
-                        .in-this-lesson {
-                            position: relative;
-                            min-width: 12rem;
-                            padding-left: var(--padding-md);
-                            padding-bottom: var(--page-padding);
-                            display: flex;
-                            flex-direction: column;
-                            overflow-y: auto;
-
-                            p {
-                                @include paragraph-sm;
+                        aside {
+                            position: fixed;
+                            width: 14rem;
+                            height: calc(100vh - (3 * var(--padding-sm) + 3.75rem));
+                            top: 0;
+                            margin-top: calc(2 * var(--padding-sm) + 3.75rem);
+                            padding-top: var(--page-padding);
+                            padding-left: var(--padding-3xl);
+                            padding-bottom: var(--padding-sm);
+                            margin-bottom: var(--padding-sm);
+                            overflow-y: hidden;
+                            display: grid;
+        
+                            &.collapsed {
+                                right: var(--padding-sm);
+                                background: var(--background);
+                                border-radius: 0.5rem;
+                                box-shadow: -0.25rem 0px 0.25rem rgba(0, 0, 0, 0.125);
+                            }
+                            
+                            .in-this-lesson {
                                 position: relative;
-                                padding: var(--padding-xs) 0;
-    
-                                a {
-                                    text-decoration: none;
+                                min-width: 12rem;
+                                width: 12rem;
+                                padding-left: var(--padding-md);
+                                padding-bottom: var(--page-padding);
+                                display: flex;
+                                flex-direction: column;
+                                overflow-y: auto;
+        
+                                p {
+                                    @include paragraph-sm;
+                                    position: relative;
+                                    padding: var(--padding-xs) 0;
+        
+                                    a {
+                                        text-decoration: none;
+                                    }
+        
+                                    &::before {
+                                        content: "";
+                                        display: inline-block;
+                                        position: absolute;
+                                        top: calc(-1 * var(--padding-xs));
+                                        left: calc(-1 * var(--padding-md));
+                                        width: 1px;
+                                        height: calc(100% + var(--padding-xs));
+                                        background-color: var(--light-gray);
+                                    }
+        
+                                    &.depth-3 {
+                                        padding-left: var(--padding-md);
+                                    }
                                 }
-
+        
+                                p:first-child {
+                                    @include paragraph-sm-b;
+                                    color: black;
+                                }
+        
                                 &::before {
                                     content: "";
-                                    display: inline-block;
                                     position: absolute;
-                                    top: calc(-1 * var(--padding-xs));
-                                    left: calc(-1 * var(--padding-md));
-                                    width: 1px;
-                                    height: calc(100% + var(--padding-xs));
-                                    background-color: var(--light-gray);
+                                    top: calc(1.8125rem * (var(--contents-tracker, 0) + 1));
+                                    left: 0;
+                                    height: 1.8125rem;
+                                    width: 2px;
+                                    border-radius: 1px;
+                                    background-color: var(--primary);
+                                    opacity: calc(var(--contents-tracker, -1) + 1);
+                                    transition: 300ms top ease, 300ms opacity ease;
                                 }
-
-                                &.depth-3 {
-                                    padding-left: var(--padding-md);
-                                }
-                            }
-    
-                            p:first-child {
-                                @include paragraph-sm-b;
-                                color: black;
-                            }
-
-                            &::before {
-                                content: "";
-                                position: absolute;
-                                top: calc(1.8125rem * (var(--contents-tracker, 0) + 1));
-                                left: 0;
-                                height: 1.8125rem;
-                                width: 2px;
-                                border-radius: 1px;
-                                background-color: var(--primary);
-                                opacity: calc(var(--contents-tracker, -1) + 1);
-                                transition: 300ms top ease, 300ms opacity ease;
                             }
                         }
-                    }
-
-                    button {
-                        position: fixed;
-                        cursor: pointer;
-                        width: 1.5rem;
-                        height: 1.5rem;
-                        top: var(--padding-sm);
-                        margin-top: calc(2 * var(--padding-sm) + 3.75rem);
-                        margin-right: var(--padding-sm);
-                        right: var(--padding-sm);
-                        background: transparent;
-                        border: none;
-                        padding: 0;
-                        border-radius: 0.5rem;
-                        display: grid;
-                        place-items: center;
-
-                        img {
-                            filter: brightness(0) contrast(50%);
+        
+                        button {
+                            position: fixed;
+                            cursor: pointer;
+                            width: 1.5rem;
+                            height: 1.5rem;
+                            top: var(--padding-sm);
+                            margin-top: calc(2 * var(--padding-sm) + 3.75rem);
+                            margin-right: var(--padding-sm);
+                            right: var(--padding-sm);
+                            background: transparent;
+                            border: none;
+                            padding: 0;
+                            border-radius: 0.5rem;
+                            display: grid;
+                            place-items: center;
+        
+                            img {
+                                filter: brightness(0) contrast(50%);
+                            }
                         }
                     }
                 }

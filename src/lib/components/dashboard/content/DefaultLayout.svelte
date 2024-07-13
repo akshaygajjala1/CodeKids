@@ -13,7 +13,11 @@
 </p>
 <slot />
 
-<style lang="scss">
+<style>
+    #in-this-lesson-link {
+        display: none;
+    }
+
     #in-this-lesson-button {
         background: transparent;
         border: none;
