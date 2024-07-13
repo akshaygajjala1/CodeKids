@@ -258,7 +258,7 @@
                             </PageTransition>
                         {/key}
                     </div>
-                    <div class="toc-transition-container">
+                    <div class="toc-transition-container" style={collapseToc ? "position: absolute" : ""}>
                         {#key $page.data.lesson}
                             <div class="toc-transition" transition:fade={{ duration: 300 }}>
                                 {#if $page.data.lesson?.toc}
