@@ -47,8 +47,9 @@
 
     const setProseHeight = () => {
         const prose = document.querySelector('.prose')! as HTMLElement;
-        containerHeight = prose.getBoundingClientRect().height;
-        console.log(containerHeight);
+        if (prose) {
+            containerHeight = prose.getBoundingClientRect().height;
+        }
     }
 
     const onResize = () => {
