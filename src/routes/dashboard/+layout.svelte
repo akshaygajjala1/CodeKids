@@ -504,9 +504,9 @@
                                 overflow-y: auto;
         
                                 p {
-                                    @include paragraph-sm;
                                     position: relative;
                                     padding: var(--padding-xs) 0;
+                                    @include paragraph-sm;
         
                                     a {
                                         text-decoration: none;
@@ -530,7 +530,10 @@
         
                                 p:first-child {
                                     @include paragraph-sm-b;
-                                    color: black;
+
+                                    & {
+                                        color: black;
+                                    }
                                 }
         
                                 &::before {

@@ -45,8 +45,11 @@
             gap: var(--padding-md);
 
             h1 {
-                line-height: 1;
                 @include title-md;
+
+                & {
+                    line-height: 1;
+                }
             }
         }
     }

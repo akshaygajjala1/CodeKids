@@ -103,8 +103,8 @@
             align-self: stretch;
 
             p {
-                @include paragraph-md;
                 white-space: nowrap;
+                @include paragraph-md;
 
                 a {
                     text-decoration: none;

@@ -54,8 +54,11 @@
 }
 
 @mixin paragraph-xl-b {
-    font-weight: 600;
     @include paragraph-xl;
+
+    & {
+        font-weight: 600;
+    }
 }
 
 @mixin paragraph-lg {
@@ -80,7 +83,10 @@
 
 @mixin paragraph-md-b {
     @include paragraph-md;
-    font-weight: 600;
+
+    & {
+        font-weight: 600;
+    }
 }
 
 @mixin paragraph-sm {
@@ -93,5 +99,8 @@
 
 @mixin paragraph-sm-b {
     @include paragraph-sm;
-    font-weight: 600;
+
+    & {
+        font-weight: 600;
+    }
 }

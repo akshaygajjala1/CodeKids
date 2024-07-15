@@ -19,9 +19,11 @@
         padding: var(--padding-md);
         border-radius: 0.5rem;
         transition: 300ms box-shadow ease;
-
         @include paragraph-md-b;
-        line-height: 1;
+
+        & {
+            line-height: 1;
+        }
 
         &:hover {
             cursor: pointer;

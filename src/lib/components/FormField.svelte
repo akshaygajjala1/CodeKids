@@ -85,14 +85,20 @@
 
             label {
                 @include paragraph-lg;
-                color: var(--dark-gray);
-                align-self: stretch;
-                text-align: left;
+
+                & {
+                    color: var(--dark-gray);
+                    align-self: stretch;
+                    text-align: left;
+                }
             }
 
             p {
                 @include paragraph-sm-b;
-                color: var(--error);
+
+                & {
+                    color: var(--error);
+                }
             }
         }
 
@@ -100,11 +106,11 @@
             height: 2.5rem;
             padding: 0rem 0.625rem;
             border-radius: 0.5rem;
-            @include paragraph-md;
             color: var(--gray);
             transition:
                 300ms box-shadow ease,
                 300ms border ease;
+            @include paragraph-md;
 
             &::placeholder {
                 color: var(--light-gray);
