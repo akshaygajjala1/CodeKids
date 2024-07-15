@@ -32,12 +32,12 @@
             flex-direction: column;
             justify-content: center;
             flex: 1 0 0;
-            @include paragraph-xl;
             color: var(--colors-gray, #565656);
+            @include paragraph-xl;
 
             &.current {
-                @include paragraph-xl-b;
                 color: var(--colors-dark-gray, #383838);
+                @include paragraph-xl-b;
             }
         }
     }

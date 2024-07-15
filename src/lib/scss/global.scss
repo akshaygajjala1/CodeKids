@@ -26,11 +26,6 @@ html {
     --padding-2xl: 1.75rem;
     --padding-3xl: 2rem;
 
-    --page-padding: var(--padding-3xl);
-    @media screen and (max-width: 27.5rem) {
-        --page-padding: var(--padding-md);
-    }
-
     --shadow-outline: 0px 0px 2px 0px rgba(0, 0, 0, 0.25);
     --shadow-outline-thick: 0px 0px 4px 0px rgba(0, 0, 0, 0.3);
     --shadow-outline-success: 0px 0px 4px 0px var(--success);
@@ -39,6 +34,11 @@ html {
     --shadow-sm-medium: 0px 1px 4px 0px rgba(0, 0, 0, 0.5);
     --shadow-sm-heavy: 0px 1px 4px 0px rgba(0, 0, 0, 0.75);
     --shadow-sm-black: 0px 1px 4px 0px rgba(0, 0, 0, 1);
+
+    --page-padding: var(--padding-3xl);
+    @media screen and (max-width: 27.5rem) {
+        --page-padding: var(--padding-md);
+    }
 }
 
 * {
@@ -93,8 +93,8 @@ h3 {
 }
 
 p {
-    @include paragraph-lg;
     color: var(--gray);
+    @include paragraph-lg;
 }
 
 a {
@@ -138,10 +138,10 @@ a {
     }
 
     table {
-        @include paragraph-lg;
         border-spacing: 0;
         border-radius: 0.5rem;
         border: 1px solid var(--primary);
+        @include paragraph-lg;
 
         th,
         td {
@@ -179,6 +179,8 @@ a {
         min-width: 0;
         display: grid;
         overflow-x: auto;
+        border-radius: 0.5rem;
+        border: 2px solid var(--primary);
     }
 
     pre:has(code) {
@@ -187,8 +189,6 @@ a {
         font-size: 1.125rem;
         line-height: 1.5rem;
         padding: var(--padding-xl) 0;
-        border-radius: 0.5rem;
-        border: 2px solid var(--primary);
         background-color: transparent !important;
 
         code {
@@ -336,8 +336,8 @@ a {
 
     ul > li,
     ol > li {
-        @include paragraph-lg();
         color: var(--gray);
+        @include paragraph-lg();
     }
 
     p:has(+ ul),

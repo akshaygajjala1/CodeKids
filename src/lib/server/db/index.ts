@@ -10,7 +10,6 @@ const pool = new Client({
     ssl: {
         ca: readFileSync('.env.pg-cert.pem').toString()
     },
-    connectionTimeoutMillis: 0
 });
 
 await pool.connect();

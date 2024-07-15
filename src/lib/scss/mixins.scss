@@ -54,8 +54,8 @@
 }
 
 @mixin paragraph-xl-b {
-    @include paragraph-xl;
     font-weight: 600;
+    @include paragraph-xl;
 }
 
 @mixin paragraph-lg {
