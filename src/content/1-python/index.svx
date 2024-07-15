@@ -4,8 +4,15 @@ title: Python
 
 asdfasdfasdf
 
-```py
-print('java')
-print('python!!!!!!!!!!!!!!!!!!!!!!!!!!')  # [!code focus]
-print('c++')
+<EditableCode>
+
+```python
+import math  # the newlines in the markdown file are necessary!
+
+def area_of_sphere(radius: float) -> float:
+    return 4 / 3 * math.pi * r ** 3
+
+print(area_of_sphere(100))
 ```
+
+</EditableCode>

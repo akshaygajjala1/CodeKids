@@ -30,8 +30,10 @@ function autoimport() {
 
         transform(src: string, id: string) {
             if (id.endsWith('.svx')) {
+                let imports = 'import Note from "$lib/components/dashboard/content/Note.svelte";\n';
+                imports += 'import EditableCode from "$lib/components/dashboard/content/EditableCode.svelte";\n';
                 return {
-                    code: 'import Note from "$lib/components/dashboard/content/Note.svelte";' + src
+                    code: imports + src
                 };
             }
         }
