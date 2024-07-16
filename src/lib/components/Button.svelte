@@ -1,5 +1,5 @@
 <script lang="ts">
-    export let variant: 'primary' | 'secondary' | 'ghost' = 'primary';
+    export let variant: 'primary' | 'secondary' | 'ghost' | 'invisible' = 'primary';
     export let href: string | undefined = undefined;
 </script>
 
@@ -72,6 +72,12 @@
 
             &:active {
                 box-shadow: var(--shadow-sm-medium);
+            }
+        }
+
+        &.invisible {
+            &:hover {
+                text-decoration: underline;
             }
         }
     }

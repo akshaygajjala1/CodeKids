@@ -3,9 +3,10 @@
     import { highlighter } from '$lib/helpers/shiki';
     import { page } from '$app/stores';
     import { onMount } from 'svelte';
+    import { toTitleCase } from '$lib/helpers/functions';
 
     import logoSrc from '$lib/assets/CodeKidsAcademy Logo.png';
-    import { toTitleCase } from '$lib/helpers/functions';
+    import copySrc from '$lib/assets/icons/copy.png';
 
     export let fixedHeight: number | undefined = undefined;
     export let fixedOutputHeight: number | undefined = undefined;
@@ -17,6 +18,7 @@
     let outputText: string = 'Output (try running the code)';
     let outputType: 'success' | 'error' | 'timeout' | undefined = undefined;
     let outputTime: number | undefined = undefined;
+    let copyText: string = 'Copy';
 
     const setHighlightedText = () => {
         data.innerHTML = highlighter.codeToHtml(text, {
@@ -70,14 +72,26 @@
     });
 </script>
 
-<div
-    class="container"
-    style={fixedHeight ? `height: calc(${fixedHeight} * 1.5rem + 2 * var(--padding-xl))` : ''}
->
+<div class="container">
     <div class="language-info">
         <p>Python 3.8.10</p>
+        <Button variant="secondary" on:click={() => {
+            try {
+                navigator.clipboard.writeText(text);
+                copyText = 'Copied!';
+            }
+            catch (err) {
+                alert('There was an error copying the code.');
+            }
+        }}>
+            <span>{copyText}</span>
+            <img src={copySrc} alt="copy" />
+        </Button>
     </div>
-    <div class="editable-code-container">
+    <div
+        class="editable-code-container"
+        style={fixedHeight ? `height: calc(${fixedHeight} * 1.5rem + 2 * var(--padding-xl))` : ''}
+    >
         <div class="editable-code">
             <span bind:this={data}>
                 <slot />
@@ -90,6 +104,7 @@
                 bind:this={textarea}
                 on:input={() => {
                     text = textarea.value;
+                    copyText = 'Copy';
                     setHighlightedText();
                 }}
             ></textarea>
@@ -116,6 +131,7 @@
                 outputType = undefined;
                 outputTime = undefined;
                 textarea.value = text;
+                copyText = 'Copy';
                 setHighlightedText();
             }}
         >
@@ -149,6 +165,10 @@
             p {
                 color: var(--text);
                 @include paragraph-sm-b;
+            }
+
+            :global(img) {
+                filter: brightness(100%);
             }
         }
 

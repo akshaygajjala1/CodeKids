@@ -4,7 +4,7 @@ title: Python
 
 asdfasdfasdf
 
-<EditableCode fixedOutputHeight={1}>
+<EditableCode fixedOutputHeight={1} fixedHeight={6}>
 
 ```python
 import math  # the newlines in the markdown file are necessary!
