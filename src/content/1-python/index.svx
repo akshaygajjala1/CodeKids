@@ -4,13 +4,13 @@ title: Python
 
 asdfasdfasdf
 
-<EditableCode>
+<EditableCode fixedOutputHeight={1}>
 
 ```python
 import math  # the newlines in the markdown file are necessary!
 
 def area_of_sphere(radius: float) -> float:
-    return 4 / 3 * math.pi * r ** 3
+    return 4 / 3 * math.pi * radius ** 3
 
 print(area_of_sphere(100))
 ```

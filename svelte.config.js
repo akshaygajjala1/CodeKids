@@ -27,15 +27,16 @@ const injectTocFrontmatter = () => {
 
         visit(tree, 'heading', (node) => {
             const heading = {
-                text: node.children[0].value.toLowerCase().replaceAll('\W', '-'),
+                text: node.children[0].value.toLowerCase().replaceAll('W', '-'),
                 original: node.children[0].value,
                 depth: node.depth
             };
             if (headings.find((h) => h.text === heading.text)) {
-                if (headings.find((h) => h.text.split('-').slice(0, -1).join('-') === heading.text)) {
+                if (
+                    headings.find((h) => h.text.split('-').slice(0, -1).join('-') === heading.text)
+                ) {
                     heading.text = `${heading.text}-${headings.filter((h) => h.text.split('-').slice(0, -1).join('-') === heading.text).length + 1}`;
-                }
-                else {
+                } else {
                     heading.text = `${heading.text}-1`;
                 }
             }
@@ -43,8 +44,8 @@ const injectTocFrontmatter = () => {
         });
 
         file.data.fm['toc'] = headings;
-    }
-}
+    };
+};
 
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
@@ -52,16 +53,8 @@ const mdsvexOptions = {
     layout: {
         _: './src/lib/components/dashboard/content/DefaultLayout.svelte'
     },
-    remarkPlugins: [
-        footnotes,
-        supersub,
-        [readingTime, { wpm: 170 } ],
-        injectTocFrontmatter
-    ],
-    rehypePlugins: [
-        rehypeSlug,
-        [rehypeAutolinkHeadings, { behavior: 'append' }]
-    ],
+    remarkPlugins: [footnotes, supersub, [readingTime, { wpm: 170 }], injectTocFrontmatter],
+    rehypePlugins: [rehypeSlug, [rehypeAutolinkHeadings, { behavior: 'append' }]],
     smartypants: {
         quotes: true,
         ellipses: true,

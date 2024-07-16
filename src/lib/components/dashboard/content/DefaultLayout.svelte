@@ -8,7 +8,9 @@
 <p>
     {readingTime.text} | {readingTime.words} words
     {#if toc}
-        <span id="in-this-lesson-link"> | <button id="in-this-lesson-button"><u>In this lesson</u></button></span>
+        <span id="in-this-lesson-link">
+            | <button id="in-this-lesson-button"><u>In this lesson</u></button></span
+        >
     {/if}
 </p>
 <slot />

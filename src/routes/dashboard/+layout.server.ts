@@ -8,6 +8,6 @@ export const load: LayoutServerLoad = async ({ locals, url }) => {
     const content = await getContent();
     return {
         courseContent: content,
-        path: url.pathname,
+        path: url.pathname
     };
 };

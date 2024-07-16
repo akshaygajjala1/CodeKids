@@ -6,7 +6,7 @@ export const getLesson = (file: unknown, name: string): Lesson | void => {
     const slug = filename.replace(/\d+-/, '');
 
     if (file && typeof file === 'object' && 'metadata' in file) {
-        const metadata = file.metadata as { title: string, toc: any[] };
+        const metadata = file.metadata as { title: string; toc: any[] };
         const title = metadata.title;
         const toc = metadata.toc;
         const lesson: Lesson = { title, slug, index, toc };

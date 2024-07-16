@@ -6,7 +6,7 @@ export type Lesson = {
         text: string;
         orignal: string;
         depth: number;
-    }[]
+    }[];
 };
 
 export type Section = {

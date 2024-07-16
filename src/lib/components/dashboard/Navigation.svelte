@@ -95,7 +95,8 @@
         align-items: center;
         margin-top: 3rem;
         justify-content: space-between;
-        gap: var(--padding-3xl);
+        column-gap: var(--padding-3xl);
+        row-gap: var(--padding-md);
         flex-wrap: wrap;
 
         div {

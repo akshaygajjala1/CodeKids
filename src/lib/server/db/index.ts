@@ -9,7 +9,7 @@ const pool = new Client({
     connectionString: DATABASE_URL,
     ssl: {
         ca: readFileSync('.env.pg-cert.pem').toString()
-    },
+    }
 });
 
 await pool.connect();

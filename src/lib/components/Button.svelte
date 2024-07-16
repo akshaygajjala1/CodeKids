@@ -27,6 +27,10 @@
         transition: 300ms box-shadow ease;
         @include paragraph-sm-b;
 
+        :global(img) {
+            height: 1.25rem;
+        }
+
         & {
             line-height: 1;
         }

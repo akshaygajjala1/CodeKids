@@ -28,11 +28,14 @@
 
     const pxToRem = (px: number) => {
         return px / parseFloat(getComputedStyle(document.querySelector('html')!).fontSize);
-    }
+    };
 
     const remToPx = (rem: string) => {
-        return parseFloat(rem.split('rem')[0]) * parseFloat(getComputedStyle(document.querySelector('html')!).fontSize);
-    }
+        return (
+            parseFloat(rem.split('rem')[0]) *
+            parseFloat(getComputedStyle(document.querySelector('html')!).fontSize)
+        );
+    };
 
     const registerTocLinks = () => {
         const inThisLessonLink = document.querySelector('#in-this-lesson-link')! as HTMLElement;
@@ -41,16 +44,16 @@
         if (inThisLessonButton) {
             inThisLessonButton.onclick = () => {
                 showToc = !showToc;
-            }
+            };
         }
-    }
+    };
 
     const setProseHeight = () => {
         const prose = document.querySelector('.prose')! as HTMLElement;
         if (prose) {
             containerHeight = prose.getBoundingClientRect().height;
         }
-    }
+    };
 
     const onResize = () => {
         const isNowDesktop = pxToRem(innerWidth) > 64;
@@ -63,7 +66,7 @@
         // }
         isDesktop = isNowDesktop;
         isMobile = pxToRem(innerWidth) > 25;
-        
+
         const scrollContainer = document.querySelector('#content-container')! as HTMLElement;
         collapseToc = pxToRem(scrollContainer.getBoundingClientRect().width) < 64;
         if (!collapseToc) {
@@ -75,47 +78,78 @@
 
     const indexOfEntry = (target: Element) => {
         const heading = $page.data.lesson.toc.find((heading: { text: string }) => {
-            return heading.text.replaceAll(' ', '-') === target.id
+            return heading.text.replaceAll(' ', '-') === target.id;
         });
         return $page.data.lesson.toc.indexOf(heading);
-    }
+    };
 
     const observe = () => {
         if ($page.data.lesson?.toc) {
             const scrollContainer = document.querySelector('#content-container')! as HTMLElement;
 
-            observer = new IntersectionObserver(([entry]) => {
-                const containerRect = scrollContainer.getBoundingClientRect();
-                if (entry.isIntersecting && entry.boundingClientRect.top < containerRect.top + containerRect.height / 2) {
-                    const index = indexOfEntry(entry.target);
-                    scrollContainer.style.setProperty('--contents-tracker', (index - 1).toString());
-                }
-                else if (entry.boundingClientRect.top < containerRect.top + containerRect.height / 2) {
-                    const index = indexOfEntry(entry.target);
-                    scrollContainer.style.setProperty('--contents-tracker', index.toString());
-                }
-                else if (entry.isIntersecting) {
-                    const index = indexOfEntry(entry.target);
-                    if (index === $page.data.lesson.toc.length - 1 && parseInt(scrollContainer.style.getPropertyValue('--contents-tracker')) === $page.data.lesson.toc.length - 2) {
+            observer = new IntersectionObserver(
+                ([entry]) => {
+                    const containerRect = scrollContainer.getBoundingClientRect();
+                    if (
+                        entry.isIntersecting &&
+                        entry.boundingClientRect.top < containerRect.top + containerRect.height / 2
+                    ) {
+                        const index = indexOfEntry(entry.target);
+                        scrollContainer.style.setProperty(
+                            '--contents-tracker',
+                            (index - 1).toString()
+                        );
+                    } else if (
+                        entry.boundingClientRect.top <
+                        containerRect.top + containerRect.height / 2
+                    ) {
+                        const index = indexOfEntry(entry.target);
                         scrollContainer.style.setProperty('--contents-tracker', index.toString());
+                    } else if (entry.isIntersecting) {
+                        const index = indexOfEntry(entry.target);
+                        if (
+                            index === $page.data.lesson.toc.length - 1 &&
+                            parseInt(
+                                scrollContainer.style.getPropertyValue('--contents-tracker')
+                            ) ===
+                                $page.data.lesson.toc.length - 2
+                        ) {
+                            scrollContainer.style.setProperty(
+                                '--contents-tracker',
+                                index.toString()
+                            );
+                        }
+                    } else {
+                        const index = indexOfEntry(entry.target);
+                        if (
+                            index === $page.data.lesson.toc.length - 1 &&
+                            parseInt(
+                                scrollContainer.style.getPropertyValue('--contents-tracker')
+                            ) ===
+                                $page.data.lesson.toc.length - 1
+                        ) {
+                            scrollContainer.style.setProperty(
+                                '--contents-tracker',
+                                (index - 1).toString()
+                            );
+                        }
                     }
+                },
+                {
+                    root: scrollContainer,
+                    threshold: 1,
+                    rootMargin: '-84px 0px 0px 0px'
                 }
-                else {
-                    const index = indexOfEntry(entry.target);
-                    if (index === $page.data.lesson.toc.length - 1 && parseInt(scrollContainer.style.getPropertyValue('--contents-tracker')) === $page.data.lesson.toc.length - 1) {
-                        scrollContainer.style.setProperty('--contents-tracker', (index - 1).toString());
-                    }
-                }
-            }, {
-                root: scrollContainer,
-                threshold: 1,
-                rootMargin: "-84px 0px 0px 0px"
-            });
+            );
 
-            $page.data.lesson.toc.forEach((heading: { text: string, original: string, depth: 2 | 3 }) => {
-                observer.observe(document.querySelector(`#${heading.text.replaceAll(' ', '-')}`)!);
-            });
-    
+            $page.data.lesson.toc.forEach(
+                (heading: { text: string; original: string; depth: 2 | 3 }) => {
+                    observer.observe(
+                        document.querySelector(`#${heading.text.replaceAll(' ', '-')}`)!
+                    );
+                }
+            );
+
             return () => {
                 console.log('disconnect');
                 observer.disconnect();
@@ -127,12 +161,12 @@
         const el = e?.target as HTMLElement;
         el.style.maxHeight = `${containerHeight}px`;
         el.style.maxWidth = `${el.getBoundingClientRect().width}px`;
-    }
+    };
 
     onMount(() => {
         onResize();
         observe();
-        
+
         if ($page.url.hash) {
             const element = document.getElementById($page.url.hash.slice(1));
             if (element) {
@@ -155,9 +189,13 @@
             scrollContainer.style.setProperty('--contents-tracker', '-1');
 
             if (observer && $page.data.lesson?.toc) {
-                $page.data.lesson.toc.forEach((heading: { text: string, original: string, depth: 2 | 3 }) => {
-                    observer.unobserve(document.querySelector(`#${heading.text.replaceAll(' ', '-')}`)!);
-                });
+                $page.data.lesson.toc.forEach(
+                    (heading: { text: string; original: string; depth: 2 | 3 }) => {
+                        observer.unobserve(
+                            document.querySelector(`#${heading.text.replaceAll(' ', '-')}`)!
+                        );
+                    }
+                );
             }
 
             setTimeout(() => {
@@ -167,8 +205,14 @@
     });
 
     afterNavigate(() => {
-        setTimeout(() => { registerTocLinks(); observe(); setProseHeight(); }, 300);
-        setTimeout(() => { registerTocLinks(); }, 600);
+        setTimeout(() => {
+            registerTocLinks();
+            observe();
+            setProseHeight();
+        }, 300);
+        setTimeout(() => {
+            registerTocLinks();
+        }, 600);
     });
 </script>
 
@@ -187,10 +231,11 @@
     </nav>
     <main>
         {#if menuActive}
-            <aside class="contents" 
+            <aside
+                class="contents"
                 transition:slide={{ duration: 600, axis: 'x' }}
                 on:outroend={onResize}
-                on:introend={onResize}    
+                on:introend={onResize}
             >
                 <div class="course-selector">
                     {#each data.courseContent as course (course.title)}
@@ -205,7 +250,11 @@
                 </div>
                 <div class="transition-container">
                     {#key $page.data.course?.index}
-                        <div class="transition" in:fade={{ duration: 300, delay: 400 }} out:fade={{ duration: 300 }}>
+                        <div
+                            class="transition"
+                            in:fade={{ duration: 300, delay: 400 }}
+                            out:fade={{ duration: 300 }}
+                        >
                             <div class="lesson-list">
                                 {#if $page.data.course}
                                     {#each $page.data.course.sections as section}
@@ -259,23 +308,40 @@
                             </PageTransition>
                         {/key}
                     </div>
-                    <div class="toc-transition-container" style={collapseToc ? "position: absolute" : ""}>
+                    <div
+                        class="toc-transition-container"
+                        style={collapseToc ? 'position: absolute' : ''}
+                    >
                         {#key $page.data.lesson}
                             <div class="toc-transition" transition:fade={{ duration: 300 }}>
                                 {#if $page.data.lesson?.toc}
-                                    <div class="wrap" style={collapseToc ? "position: absolute" : ""}>
+                                    <div
+                                        class="wrap"
+                                        style={collapseToc ? 'position: absolute' : ''}
+                                    >
                                         {#if showToc}
-                                            <aside class={collapseToc ? "collapsed" : ""} transition:slide={{ axis: 'x' }}>
+                                            <aside
+                                                class={collapseToc ? 'collapsed' : ''}
+                                                transition:slide={{ axis: 'x' }}
+                                            >
                                                 <div class="in-this-lesson">
                                                     <p>In this lesson</p>
                                                     {#each $page.data.lesson.toc as heading}
                                                         <p class="depth-{heading.depth}">
-                                                            <a href={`#${heading.text.replaceAll(' ', '-')}`}>{heading.original}</a>
+                                                            <a
+                                                                href={`#${heading.text.replaceAll(' ', '-')}`}
+                                                                >{heading.original}</a
+                                                            >
                                                         </p>
                                                     {/each}
                                                 </div>
                                             </aside>
-                                            <button id="toc-close-button" on:click={() => (showToc = false)} transition:fade={{ duration: 200 }} style={!collapseToc ? "display: none" : ""}>
+                                            <button
+                                                id="toc-close-button"
+                                                on:click={() => (showToc = false)}
+                                                transition:fade={{ duration: 200 }}
+                                                style={!collapseToc ? 'display: none' : ''}
+                                            >
                                                 <img src={closeIconSrc} alt="Close" />
                                             </button>
                                         {/if}
@@ -485,14 +551,14 @@
                             margin-bottom: var(--padding-sm);
                             overflow-y: hidden;
                             display: grid;
-        
+
                             &.collapsed {
                                 right: var(--padding-sm);
                                 background: var(--background);
                                 border-radius: 0.5rem;
                                 box-shadow: -0.25rem 0px 0.25rem rgba(0, 0, 0, 0.125);
                             }
-                            
+
                             .in-this-lesson {
                                 position: relative;
                                 min-width: 12rem;
@@ -502,18 +568,18 @@
                                 display: flex;
                                 flex-direction: column;
                                 overflow-y: auto;
-        
+
                                 p {
                                     position: relative;
                                     padding: var(--padding-xs) 0;
                                     @include paragraph-sm;
-        
+
                                     a {
                                         text-decoration: none;
                                     }
-        
+
                                     &::before {
-                                        content: "";
+                                        content: '';
                                         display: inline-block;
                                         position: absolute;
                                         top: calc(-1 * var(--padding-xs));
@@ -522,12 +588,12 @@
                                         height: calc(100% + var(--padding-xs));
                                         background-color: var(--light-gray);
                                     }
-        
+
                                     &.depth-3 {
                                         padding-left: var(--padding-md);
                                     }
                                 }
-        
+
                                 p:first-child {
                                     @include paragraph-sm-b;
 
@@ -535,9 +601,9 @@
                                         color: black;
                                     }
                                 }
-        
+
                                 &::before {
-                                    content: "";
+                                    content: '';
                                     position: absolute;
                                     top: calc(1.8125rem * (var(--contents-tracker, 0) + 1));
                                     left: 0;
@@ -546,11 +612,13 @@
                                     border-radius: 1px;
                                     background-color: var(--primary);
                                     opacity: calc(var(--contents-tracker, -1) + 1);
-                                    transition: 300ms top ease, 300ms opacity ease;
+                                    transition:
+                                        300ms top ease,
+                                        300ms opacity ease;
                                 }
                             }
                         }
-        
+
                         button {
                             position: fixed;
                             cursor: pointer;
@@ -566,7 +634,7 @@
                             border-radius: 0.5rem;
                             display: grid;
                             place-items: center;
-        
+
                             img {
                                 filter: brightness(0) contrast(50%);
                             }

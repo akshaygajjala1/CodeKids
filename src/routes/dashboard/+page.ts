@@ -6,7 +6,7 @@ export const load: PageLoad = async () => {
     // const lesson = getLesson(welcome, `welcome.svx`)!;
 
     return {
-        content: welcome.default,
+        content: welcome.default
         // lesson
     };
 };

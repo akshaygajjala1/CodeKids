@@ -18,7 +18,7 @@ export default defineConfig({
             '/python-api': {
                 target: 'http://localhost:5000',
                 changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/python-api/, ''),
+                rewrite: (path) => path.replace(/^\/python-api/, '')
             }
         }
     }
@@ -31,7 +31,8 @@ function autoimport() {
         transform(src: string, id: string) {
             if (id.endsWith('.svx')) {
                 let imports = 'import Note from "$lib/components/dashboard/content/Note.svelte";\n';
-                imports += 'import EditableCode from "$lib/components/dashboard/content/EditableCode.svelte";\n';
+                imports +=
+                    'import EditableCode from "$lib/components/dashboard/content/EditableCode.svelte";\n';
                 return {
                     code: imports + src
                 };

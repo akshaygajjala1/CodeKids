@@ -1,5 +1,6 @@
 import io
 import re
+import time
 import traceback
 from collections import namedtuple
 from multiprocessing import Pool, TimeoutError
@@ -24,6 +25,7 @@ __all__ = ('exec_code_in_process',)
 _SAFE_MODULES = frozenset(('math', 'random'))
 regex = r"\):([\s\S]*?)File \"<user_input>"
 Output = namedtuple('Output', 'output status')
+ExtendedOutput = namedtuple('ExtendedOutput', 'output status time')
 
 
 def _safe_import(name, *args, **kwargs):
@@ -115,11 +117,12 @@ def exec_code_with_output(code: str) -> Output:
 
 def exec_code_in_process(code: str) -> Output:
     with Pool(1) as pool:
+        start_time = time.perf_counter()
         result = pool.apply_async(exec_code_with_output, (code,))
         try:
-            return result.get(timeout=2)
+            return ExtendedOutput(*result.get(timeout=2), time.perf_counter() - start_time)
         except TimeoutError:
-            return Output('Execution timed out (>2s). Maybe you have an infinite loop?', 'timeout')
+            return ExtendedOutput('Execution timed out (>2s). Maybe you have an infinite loop?', 'timeout', 2)
 
 
 if __name__ == '__main__':
@@ -147,7 +150,8 @@ print(tuple([a, b, c]))
 set()
 dict()
 
-print('asdf' * 100000)
+while True:
+    pass
 
 
 """

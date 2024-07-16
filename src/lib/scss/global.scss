@@ -280,8 +280,10 @@ a {
         border-radius: 0.25rem;
     }
 
-    h1, h2, h3 {
-        width: fit-content
+    h1,
+    h2,
+    h3 {
+        width: fit-content;
     }
 
     & > h1,
@@ -299,27 +301,27 @@ a {
         border: 1px solid var(--primary);
     }
 
-    h2:has(a[aria-hidden="true"]),
-    h3:has(a[aria-hidden="true"]) {
+    h2:has(a[aria-hidden='true']),
+    h3:has(a[aria-hidden='true']) {
         scroll-margin-top: var(--padding-md);
 
-        a[aria-hidden="true"] {
+        a[aria-hidden='true'] {
             position: relative;
-    
+
             .icon-link {
                 position: absolute;
                 opacity: 0;
                 top: 0;
                 left: 0.5rem;
                 transition: opacity 300ms;
-    
+
                 &::before {
-                    content: "#";
+                    content: '#';
                 }
             }
         }
 
-        &:hover a[aria-hidden="true"] {
+        &:hover a[aria-hidden='true'] {
             .icon-link {
                 opacity: 1;
             }
