@@ -28,9 +28,7 @@ quiz example!
     ]}
     correctAnswerIndex={1}
 >
-
 Which of the following functions are used to get user input?
-
 <div slot="explanation">
 
 `raw_input` was renamed to `input` in Python 3 (the version we are using). `get_input` and `scan` are not builtin functions.
