@@ -6,7 +6,6 @@
 
     export let answers: string[];
     export let correctAnswerIndex: number;
-    export let explanation: string;
 
     let selectedIndex: number | null = null;
     let answered: boolean = false;
@@ -75,7 +74,7 @@
         </div>
         <div class="explanation-container" class:expanded={explanationExpanded}>
             <div class="explanation">
-                <p>{explanation}</p>
+                <p><slot name="explanation" /></p>
             </div>
         </div>
     </div>
@@ -193,6 +192,7 @@
                     display: flex;
                     align-items: center;
                     gap: var(--padding-xl);
+                    flex-wrap: wrap;
 
                     p {
                         text-align: right;
@@ -230,6 +230,10 @@
                     
                     p {
                         padding-top: var(--padding-xl);
+
+                        :global(> div) {
+                            display: grid;
+                        }
                     }
                 }
             }

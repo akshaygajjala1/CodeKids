@@ -31,16 +31,19 @@ const injectTocFrontmatter = () => {
                 original: node.children[0].value,
                 depth: node.depth
             };
-            if (headings.find((h) => h.text === heading.text)) {
-                if (
-                    headings.find((h) => h.text.split('-').slice(0, -1).join('-') === heading.text)
-                ) {
-                    heading.text = `${heading.text}-${headings.filter((h) => h.text.split('-').slice(0, -1).join('-') === heading.text).length + 1}`;
-                } else {
-                    heading.text = `${heading.text}-1`;
+
+            if (heading.depth <= 3) {
+                if (headings.find((h) => h.text === heading.text)) {
+                    if (
+                        headings.find((h) => h.text.split('-').slice(0, -1).join('-') === heading.text)
+                    ) {
+                        heading.text = `${heading.text}-${headings.filter((h) => h.text.split('-').slice(0, -1).join('-') === heading.text).length + 1}`;
+                    } else {
+                        heading.text = `${heading.text}-1`;
+                    }
                 }
+                headings.push(heading);
             }
-            headings.push(heading);
         });
 
         file.data.fm['toc'] = headings;

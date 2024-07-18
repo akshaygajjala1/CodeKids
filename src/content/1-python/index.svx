@@ -27,7 +27,43 @@ quiz example!
         "scan"
     ]}
     correctAnswerIndex={1}
-    explanation={"raw_input was renamed to input in Python 3 (the version we are using). get_input and scan are not builtin functions."}
 >
+
 Which of the following functions are used to get user input?
+
+<div slot="explanation">
+
+`raw_input` was renamed to `input` in Python 3 (the version we are using). `get_input` and `scan` are not builtin functions.
+
+> #### blockquote
+> 
+> asdfasdfasdf
+> - asdf
+> - asdf 2
+> - asdf 3
+> 
+> asdfasdfasdf
+> 1. asdf
+> 2. asdf
+> 3. asdf
+
+code block within explanation
+
+```python
+print('code block!')
+```
+
+woah
+1. asdf
+2. asdf
+
+<Note icon="info">
+nested components!
+</Note>
+
+woah!!!
+- asdf
+- asdf
+
+</div>
 </Quiz>

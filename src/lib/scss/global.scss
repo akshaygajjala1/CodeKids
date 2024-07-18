@@ -88,7 +88,7 @@ h2 {
     @include title-md;
 }
 
-h3 {
+h3, h4 {
     @include title-sm;
 }
 
@@ -101,7 +101,7 @@ a {
     color: inherit;
 }
 
-.prose {
+.prose, .explanation > p > div {
     & > p,
     & > .note,
     // & > ul,
@@ -122,7 +122,7 @@ a {
             margin: var(--padding-md) 0;
         }
 
-        h3 {
+        h3, h4 {
             margin-bottom: var(--padding-xl);
         }
 
@@ -286,14 +286,26 @@ a {
         border-radius: 0.25rem;
     }
 
+    .explanation > p > div > *:first-child {
+        margin-top: 0;
+    }
+
+    .explanation > p > div > *:last-child {
+        margin-bottom: 0;
+    }
+
     h1,
     h2,
-    h3 {
+    h3, h4 {
         width: fit-content;
     }
 
+    h4 {
+        color: var(--text);
+    }
+
     & > h1,
-    & > h3 {
+    & > h3, h4 {
         margin-top: 3rem;
     }
 
@@ -359,8 +371,8 @@ a {
 
     @media screen and (max-width: 47.9375rem) {
         & > h1,
-        & > h2,
-        & > h3 {
+        & > h3,
+        & > h4 {
             margin-top: 2rem;
         }
 
