@@ -108,7 +108,9 @@ a {
     // & > ol,
     & > blockquote,
     & > table,
-    & > .code-container {
+    & > .code-container,
+    & > .container:has(.editable-code-container),
+    & > .quiz {
         margin: var(--padding-md) 0;
     }
 
@@ -181,6 +183,10 @@ a {
         overflow-x: auto;
         border-radius: 0.5rem;
         border: 2px solid var(--primary);
+    }
+
+    .container:has(.editable-code-container) {
+        margin-top: 0;
     }
 
     pre:has(code) {

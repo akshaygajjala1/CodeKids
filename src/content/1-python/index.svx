@@ -16,3 +16,18 @@ print(area_of_sphere(100))
 ```
 
 </EditableCode>
+
+quiz example!
+
+<Quiz
+    answers={[
+        "raw_input",
+        "input",
+        "get_input",
+        "scan"
+    ]}
+    correctAnswerIndex={1}
+    explanation={"raw_input was renamed to input in Python 3 (the version we are using). get_input and scan are not builtin functions."}
+>
+Which of the following functions are used to get user input?
+</Quiz>
