@@ -19,9 +19,9 @@
             <p><a href="/#contact-us">Contact Us</a></p>
         </div>
         <p class="info">
-            ©️ CodeKids Academy 2024. Created using SvelteKit & Typescript. Designed from scratch in
-            Figma. Developed by <a href="https://pranav-pakanati.netlify.app">Pranav Pakanati</a>,
-            Akshay Gajjala, and Ram Sarma.
+            ©️ CodeKids Academy 2024. Designed from scratch using Figma, developed and architected
+            by <a href="https://pranav-pakanati.netlify.app">Pranav Pakanati</a> with SvelteKit, TypeScript,
+            and Docker. Content developed by Akshay Gajjala, and Ram Sarma.
         </p>
     </footer>
 </div>
