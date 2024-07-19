@@ -2,10 +2,26 @@
     import Footer from '$lib/components/home/Footer.svelte';
     import HomeNavbar from '$lib/components/home/Navbar.svelte';
     import HomeMainAction from '$lib/components/home/MainAction.svelte';
+    import EditableCode from '$lib/components/dashboard/content/EditableCode.svelte';
     import type { PageData } from './$types';
+    import { highlighter } from '$lib/helpers/shiki';
 
     export let data: PageData;
     let loggedIn: boolean;
+
+    const codeSnippet = `# return the nth number in the Fibonacci sequence
+# assuming first number is 0
+def fibonacci(n: int) -> int:
+    a, b = 0, 1
+    if n == 1:
+        return a
+    if n == 2:
+        return b
+    for i in range(2, n):
+        a, b = b, a + b 
+    return b
+
+print(fibonacci(10))  # edit me!`;
 
     $: loggedIn = data.id !== undefined;
 </script>
@@ -26,6 +42,16 @@
                     generation of learners.
                 </p>
                 <HomeMainAction {loggedIn} hideSignOut />
+                <div class="prose">
+                    <EditableCode>
+                        <div class="code-container">
+                            {@html highlighter.codeToHtml(codeSnippet, {
+                                lang: 'python',
+                                theme: 'snazzy-light'
+                            })}
+                        </div>
+                    </EditableCode>
+                </div>
             </div>
         </section>
         <section id="about">
@@ -69,6 +95,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
+            gap: 8rem;
 
             #home {
                 max-width: 90rem;
@@ -94,6 +121,18 @@
                     @media screen and (max-width: 767px) {
                         padding-top: 0;
                     }
+
+                    .prose {
+                        margin-top: var(--padding-3xl);
+                        text-align: left;
+                        max-width: 55rem;
+                        width: 100%;
+
+                        :global(.container) {
+                            margin: 0;
+                            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.25);
+                        }
+                    }
                 }
             }
             #about {
@@ -103,7 +142,6 @@
                 scroll-margin-top: 3.75rem;
 
                 .about-container {
-                    padding-top: var(--padding-md);
                     display: flex;
                     flex-direction: column;
                     align-items: center;
@@ -111,16 +149,6 @@
                     gap: var(--padding-md);
                     text-align: center;
                     text-wrap: balance;
-
-                    @media screen and (max-width: 74rem) {
-                        .desktop-only {
-                            display: none;
-                        }
-                    }
-
-                    @media screen and (max-width: 767px) {
-                        padding-top: 0;
-                    }
                 }
             }
             #meet-the-tutors {
@@ -129,7 +157,6 @@
                 padding: 0 var(--page-padding);
 
                 .meet-container {
-                    padding-top: var(--padding-md);
                     display: flex;
                     flex-direction: column;
                     align-items: center;
@@ -137,16 +164,6 @@
                     gap: var(--padding-md);
                     text-align: center;
                     text-wrap: balance;
-
-                    @media screen and (max-width: 74rem) {
-                        .desktop-only {
-                            display: none;
-                        }
-                    }
-
-                    @media screen and (max-width: 767px) {
-                        padding-top: 0;
-                    }
                 }
             }
             #contact-us {
@@ -155,7 +172,6 @@
                 padding: 0 var(--page-padding);
 
                 .contact-container {
-                    padding-top: var(--padding-md);
                     display: flex;
                     flex-direction: column;
                     align-items: center;
@@ -163,16 +179,6 @@
                     gap: var(--padding-md);
                     text-align: center;
                     text-wrap: balance;
-
-                    @media screen and (max-width: 74rem) {
-                        .desktop-only {
-                            display: none;
-                        }
-                    }
-
-                    @media screen and (max-width: 767px) {
-                        padding-top: 0;
-                    }
                 }
             }
         }
