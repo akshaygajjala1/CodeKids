@@ -5,6 +5,7 @@
     "scripts": {
         "dev": "vite dev",
         "dev-server": "cd server && venv/bin/flask run --no-debugger",
+        "dev-server-windows": "cd server && python -m flask run --no-debugger",
         "build": "vite build",
         "preview": "vite preview",
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",

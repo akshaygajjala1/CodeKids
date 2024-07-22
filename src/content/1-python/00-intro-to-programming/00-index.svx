@@ -4,119 +4,21 @@ title: Intro to Programming
 
 ## What is Programming?
 
-Lorem ipsum dolor sit amet, *consectetur adipiscing elit*, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in [reprehenderit](https://example.com) in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Programming is like giving your computer a set of instructions, kind of like a recipe. Just as a chef follows a recipe to create a dish, a computer follows the code you write to perform tasks. Think of it as telling your computer what to do, step by step. It's about solving problems and creating things, whether that's a game, a website, or a simple calculator. Programming turns your ideas into reality by communicating with your computer in a language it understands.
+
+### What are Programming Languages?
+
+Programming languages are just different ways to tell your computer what to do. It’s kinda like real languages; you can tell something in English what to do, or you can tell them in Spanish. Like in real life, your computer can’t process every single language at the same time, so you may have to change what language your computer takes in.
+
+> Common misconceptions:
+> 1. **Programming is only for geniuses**: The reality is programming is a skill anyone can learn with practice and patience.
+> 2. **You need to know multiple languages**: While it's helpful to learn different languages, becoming proficient in one language can be enough to start solving real-world problems and building projects.
+> 3. **Programming is only for making apps or websites**: Programming is used in many fields, including data analysis, artificial intelligence, game development, and even controlling hardware.
+
+### What is an IDE?
+
+An IDE, or Integrated Development Environment, is like a workspace for programmers. Imagine a carpenter's workshop filled with all the tools they need in one place. Similarly, an IDE brings together all the tools a programmer needs to write, test, and debug their code. It usually includes a code editor, a compiler or interpreter, and debugging tools, all within a single application. This makes it easier and more efficient to develop software because everything you need is right at your fingertips.
 
 <Note icon="help">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Python is the programming language that we will use. It is one of the most simple programming languages to learn, but also it has one of the most extensive and complex standard libraries, which allows for powerful functionalities right out of the box. Most uses of Python are to build websites, analyze data, and automate tasks. However it is also popular in data science applications and machine learning.
 </Note>
-
-## Heading
-
-### Subheading
-
-Lorem ipsum dolor sit amet, **consectetur adipiscing elit**, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-<Note icon="warning">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-</Note>
-
-### Subheading
-
-Lorem ipsum dolor sit amet, ***consectetur adipiscing elit***, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-> blockquote
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-## Heading
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-### Subheading
-
-Something 
-1. Lorem
-2. ipsum
-3. dolor
-
-Another
-- Lorem
-- Ipsum
-- Dolor
-
-Lorem ipsum dolor sit amet, `consectetur adipiscing elit`, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-> ### longer blockquote
-> 
-> Lorem ipsum dolor sit amet
-> 1. Lorem
-> 2. Ipsum
-> 3. Dolor
-> 
-> Lorem ipsum dolor sit amet
-> - Lorem
-> - Ipsum
-> - Dolor
->
-> > ### nested blockquote
-> > 
-> > woah
-
-<Note icon="dangerous">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-</Note>
-
-### Subheading
-
-Lorem ipsum dolor sit amet.
-
-| Syntax | Description |
-| ----------- | ----------- |
-| Header | Title |
-| Paragraph | Text |
-
-## Heading
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-Sample code
-
-```python
-import math
-
-def area_of_circle(radius: float) -> float:
-    return math.pi * radius ** 2
-
-area_of_circle(10)  # -> 314.15
-```
-
-Diff example
-
-```python
-print('bye')  # [!code --]
-print('hello')  # [!code ++]
-```
-
-Highlight, error, and warning
-
-```python
-print('i\\\'m highlighted!')  # [!code highlight]
-
-raise Exception # this is an error  # [!code error]
-
-print('warning')  # [!code warning]
-```
-
-Focus / blur
-
-```python
-print('i\\\'m blurred')
-print('i\\\'m in focus!')  # [!code focus]
-print('i\\\'m blurred')
-```
-
-
-
-
-
-
