@@ -86,6 +86,16 @@
     const observe = () => {
         if ($page.data.lesson?.toc) {
             const scrollContainer = document.querySelector('#content-container')! as HTMLElement;
+            scrollContainer.addEventListener('scroll', (event) => {
+                const { scrollHeight, scrollTop, clientHeight } = event.target;
+
+                if (Math.abs(scrollHeight - clientHeight - scrollTop) <= 5) {
+                    scrollContainer.style.setProperty(
+                        '--contents-tracker',
+                        ($page.data.lesson.toc.length - 1).toString()
+                    );
+                }
+            })
 
             observer = new IntersectionObserver(
                 ([entry]) => {
@@ -328,10 +338,12 @@
                                                     <p>In this lesson</p>
                                                     {#each $page.data.lesson.toc as heading}
                                                         <p class="depth-{heading.depth}">
-                                                            <a
-                                                                href={`#${heading.text}`}
-                                                                >{heading.original}</a
-                                                            >
+                                                            <span title={heading.original}>
+                                                                <a
+                                                                    href={`#${heading.text}`}
+                                                                    >{heading.original}</a
+                                                                >
+                                                            </span>
                                                         </p>
                                                     {/each}
                                                 </div>
@@ -572,7 +584,21 @@
                                 p {
                                     position: relative;
                                     padding: var(--padding-xs) 0;
+                                    height: 1.8125rem;
+                                    text-wrap: nowrap;
                                     @include paragraph-sm;
+
+                                    span {
+                                        display: block;
+                                        overflow-x: auto;
+                                        scrollbar-width: none;
+                                        padding-right: 0.5rem;
+                                        
+                                        &::-webkit-scrollbar {
+                                            width: 0;
+                                            height: 0;
+                                        }
+                                    }
 
                                     a {
                                         text-decoration: none;
@@ -587,6 +613,16 @@
                                         width: 1px;
                                         height: calc(100% + var(--padding-xs));
                                         background-color: var(--light-gray);
+                                    }
+
+                                    &::after {
+                                        position: absolute;
+                                        content: '';
+                                        top: 0;
+                                        right: 0;
+                                        bottom: 0;
+                                        width: 0.5rem;
+                                        background: linear-gradient(to right, transparent, var(--background));
                                     }
 
                                     &.depth-3 {
