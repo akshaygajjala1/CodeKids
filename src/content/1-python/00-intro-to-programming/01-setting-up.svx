@@ -4,12 +4,16 @@ title: Setting Up
 
 ## Installing Python
 
-Before we begin, it could be beneficial for you if you followed along on your own IDE and installed Python so you can test out code and practice outside of the lesson. Downloading an IDE to use is also recommended. For a tutorial on how to use Python in our preferred IDE, Visual Studio Code, watch the video below.
+For this course, you don't need any resources other than the course website,
+although you are allowed to follow along on your own IDE and edit code for your own understanding.
+Doing so could be beneficial for your learning. Downloading Python to use is also recommended.
+For a tutorial on how to use Python in our preferred IDE, Visual Studio Code, watch the video below.
 <iframe width="560" height="315" src="https://www.youtube.com/embed/9o4gDQvVkLU?si=688zYgguabiZIGI4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 
 ## Alternatives
 
 If downloading Python and VS Code isn't an option, you can use a free online IDE like [replit](https://replit.com/login?source=home&goto=%2F%7E).
+Again, you don't need to use any IDEs other than our website, it is just recommended.
 
 
