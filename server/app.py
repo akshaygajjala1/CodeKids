@@ -1,6 +1,6 @@
 from flask import Flask, request
 
-from sandbox import exec_code_in_process
+from sandbox import *
 
 
 app = Flask(__name__)
@@ -14,4 +14,4 @@ def index():
 @app.route('/sandbox', methods=['POST'])
 def sandbox():
     code = request.json.get('code', '')
-    return exec_code_in_process(code)._asdict()
+    return exec_code_in_process(exec_code_with_output, code)._asdict()

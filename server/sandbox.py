@@ -19,7 +19,7 @@ from RestrictedPython.Guards import (
 )
 
 
-__all__ = ('exec_code_in_process',)
+__all__ = ('exec_code_in_process', 'exec_code_with_output')
 
 
 _SAFE_MODULES = frozenset(('math', 'random'))
@@ -43,7 +43,10 @@ def clean_exception_trace(trace: str) -> str:
     return re.sub(regex, '):\\n  ...(omitted)...\\n  \"<user_input>', trace) 
 
 
-def exec_code(byte_code: CompileResult) -> Output:
+def exec_code(byte_code: CompileResult, extra_builtins=None) -> Output:
+    if extra_builtins is None:
+        extra_builtins = {}
+
     out = io.StringIO()
     
     class PrintWrapper:
@@ -68,6 +71,7 @@ def exec_code(byte_code: CompileResult) -> Output:
     custom_globals = {
         '__builtins__': {
             **safe_builtins,
+            **extra_builtins,
             '__import__': _safe_import,
             'min': min,
             'max': max,
@@ -115,10 +119,38 @@ def exec_code_with_output(code: str) -> Output:
     return output
 
 
-def exec_code_in_process(code: str) -> Output:
+def exec_func_with_output(code: str, func_call: str) -> Output:
+    code_with_call = f'{code}\nprint({func_call})'
+    byte_code = compile_code(code_with_call)
+
+    if (byte_code.errors):
+        return Output('\n'.join(byte_code.errors), 'error')
+    
+    output = exec_code(byte_code)
+    return output
+
+
+def exec_code_with_inputs(code: str, inputs: "list[str]") -> Output:
+    
+    def new_input(_, /):
+        try:
+            return inputs.pop(0)
+        except IndexError:
+            return ""
+    
+    byte_code = compile_code(code)
+
+    if (byte_code.errors):
+        return Output('\n'.join(byte_code.errors), 'error')
+    
+    output = exec_code(byte_code, {'input': new_input})
+    return output
+
+
+def exec_code_in_process(func, *args, **kwargs) -> Output:   
     with Pool(1) as pool:
         start_time = time.perf_counter()
-        result = pool.apply_async(exec_code_with_output, (code,))
+        result = pool.apply_async(func, args, kwargs)
         try:
             return ExtendedOutput(*result.get(timeout=2), time.perf_counter() - start_time)
         except TimeoutError:
@@ -141,7 +173,8 @@ def func_two():
 my_list = [1, 2, 3]
 print(1 in my_list)
 for i, num in enumerate(my_list):
-    print(i, num)
+    print(i, num, end="\t")
+print()
 
 a, b, c = my_list
 print(a, b, c)
@@ -149,11 +182,6 @@ print(tuple([a, b, c]))
 
 set()
 dict()
-
-while True:
-    pass
-
-
 """
 
-    print(exec_code_in_process(source_code).output)
+    print(exec_code_in_process(exec_code_with_output, source_code).output)

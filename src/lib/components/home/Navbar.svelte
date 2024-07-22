@@ -9,9 +9,10 @@
 
     export let loggedIn: boolean;
     let menuActive = false;
+    let width: number;
 
     const onResize = () => {
-        const width =
+        width =
             window.innerWidth /
             parseFloat(getComputedStyle(document.querySelector('html')!).fontSize);
         if (width > 64) {
@@ -48,7 +49,7 @@
         <p><a href="/#contact-us">Contact Us</a></p>
     </div>
     <div class="login-signup-links">
-        <HomeMainAction {loggedIn} />
+        <HomeMainAction {loggedIn} hideSignOut={width < 24} />
         <MenuToggle bind:menuActive />
     </div>
 </nav>
@@ -75,6 +76,7 @@
         background: rgba(255, 255, 255, 0.4);
         transition: background 600ms ease;
         backdrop-filter: blur(12px);
+        z-index: 5;
 
         .logo-text-container {
             flex: 1 0 0;
@@ -83,7 +85,7 @@
                 display: none;
             }
 
-            @media screen and (max-width: 34rem) {
+            @media screen and (max-width: 39rem) {
                 #logo-visibility {
                     display: block;
                 }

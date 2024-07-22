@@ -2,10 +2,27 @@
     import Footer from '$lib/components/home/Footer.svelte';
     import HomeNavbar from '$lib/components/home/Navbar.svelte';
     import HomeMainAction from '$lib/components/home/MainAction.svelte';
+    import EditableCode from '$lib/components/dashboard/content/EditableCode.svelte';
     import type { PageData } from './$types';
+    import { highlighter } from '$lib/helpers/shiki';
+    import Label from '$lib/components/Label.svelte';
 
     export let data: PageData;
     let loggedIn: boolean;
+
+    const codeSnippet = `# return the nth number in the Fibonacci sequence
+# assuming first number is 0
+def fibonacci(n: int) -> int:
+    a, b = 0, 1
+    if n == 1:
+        return a
+    if n == 2:
+        return b
+    for i in range(2, n):
+        a, b = b, a + b 
+    return b
+
+print(fibonacci(10))  # edit me!`;
 
     $: loggedIn = data.id !== undefined;
 </script>
@@ -26,29 +43,149 @@
                     generation of learners.
                 </p>
                 <HomeMainAction {loggedIn} hideSignOut />
+                <div class="prose">
+                    <EditableCode>
+                        <div class="code-container">
+                            {@html highlighter.codeToHtml(codeSnippet, {
+                                lang: 'python',
+                                theme: 'snazzy-light'
+                            })}
+                        </div>
+                    </EditableCode>
+                </div>
             </div>
         </section>
         <section id="about">
             <div class="about-container">
-                <p>
-                    At CodeKids Academy, we believe in shaping future innovators with a robust and
-                    engaging learning experience. Our platform offers weekly classes, asynchronous
-                    learning opportunities, and coding assignments that provide instant feedback.
-                    Designed specifically for young learners, CodeKids Academy combines interactive
-                    lessons with practical coding exercises to foster a deep understanding of
-                    programming and computational thinking. Join us and ignite your child's passion
-                    for coding today!
-                </p>
+                <div class="about-text">
+                    <div class="about-text-container">
+                        <Label>About</Label>
+                        <h1>Interactivity.</h1>
+                        <p>
+                            CodeKids Academy was designed from the ground up with a focus on
+                            interactivity, as we believe learning how to code should be done
+                            hands-on. Keep scrolling, and discover how we made interactivity the
+                            forefront of CodeKids Academy.
+                        </p>
+                    </div>
+                    <div class="about-text-container">
+                        <p class="powered-by">
+                            Powered by <a href="https://mdsvex.pngwn.io">mdsvex</a> and the
+                            <a href="https://unifiedjs.com/">Unified</a> ecosystem.
+                        </p>
+                        <h2>Markdown — <i>supercharged.</i></h2>
+                        <p>
+                            Each and every one of our lessons is written in Markdown, a lightweight
+                            text format widely used in the web. This allows us to convey information
+                            elegantly, using <b>bold headings</b>, <i>italicized</i> text, tables,
+                            emphasized quotes, and every other feature standard to Markdown (and
+                            some more!). However, where CodeKids Academy shines is with its ability
+                            to integrate
+                            <b>interactive</b> components within our content, such as quizzes, and most
+                            importantly, editable code snippets.
+                        </p>
+                    </div>
+                    <div class="about-text-container">
+                        <p class="powered-by">
+                            Powered by <a href="https://flask.palletsprojects.com/">Flask</a> and
+                            <a href="https://github.com/zopefoundation/RestrictedPython"
+                                >RestrictedPython</a
+                            >.
+                        </p>
+                        <h2>Code execution — <i>supercharged.</i></h2>
+                        <p>
+                            To implement our hands-on approach to coding education, we needed a way
+                            to integrate interactive Python code snippets safely. To achieve this,
+                            we built a backend that executes code made by our students within a
+                            <b>sandboxed</b> environment that still allows many of Python's most
+                            <b>powerful</b> features to be used.
+                        </p>
+                    </div>
+                    <div class="about-text-container">
+                        <p class="powered-by">
+                            Powered by <a href="https://socket.io/">socket.io</a>.
+                        </p>
+                        <h2>Quizzes — <i>supercharged.</i></h2>
+                        <p>
+                            Simply reading lessons isn't enough for concepts to be hardwired into
+                            our brains— it takes repetition, and hands-on practice. This is why we
+                            have two types of quizzes to check for understanding: traditional,
+                            multiple-choice questions; and free-response quizzes where students
+                            write a short program and have it pass several test cases.
+                        </p>
+                    </div>
+                </div>
+                <div class="prose-container"></div>
             </div>
         </section>
         <section id="meet-the-tutors">
             <div class="meet-container">
-                <p>Pranav: Akshay: Ram:</p>
+                <div class="meet-text-container">
+                    <Label>Meet the Tutors</Label>
+                    <h1>A small yet effective team.</h1>
+                    <p>
+                        This team of three has a solid foundation in computer science, with
+                        experience in several programming languages. Being students ourselves, we
+                        have learned various concepts and topics, and have an understanding of the
+                        most effective ways to learn new material.
+                    </p>
+                </div>
+                <div class="meet-tutor-profiles">
+                    <div class="tutor-profile">
+                        <div class="picture"></div>
+                        <div class="tutor-info">
+                            <Label>asdf</Label>
+                            <h3>Name</h3>
+                            <p>asdf</p>
+                        </div>
+                    </div>
+                    <div class="tutor-profile">
+                        <div class="picture"></div>
+                        <div class="tutor-info">
+                            <Label>Lead Developer & Founder</Label>
+                            <h3>Pranav Pakanati</h3>
+                            <p>
+                                Hi! I'm Pranav, a senior in high school. I've been coding in Python
+                                for 6 years, and have experience in several other languages,
+                                including Java and TypeScript. I'm so excited to help you guys start
+                                your coding adventure!
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tutor-profile">
+                        <div class="picture"></div>
+                        <div class="tutor-info">
+                            <Label>asdf</Label>
+                            <h3>Name</h3>
+                            <p>asdf</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
         <section id="contact-us">
             <div class="contact-container">
-                <p><a href="contact@example.com">Contact Us!</a></p>
+                <div class="contact-text">
+                    <Label>Contact</Label>
+                    <h1>Get in touch!</h1>
+                    <p>
+                        Have a question, suggestion, or concern? Please don't hesitate to reach out
+                        to us— we would love to hear from you!
+                    </p>
+                </div>
+                <div class="contact-link">
+                    <h3>
+                        <a href="mailto:contact@codekidsacademy.com">Contact us</a>
+                    </h3>
+                </div>
+            </div>
+        </section>
+        <section id="get-started">
+            <div class="get-started-container">
+                <h3>Ready to kickstart your coding journey?</h3>
+                <h3>
+                    <a href={loggedIn ? "/dashboard" : "/signup"}>Start now</a>
+                </h3>
             </div>
         </section>
     </div>
@@ -69,6 +206,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
+            gap: 8rem;
 
             #home {
                 max-width: 90rem;
@@ -94,84 +232,163 @@
                     @media screen and (max-width: 767px) {
                         padding-top: 0;
                     }
+
+                    .prose {
+                        margin-top: var(--padding-3xl);
+                        text-align: left;
+                        max-width: 55rem;
+                        width: 100%;
+
+                        :global(.container) {
+                            margin: 0;
+                            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.25);
+                        }
+                    }
                 }
             }
+
             #about {
                 max-width: 90rem;
+                width: 100%;
                 margin: 0 auto;
                 padding: 0 var(--page-padding);
-                scroll-margin-top: 3.75rem;
+                scroll-margin-top: 4.75rem;
 
                 .about-container {
-                    padding-top: var(--padding-md);
                     display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: flex-start;
-                    gap: var(--padding-md);
-                    text-align: center;
-                    text-wrap: balance;
+                    width: 100%;
 
-                    @media screen and (max-width: 74rem) {
-                        .desktop-only {
-                            display: none;
+                    .about-text {
+                        max-width: 48rem;
+                        width: 100%;
+                        display: grid;
+                        gap: 4rem;
+
+                        .about-text-container {
+                            display: flex;
+                            flex-direction: column;
+                            gap: var(--padding-md);
+
+                            .powered-by {
+                                color: var(--primary);
+                                @include paragraph-md;
+                            }
                         }
-                    }
-
-                    @media screen and (max-width: 767px) {
-                        padding-top: 0;
                     }
                 }
             }
+
             #meet-the-tutors {
                 max-width: 90rem;
+                width: 100%;
                 margin: 0 auto;
                 padding: 0 var(--page-padding);
+                scroll-margin-top: 4.75rem;
 
                 .meet-container {
-                    padding-top: var(--padding-md);
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     justify-content: flex-start;
-                    gap: var(--padding-md);
+                    gap: var(--padding-3xl);
                     text-align: center;
-                    text-wrap: balance;
 
-                    @media screen and (max-width: 74rem) {
-                        .desktop-only {
-                            display: none;
-                        }
+                    .meet-text-container {
+                        display: flex;
+                        flex-direction: column;
+                        gap: var(--padding-md);
+                        align-items: center;
+                        text-wrap: balance;
                     }
 
-                    @media screen and (max-width: 767px) {
-                        padding-top: 0;
+                    .meet-tutor-profiles {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: var(--padding-3xl);
+                        flex-wrap: wrap;
+                        width: 100%;
+
+                        .tutor-profile {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            gap: var(--padding-3xl);
+                            min-width: 16.875rem;
+                            max-width: 25rem;
+                            flex: 1 0 0;
+
+                            .picture {
+                                width: 10rem;
+                                height: 10rem;
+                                border-radius: 50%;
+                                background: var(--background);
+                                border: 0.25rem solid var(--primary);
+                                box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5);
+                            }
+
+                            .tutor-info {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                gap: var(--padding-smd);
+
+                                h3 {
+                                    margin-top: var(--padding-xs);
+                                }
+                            }
+                        }
                     }
                 }
             }
+
             #contact-us {
                 max-width: 90rem;
+                width: 100%;
                 margin: 0 auto;
                 padding: 0 var(--page-padding);
+                scroll-margin-top: 4.75rem;
 
                 .contact-container {
-                    padding-top: var(--padding-md);
                     display: flex;
-                    flex-direction: column;
                     align-items: center;
-                    justify-content: flex-start;
-                    gap: var(--padding-md);
-                    text-align: center;
-                    text-wrap: balance;
+                    column-gap: 4rem;
+                    row-gap: var(--padding-md);
+                    flex-wrap: wrap;
 
-                    @media screen and (max-width: 74rem) {
-                        .desktop-only {
-                            display: none;
+                    .contact-text {
+                        display: flex;
+                        flex-direction: column;
+                        gap: var(--padding-md);
+                        flex: 1 0 0;
+                        text-wrap: balance;
+
+                        p {
+                            max-width: 33rem;
+                            min-width: 16rem;
                         }
                     }
+                }
+            }
 
-                    @media screen and (max-width: 767px) {
-                        padding-top: 0;
+            #get-started {
+                width: 100%;
+                display: grid;
+                place-items: center;
+                background: linear-gradient(to right, #9309DE 0%, rgba(147, 9, 222, 0.50) 100%);
+
+                .get-started-container {
+                    width: 100%;
+                    max-width: 90rem;
+                    margin: 0 auto;
+                    padding: 3.53rem var(--page-padding);
+                    display: flex;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    column-gap: 4rem;
+                    row-gap: var(--padding-3xl);
+                    
+                    h3 {
+                        color: var(--background);
                     }
                 }
             }
