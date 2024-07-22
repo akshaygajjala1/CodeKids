@@ -1,3 +1,20 @@
 ---
-title: Printing
+title: Printing in Python
 ---
+
+## Introduction to Printing in Python
+
+Printing is one of the most basic and essential functions in programming. In Python, the `print()` function is used to display output to the screen. This lesson will cover the basics of using the `print()` function, formatting output, and some advanced printing techniques.
+
+### The `print()` Function
+
+The `print()` function in Python is used to output text or variables to the console. It's a great way to see the results of your code or to debug programs. Here’s a simple example:
+
+```python
+print("Hello, World!")
+```
+When you run this code, it will display:
+
+`Hello, World!`
+
+
