@@ -302,13 +302,13 @@ print(fibonacci(10))  # edit me!`;
                     }
 
                     .meet-tutor-profiles {
-                        display: flex;
-                        justify-content: space-between;
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(16.875rem, 1fr));
                         gap: var(--padding-3xl);
-                        flex-wrap: wrap;
                         width: 100%;
 
                         .tutor-profile {
+                            margin: 0 auto;
                             display: flex;
                             flex-direction: column;
                             align-items: center;

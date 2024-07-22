@@ -357,12 +357,13 @@ a {
     ul > li,
     ol > li {
         color: var(--gray);
+        margin-bottom: var(--padding-xs);
         @include paragraph-lg();
     }
 
     p:has(+ ul),
     p:has(+ ol) {
-        margin-bottom: var(--padding-xs);
+        margin-bottom: var(--padding-sm);
     }
 
     // & > *:has(+ h2, + h3) {

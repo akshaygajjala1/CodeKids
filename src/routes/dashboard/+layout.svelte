@@ -78,7 +78,7 @@
 
     const indexOfEntry = (target: Element) => {
         const heading = $page.data.lesson.toc.find((heading: { text: string }) => {
-            return heading.text.replaceAll(' ', '-') === target.id;
+            return heading.text === target.id;
         });
         return $page.data.lesson.toc.indexOf(heading);
     };
@@ -145,7 +145,7 @@
             $page.data.lesson.toc.forEach(
                 (heading: { text: string; original: string; depth: 2 | 3 }) => {
                     observer.observe(
-                        document.querySelector(`#${heading.text.replaceAll(' ', '-')}`)!
+                        document.querySelector(`#${heading.text}`)!
                     );
                 }
             );
@@ -192,7 +192,7 @@
                 $page.data.lesson.toc.forEach(
                     (heading: { text: string; original: string; depth: 2 | 3 }) => {
                         observer.unobserve(
-                            document.querySelector(`#${heading.text.replaceAll(' ', '-')}`)!
+                            document.querySelector(`#${heading.text}`)!
                         );
                     }
                 );
@@ -263,7 +263,7 @@
                                                 <LessonItem
                                                     text={lesson.title}
                                                     current={data.path.endsWith(
-                                                        `/${lesson.title.toLowerCase().replaceAll(' ', '-')}`
+                                                        `/${toUrlSafe(lesson.title)}`
                                                     )}
                                                     href={`/dashboard/${toUrlSafe($page.data.course.title)}/${toUrlSafe(section.title)}${i !== 0 ? `/${lesson.slug}` : ''}`}
                                                 />
@@ -329,7 +329,7 @@
                                                     {#each $page.data.lesson.toc as heading}
                                                         <p class="depth-{heading.depth}">
                                                             <a
-                                                                href={`#${heading.text.replaceAll(' ', '-')}`}
+                                                                href={`#${heading.text}`}
                                                                 >{heading.original}</a
                                                             >
                                                         </p>
