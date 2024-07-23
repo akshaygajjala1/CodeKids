@@ -9,7 +9,8 @@ const pool = new Pool({
     connectionString: DATABASE_URL,
     ssl: {
         ca: readFileSync('.env.pg-cert.pem').toString()
-    }
+    },
+    min: 1
 });
 
 await pool.connect();

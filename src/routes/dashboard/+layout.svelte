@@ -83,19 +83,25 @@
         return $page.data.lesson.toc.indexOf(heading);
     };
 
+    const onScrollContainerScroll = (event) => {
+        const { scrollHeight, scrollTop, clientHeight } = event.target;
+        const scrollContainer = document.querySelector('#content-container')! as HTMLElement;
+
+        if (Math.abs(scrollHeight - clientHeight - scrollTop) <= 5) {
+            if (!$page.data.lesson?.toc) {
+                return;
+            }
+            scrollContainer.style.setProperty(
+                '--contents-tracker',
+                ($page.data.lesson.toc.length - 1).toString()
+            );
+        }
+    }
+
     const observe = () => {
         if ($page.data.lesson?.toc) {
             const scrollContainer = document.querySelector('#content-container')! as HTMLElement;
-            scrollContainer.addEventListener('scroll', (event) => {
-                const { scrollHeight, scrollTop, clientHeight } = event.target;
-
-                if (Math.abs(scrollHeight - clientHeight - scrollTop) <= 5) {
-                    scrollContainer.style.setProperty(
-                        '--contents-tracker',
-                        ($page.data.lesson.toc.length - 1).toString()
-                    );
-                }
-            })
+            scrollContainer.addEventListener('scroll', onScrollContainerScroll);
 
             observer = new IntersectionObserver(
                 ([entry]) => {
@@ -197,6 +203,7 @@
         if (navigation.to?.route.id) {
             const scrollContainer = document.getElementById('content-container')!;
             scrollContainer.style.setProperty('--contents-tracker', '-1');
+            scrollContainer.removeEventListener('scroll', onScrollContainerScroll);
 
             if (observer && $page.data.lesson?.toc) {
                 $page.data.lesson.toc.forEach(
