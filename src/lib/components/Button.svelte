@@ -26,7 +26,10 @@
         gap: var(--padding-sm);
         padding: var(--padding-md);
         border-radius: 1rem;
-        transition: 300ms box-shadow ease, 300ms background-color ease, 300ms color ease;
+        transition:
+            300ms box-shadow ease,
+            300ms background-color ease,
+            300ms color ease;
         @include paragraph-sm-b;
 
         :global(img) {

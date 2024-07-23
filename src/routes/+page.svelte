@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import Footer from '$lib/components/home/Footer.svelte';
     import HomeNavbar from '$lib/components/home/Navbar.svelte';
     import HomeMainAction from '$lib/components/home/MainAction.svelte';
@@ -8,8 +9,8 @@
     import Label from '$lib/components/Label.svelte';
 
     export let data: PageData;
-    let loggedIn: boolean;
 
+    let loggedIn: boolean;
     const codeSnippet = `# return the nth number in the Fibonacci sequence
 # assuming first number is 0
 def fibonacci(n: int) -> int:
@@ -25,6 +26,62 @@ def fibonacci(n: int) -> int:
 print(fibonacci(10))  # edit me!`;
 
     $: loggedIn = data.id !== undefined;
+
+    const remToPx = (rem: string) => {
+        return (
+            parseFloat(rem.split('rem')[0]) *
+            parseFloat(getComputedStyle(document.querySelector('html')!).fontSize)
+        );
+    };
+
+    onMount(() => {
+        const prose = document.querySelector('#about-prose')! as HTMLElement;
+        const firstAboutText = document.querySelector('.about-text-container')! as HTMLElement;
+        const allAboutText = document.querySelectorAll('.about-text-container')!;
+
+        const observer = new IntersectionObserver(
+            ([e]) => {
+                if (e.target === allAboutText[0]) {
+                    if (e.boundingClientRect.top <= remToPx('4.75rem') + 1) {
+                        prose.style.opacity = '1';
+                        prose.scrollTo({ top: 0, behavior: 'instant' });
+                    } else {
+                        prose.style.opacity = '0';
+                    }
+                } else if (e.target === allAboutText[allAboutText.length - 1]) {
+                    if (e.boundingClientRect.top <= remToPx('4.75rem') + 1) {
+                        for (let i = 0; i < allAboutText.length - 1; i++) {
+                            allAboutText[i].style.opacity = '0';
+                            const textTop = document.getElementById('quizzes').offsetTop;
+                            prose.scrollTo({ top: textTop - 32 });
+                        }
+                    } else {
+                        for (let i = 0; i < allAboutText.length - 1; i++) {
+                            allAboutText[i].style.opacity = '1';
+                        }
+                    }
+                } else if (e.target === allAboutText[1]) {
+                    if (e.boundingClientRect.top <= remToPx('4.75rem') + 1) {
+                        const textTop = document.getElementById('markdown').offsetTop;
+                        prose.scrollTo({ top: textTop - 32 });
+                    }
+                } else if (e.target === allAboutText[2]) {
+                    if (e.boundingClientRect.top <= remToPx('4.75rem') + 1) {
+                        const textTop = document.getElementById('code-execution').offsetTop;
+                        prose.scrollTo({ top: textTop - 32 });
+                    }
+                }
+            },
+            {
+                rootMargin: `-${remToPx('4.75rem') + 1}px 0px 0px 0px`,
+                threshold: [1]
+            }
+        );
+
+        allAboutText.forEach((e) => observer.observe(e));
+
+        return () => allAboutText.forEach((e) => observer.unobserve(e));
+    });
 </script>
 
 <HomeNavbar {loggedIn} />
@@ -115,7 +172,13 @@ print(fibonacci(10))  # edit me!`;
                         </p>
                     </div>
                 </div>
-                <div class="prose-container"></div>
+                <div class="prose-container">
+                    <div class="shadow-container">
+                        <div class="prose" id="about-prose">
+                            <svelte:component this={data.content} />
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
         <section id="meet-the-tutors">
@@ -184,7 +247,7 @@ print(fibonacci(10))  # edit me!`;
             <div class="get-started-container">
                 <h3>Ready to kickstart your coding journey?</h3>
                 <h3>
-                    <a href={loggedIn ? "/dashboard" : "/signup"}>Start now</a>
+                    <a href={loggedIn ? '/dashboard' : '/signup'}>Start now</a>
                 </h3>
             </div>
         </section>
@@ -257,21 +320,123 @@ print(fibonacci(10))  # edit me!`;
                 .about-container {
                     display: flex;
                     width: 100%;
+                    gap: 4rem;
 
                     .about-text {
                         max-width: 48rem;
                         width: 100%;
+                        flex-grow: 2;
                         display: grid;
                         gap: 4rem;
+                        isolation: isolate;
+                        margin: 0 auto;
+
+                        &::after {
+                            content: '';
+                            height: 80vh;
+                        }
 
                         .about-text-container {
+                            position: sticky;
+                            top: 4.75rem;
+                            min-height: 50vh;
                             display: flex;
                             flex-direction: column;
                             gap: var(--padding-md);
+                            background: var(--background);
+
+                            &:not(:first-child)::before {
+                                content: '';
+                                z-index: 2;
+                                position: absolute;
+                                bottom: 100%;
+                                left: 0;
+                                right: 0;
+                                height: 4rem;
+                                background: linear-gradient(
+                                    to bottom,
+                                    transparent,
+                                    var(--background)
+                                );
+                            }
+
+                            &:last-child {
+                                min-height: 0;
+                            }
 
                             .powered-by {
                                 color: var(--primary);
                                 @include paragraph-md;
+                            }
+                        }
+                    }
+
+                    @media screen and (max-width: 76rem) {
+                        flex-direction: column;
+
+                        .about-text {
+                            &::after {
+                                height: 0;
+                            }
+
+                            .about-text-container {
+                                position: static;
+                                min-height: 0;
+                            }
+                        }
+                    }
+
+                    .prose-container {
+                        max-width: 36rem;
+                        flex-grow: 1;
+                        margin: 0 auto;
+
+                        .shadow-container {
+                            position: sticky;
+                            top: 4.75rem;
+
+                            &::before {
+                                content: '';
+                                position: absolute;
+                                display: block;
+                                min-width: calc(100% - 2 * var(--page-padding));
+                                min-height: calc(100%);
+                                left: var(--page-padding);
+                                background: linear-gradient(to top, transparent, var(--background)),
+                                    linear-gradient(to bottom, transparent, var(--background));
+                                background-repeat: no-repeat;
+                                background-size:
+                                    100% var(--page-padding),
+                                    100% var(--page-padding);
+                                background-position:
+                                    center top,
+                                    center bottom;
+                                pointer-events: none;
+                                z-index: 2;
+                            }
+                        }
+
+                        .prose {
+                            position: relative;
+                            width: 100%;
+                            padding: var(--page-padding);
+                            height: calc(100vh - 4.75rem - var(--page-padding));
+                            border-radius: 0.5rem;
+                            outline: 0.125rem solid var(--primary);
+                            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.25);
+                            opacity: 0;
+                            display: flex;
+                            flex-direction: column;
+                            overflow-y: auto;
+                            transition: 600ms opacity ease;
+                            scroll-behavior: smooth;
+
+                            :global(h1) {
+                                margin-top: 0;
+                            }
+
+                            :global(*:last-child) {
+                                margin-bottom: 0;
                             }
                         }
                     }
@@ -374,7 +539,7 @@ print(fibonacci(10))  # edit me!`;
                 width: 100%;
                 display: grid;
                 place-items: center;
-                background: linear-gradient(to right, #9309DE 0%, rgba(147, 9, 222, 0.50) 100%);
+                background: linear-gradient(to right, #9309de 0%, rgba(147, 9, 222, 0.5) 100%);
 
                 .get-started-container {
                     width: 100%;
@@ -386,7 +551,7 @@ print(fibonacci(10))  # edit me!`;
                     flex-wrap: wrap;
                     column-gap: 4rem;
                     row-gap: var(--padding-3xl);
-                    
+
                     h3 {
                         color: var(--background);
                     }

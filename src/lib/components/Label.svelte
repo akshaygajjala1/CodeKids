@@ -12,7 +12,7 @@
         justify-content: center;
         align-items: center;
         border-radius: 1rem;
-        background: #F5E2FF;
+        background: #f5e2ff;
 
         p {
             color: var(--text);

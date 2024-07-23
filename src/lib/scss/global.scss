@@ -88,7 +88,8 @@ h2 {
     @include title-md;
 }
 
-h3, h4 {
+h3,
+h4 {
     @include title-sm;
 }
 
@@ -101,7 +102,8 @@ a {
     color: inherit;
 }
 
-.prose, .explanation > p > div {
+.prose,
+.explanation > p > div {
     & > p,
     & > .note,
     // & > ul,
@@ -122,7 +124,8 @@ a {
             margin: var(--padding-md) 0;
         }
 
-        h3, h4 {
+        h3,
+        h4 {
             margin-bottom: var(--padding-xl);
         }
 
@@ -177,7 +180,7 @@ a {
     }
 
     .code-container {
-        margin-top: 0;
+        margin-top: var(--padding-xs);
         min-width: 0;
         display: grid;
         overflow-x: auto;
@@ -186,7 +189,7 @@ a {
     }
 
     .container:has(.editable-code-container) {
-        margin-top: 0;
+        margin-top: var(--padding-xs);
     }
 
     pre:has(code) {
@@ -296,7 +299,8 @@ a {
 
     h1,
     h2,
-    h3, h4 {
+    h3,
+    h4 {
         width: fit-content;
     }
 
@@ -305,7 +309,8 @@ a {
     }
 
     & > h1,
-    & > h3, h4 {
+    & > h3,
+    h4 {
         margin-top: 3rem;
     }
 

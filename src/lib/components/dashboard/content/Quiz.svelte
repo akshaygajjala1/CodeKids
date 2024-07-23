@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Button from "$lib/components/Button.svelte";
-    import { fade } from "svelte/transition";
+    import Button from '$lib/components/Button.svelte';
+    import { fade } from 'svelte/transition';
 
     import downArrowSrc from '$lib/assets/icons/keyboard_arrow_down.png';
 
@@ -26,8 +26,8 @@
     <div class="answers">
         {#each answers as answer, i}
             <div class="answer">
-                <button 
-                    on:click={() => selectedIndex = i} 
+                <button
+                    on:click={() => (selectedIndex = i)}
                     disabled={answered}
                     class:incorrect={answered && i !== correctAnswerIndex}
                     class:answered
@@ -45,7 +45,7 @@
             <div class="submit-clear">
                 <Button
                     disabled={answered || selectedIndex === null}
-                    on:click={() => answered = true}
+                    on:click={() => (answered = true)}
                 >
                     Submit
                 </Button>
@@ -64,10 +64,14 @@
                     <p class:correct>{correct ? 'Correct!' : 'Incorrect'}</p>
                     <Button
                         variant="secondary"
-                        on:click={() => explanationExpanded = !explanationExpanded}
+                        on:click={() => (explanationExpanded = !explanationExpanded)}
                     >
                         <span>View explanation</span>
-                        <img src={downArrowSrc} class:active={explanationExpanded} alt="down arrow" />
+                        <img
+                            src={downArrowSrc}
+                            class:active={explanationExpanded}
+                            alt="down arrow"
+                        />
                     </Button>
                 </div>
             {/if}
@@ -134,8 +138,10 @@
                             border-radius: 50%;
                             background-color: var(--primary);
                             transform: scale(0);
-                            transition: transform 300ms ease, background-color 300ms ease;
-                            
+                            transition:
+                                transform 300ms ease,
+                                background-color 300ms ease;
+
                             &.selected {
                                 transform: scale(1);
                             }
@@ -201,7 +207,7 @@
                         @include paragraph-sm-b;
 
                         &.correct {
-                            color: #2DAE58;
+                            color: #2dae58;
                         }
                     }
 
@@ -220,14 +226,14 @@
                 grid-template-rows: 0fr;
                 overflow: hidden;
                 transition: grid-template-rows 300ms ease;
-                
+
                 &.expanded {
                     grid-template-rows: 1fr;
                 }
 
                 .explanation {
                     min-height: 0;
-                    
+
                     p {
                         padding-top: var(--padding-xl);
 

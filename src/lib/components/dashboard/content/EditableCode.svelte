@@ -75,15 +75,17 @@
 <div class="container">
     <div class="language-info">
         <p>Python 3.8.10</p>
-        <Button variant="secondary" on:click={() => {
-            try {
-                navigator.clipboard.writeText(text);
-                copyText = 'Copied!';
-            }
-            catch (err) {
-                alert('There was an error copying the code.');
-            }
-        }}>
+        <Button
+            variant="secondary"
+            on:click={() => {
+                try {
+                    navigator.clipboard.writeText(text);
+                    copyText = 'Copied!';
+                } catch (err) {
+                    alert('There was an error copying the code.');
+                }
+            }}
+        >
             <span>{copyText}</span>
             <img src={copySrc} alt="copy" />
         </Button>
