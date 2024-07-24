@@ -19,6 +19,8 @@ When you run this code, it will display:
 
 ### Practical Examples
 
+Below are a few examples of more ways to use the print statement.
+
 ```python
 print("Name\tAge")
 print("Luna\t17")
@@ -33,6 +35,8 @@ Alex    18
 ```
 
 <Note icon="info">
+
 Practice using the `print()` function with different data types and formatting options to get comfortable with displaying output in Python. Experiment with special characters, custom separators, and endings to see how they affect your output.
+
 </Note>
 

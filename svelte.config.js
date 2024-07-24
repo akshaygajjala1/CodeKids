@@ -27,11 +27,11 @@ const injectTocFrontmatter = () => {
 
         visit(tree, 'heading', (node) => {
             const heading = {
-                text: node.children[0].value
+                text: node.children.reduce((acc, cur) => acc + cur.value, '')
                     .toLowerCase()
                     .replaceAll(/\s/g, '-')
                     .replaceAll(/[^\w\-]/g, ''),
-                original: node.children[0].value,
+                original: node.children.reduce((acc, cur) => acc + cur.value, ''),
                 depth: node.depth
             };
 

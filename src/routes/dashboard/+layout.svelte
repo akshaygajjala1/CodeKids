@@ -30,13 +30,6 @@
         return px / parseFloat(getComputedStyle(document.querySelector('html')!).fontSize);
     };
 
-    const remToPx = (rem: string) => {
-        return (
-            parseFloat(rem.split('rem')[0]) *
-            parseFloat(getComputedStyle(document.querySelector('html')!).fontSize)
-        );
-    };
-
     const registerTocLinks = () => {
         const inThisLessonLink = document.querySelector('#in-this-lesson-link')! as HTMLElement;
         if (inThisLessonLink) inThisLessonLink.style.display = collapseToc ? 'inline' : 'none';
@@ -276,7 +269,7 @@
                                                 <LessonItem
                                                     text={lesson.title}
                                                     current={data.path.endsWith(
-                                                        `/${toUrlSafe(lesson.title)}`
+                                                        `/${toUrlSafe(section.title)}${i !== 0 ? `/${lesson.slug}` : ''}`
                                                     )}
                                                     href={`/dashboard/${toUrlSafe($page.data.course.title)}/${toUrlSafe(section.title)}${i !== 0 ? `/${lesson.slug}` : ''}`}
                                                 />
