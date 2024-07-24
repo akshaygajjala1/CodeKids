@@ -11,6 +11,7 @@
     export let data: PageData;
 
     let loggedIn: boolean;
+    let allowScrollAnimations = true;
     const codeSnippet = `# return the nth number in the Fibonacci sequence
 # assuming first number is 0
 def fibonacci(n: int) -> int:
@@ -34,12 +35,21 @@ print(fibonacci(10))  # edit me!`;
         );
     };
 
+    const pauseScrollAnimations = () => {
+        allowScrollAnimations = false;
+        setTimeout(() => (allowScrollAnimations = true), 1500);
+    };
+
     onMount(() => {
         const prose = document.querySelector('#about-prose')! as HTMLElement;
         const allAboutText = document.querySelectorAll('.about-text-container')! as NodeListOf<HTMLElement>;
 
         const observer = new IntersectionObserver(
             ([e]) => {
+                if (!allowScrollAnimations) {
+                    return;
+                }
+
                 if (e.target === allAboutText[0]) {
                     if (e.boundingClientRect.top <= remToPx('4.75rem') + 1) {
                         prose.style.opacity = '1';
@@ -89,7 +99,12 @@ print(fibonacci(10))  # edit me!`;
 
         allAboutText.forEach((e) => observer.observe(e));
 
-        return () => allAboutText.forEach((e) => observer.unobserve(e));
+        document.querySelectorAll('a[href*=\'#\']').forEach((anchor) => anchor.addEventListener('click', pauseScrollAnimations));
+
+        return () => {
+            allAboutText.forEach((e) => observer.unobserve(e));
+            document.querySelectorAll('a[href*=\'#\']').forEach((anchor) => anchor.removeEventListener('click', pauseScrollAnimations));
+        };
     });
 </script>
 
