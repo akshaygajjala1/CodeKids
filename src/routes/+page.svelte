@@ -36,8 +36,7 @@ print(fibonacci(10))  # edit me!`;
 
     onMount(() => {
         const prose = document.querySelector('#about-prose')! as HTMLElement;
-        const firstAboutText = document.querySelector('.about-text-container')! as HTMLElement;
-        const allAboutText = document.querySelectorAll('.about-text-container')!;
+        const allAboutText = document.querySelectorAll('.about-text-container')! as NodeListOf<HTMLElement>;
 
         const observer = new IntersectionObserver(
             ([e]) => {
@@ -52,22 +51,32 @@ print(fibonacci(10))  # edit me!`;
                     if (e.boundingClientRect.top <= remToPx('4.75rem') + 1) {
                         for (let i = 0; i < allAboutText.length - 1; i++) {
                             allAboutText[i].style.opacity = '0';
-                            const textTop = document.getElementById('quizzes').offsetTop;
+                            const textTop = document.getElementById('quizzes')!.offsetTop;
                             prose.scrollTo({ top: textTop - 32 });
                         }
                     } else {
                         for (let i = 0; i < allAboutText.length - 1; i++) {
                             allAboutText[i].style.opacity = '1';
                         }
+
+                        if (e.intersectionRatio === 1) {
+                            const textTop = document.getElementById('code-execution')!.offsetTop;
+                            prose.scrollTo({ top: textTop - 32 });
+                        }
                     }
                 } else if (e.target === allAboutText[1]) {
                     if (e.boundingClientRect.top <= remToPx('4.75rem') + 1) {
-                        const textTop = document.getElementById('markdown').offsetTop;
+                        const textTop = document.getElementById('markdown')!.offsetTop;
                         prose.scrollTo({ top: textTop - 32 });
+                    } else if (e.intersectionRatio === 1) {
+                        prose.scrollTo({ top: 0 });
                     }
                 } else if (e.target === allAboutText[2]) {
                     if (e.boundingClientRect.top <= remToPx('4.75rem') + 1) {
-                        const textTop = document.getElementById('code-execution').offsetTop;
+                        const textTop = document.getElementById('code-execution')!.offsetTop;
+                        prose.scrollTo({ top: textTop - 32 });
+                    } else if (e.intersectionRatio === 1) {
+                        const textTop = document.getElementById('markdown')!.offsetTop;
                         prose.scrollTo({ top: textTop - 32 });
                     }
                 }
