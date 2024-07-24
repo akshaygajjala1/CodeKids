@@ -11,6 +11,7 @@
     export let data: PageData;
 
     let loggedIn: boolean;
+    let debounceCallbacks: any[] = [];
     let allowScrollAnimations = true;
     const codeSnippet = `# return the nth number in the Fibonacci sequence
 # assuming first number is 0
@@ -36,8 +37,9 @@ print(fibonacci(10))  # edit me!`;
     };
 
     const pauseScrollAnimations = () => {
+        debounceCallbacks.forEach((e) => clearTimeout(e));
         allowScrollAnimations = false;
-        setTimeout(() => (allowScrollAnimations = true), 1500);
+        debounceCallbacks.push(setTimeout(() => (allowScrollAnimations = true), 1500));
     };
 
     onMount(() => {
@@ -47,6 +49,21 @@ print(fibonacci(10))  # edit me!`;
         const observer = new IntersectionObserver(
             ([e]) => {
                 if (!allowScrollAnimations) {
+                    if (e.target === allAboutText[allAboutText.length - 1]) {
+                        if (e.boundingClientRect.top > remToPx('4.75rem') + 1) {
+                            for (let i = 0; i < allAboutText.length - 1; i++) {
+                                allAboutText[i].style.opacity = '1';
+                            }
+                        }
+                    }
+                    if (e.target === allAboutText[0]) {
+                        if (e.boundingClientRect.top <= remToPx('4.75rem') + 1) {
+                            prose.style.opacity = '1';
+                        }
+                        else {
+                            prose.style.opacity = '0';
+                        }
+                    }
                     return;
                 }
 
@@ -54,6 +71,9 @@ print(fibonacci(10))  # edit me!`;
                     if (e.boundingClientRect.top <= remToPx('4.75rem') + 1) {
                         prose.style.opacity = '1';
                         prose.scrollTo({ top: 0, behavior: 'instant' });
+                        for (let i = 0; i < allAboutText.length - 1; i++) {
+                            allAboutText[i].style.opacity = '1';
+                        }
                     } else {
                         prose.style.opacity = '0';
                     }
