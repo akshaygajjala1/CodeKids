@@ -17,4 +17,22 @@ When you run this code, it will display:
 
 `Hello, World!`
 
+### Practical Examples
+
+```python
+print("Name\tAge")
+print("Luna\t17")
+print("Alex\t18")
+```
+This will output:
+
+```
+Name    Age
+Luna    17
+Alex    18
+```
+
+<Note icon="info">
+Practice using the `print()` function with different data types and formatting options to get comfortable with displaying output in Python. Experiment with special characters, custom separators, and endings to see how they affect your output.
+</Note>
 
