@@ -1,0 +1,54 @@
+---
+title: Welcome!
+---
+
+## Markdown
+
+This is what a typical lesson looks like, created with the *markdown* format.
+
+> We can convey information through a variety of ways, instead of just boring old plaintext.
+
+<Note icon="info">
+
+However, we aren't just limited to markdown-- we're able to include custom components that allow our students to interact with our content-- such as this fancy info container.
+
+</Note>
+
+
+## Code Execution
+
+Try running (and editing!) the code below.
+
+<EditableCode fixedOutputHeight={1} fixedHeight={6}>
+
+```python
+import math
+
+def area_of_sphere(radius):
+    return 4 / 3 * math.pi * radius ** 3
+
+print(area_of_sphere(100))
+```
+
+</EditableCode>
+
+## Quizzes
+
+This quiz quickly checks the reader's understanding of a concept-- typically done at the end of a lesson, and provides immediate feedback.
+
+<Quiz
+    answers={[
+        "raw_input",
+        "input",
+        "get_input",
+        "scan"
+    ]}
+    correctAnswerIndex={1}
+>
+Which of the following functions are used to get user input?
+<div slot="explanation">
+
+`raw_input` was renamed to `input` in Python 3 (the version we are using). `get_input` and `scan` are not builtin functions.
+
+</div>
+</Quiz>

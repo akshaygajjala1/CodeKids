@@ -83,19 +83,25 @@
         return $page.data.lesson.toc.indexOf(heading);
     };
 
+    const onScrollContainerScroll = (event) => {
+        const { scrollHeight, scrollTop, clientHeight } = event.target;
+        const scrollContainer = document.querySelector('#content-container')! as HTMLElement;
+
+        if (Math.abs(scrollHeight - clientHeight - scrollTop) <= 5) {
+            if (!$page.data.lesson?.toc) {
+                return;
+            }
+            scrollContainer.style.setProperty(
+                '--contents-tracker',
+                ($page.data.lesson.toc.length - 1).toString()
+            );
+        }
+    };
+
     const observe = () => {
         if ($page.data.lesson?.toc) {
             const scrollContainer = document.querySelector('#content-container')! as HTMLElement;
-            scrollContainer.addEventListener('scroll', (event) => {
-                const { scrollHeight, scrollTop, clientHeight } = event.target;
-
-                if (Math.abs(scrollHeight - clientHeight - scrollTop) <= 5) {
-                    scrollContainer.style.setProperty(
-                        '--contents-tracker',
-                        ($page.data.lesson.toc.length - 1).toString()
-                    );
-                }
-            })
+            scrollContainer.addEventListener('scroll', onScrollContainerScroll);
 
             observer = new IntersectionObserver(
                 ([entry]) => {
@@ -154,9 +160,7 @@
 
             $page.data.lesson.toc.forEach(
                 (heading: { text: string; original: string; depth: 2 | 3 }) => {
-                    observer.observe(
-                        document.querySelector(`#${heading.text}`)!
-                    );
+                    observer.observe(document.querySelector(`#${heading.text}`)!);
                 }
             );
 
@@ -176,7 +180,25 @@
     onMount(() => {
         onResize();
         observe();
+    });
 
+    beforeNavigate((navigation) => {
+        if (navigation.to?.route.id) {
+            const scrollContainer = document.getElementById('content-container')!;
+            scrollContainer.style.setProperty('--contents-tracker', '-1');
+            scrollContainer.removeEventListener('scroll', onScrollContainerScroll);
+
+            if (observer && $page.data.lesson?.toc) {
+                $page.data.lesson.toc.forEach(
+                    (heading: { text: string; original: string; depth: 2 | 3 }) => {
+                        observer.unobserve(document.querySelector(`#${heading.text}`)!);
+                    }
+                );
+            }
+        }
+    });
+
+    afterNavigate((navigation) => {
         if ($page.url.hash) {
             const element = document.getElementById($page.url.hash.slice(1));
             if (element) {
@@ -190,31 +212,12 @@
                     scrollContainer.style.setProperty('--contents-tracker', index.toString());
                 }, 400);
             }
-        }
-    });
-
-    beforeNavigate((navigation) => {
-        if (navigation.to?.route.id) {
+        } else {
             const scrollContainer = document.getElementById('content-container')!;
-            scrollContainer.style.setProperty('--contents-tracker', '-1');
-
-            if (observer && $page.data.lesson?.toc) {
-                $page.data.lesson.toc.forEach(
-                    (heading: { text: string; original: string; depth: 2 | 3 }) => {
-                        observer.unobserve(
-                            document.querySelector(`#${heading.text}`)!
-                        );
-                    }
-                );
-            }
-
             setTimeout(() => {
                 scrollContainer.scroll({ top: 0, behavior: 'instant' });
-            }, 350);
+            }, 300);
         }
-    });
-
-    afterNavigate(() => {
         setTimeout(() => {
             registerTocLinks();
             observe();
@@ -339,8 +342,7 @@
                                                     {#each $page.data.lesson.toc as heading}
                                                         <p class="depth-{heading.depth}">
                                                             <span title={heading.original}>
-                                                                <a
-                                                                    href={`#${heading.text}`}
+                                                                <a href={`#${heading.text}`}
                                                                     >{heading.original}</a
                                                                 >
                                                             </span>
@@ -593,7 +595,7 @@
                                         overflow-x: auto;
                                         scrollbar-width: none;
                                         padding-right: 0.5rem;
-                                        
+
                                         &::-webkit-scrollbar {
                                             width: 0;
                                             height: 0;
@@ -622,7 +624,11 @@
                                         right: 0;
                                         bottom: 0;
                                         width: 0.5rem;
-                                        background: linear-gradient(to right, transparent, var(--background));
+                                        background: linear-gradient(
+                                            to right,
+                                            transparent,
+                                            var(--background)
+                                        );
                                     }
 
                                     &.depth-3 {

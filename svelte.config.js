@@ -27,7 +27,10 @@ const injectTocFrontmatter = () => {
 
         visit(tree, 'heading', (node) => {
             const heading = {
-                text: node.children[0].value.toLowerCase().replaceAll(/\s/g, '-').replaceAll(/[^\w\-]/g, ''),
+                text: node.children[0].value
+                    .toLowerCase()
+                    .replaceAll(/\s/g, '-')
+                    .replaceAll(/[^\w\-]/g, ''),
                 original: node.children[0].value,
                 depth: node.depth
             };
@@ -35,7 +38,9 @@ const injectTocFrontmatter = () => {
             if (heading.depth <= 3) {
                 if (headings.find((h) => h.text === heading.text)) {
                     if (
-                        headings.find((h) => h.text.split('-').slice(0, -1).join('-') === heading.text)
+                        headings.find(
+                            (h) => h.text.split('-').slice(0, -1).join('-') === heading.text
+                        )
                     ) {
                         heading.text = `${heading.text}-${headings.filter((h) => h.text.split('-').slice(0, -1).join('-') === heading.text).length + 1}`;
                     } else {

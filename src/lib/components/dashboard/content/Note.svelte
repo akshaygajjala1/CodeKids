@@ -31,6 +31,10 @@
         p {
             color: var(--primary);
             margin: 0;
+
+            :global(*) {
+                color: var(--primary);
+            }
         }
     }
 </style>

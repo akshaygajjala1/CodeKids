@@ -3,5 +3,8 @@ export const toTitleCase = (str: string) => {
 };
 
 export const toUrlSafe = (str: string) => {
-    return str.toLowerCase().replaceAll(/\s/g, '-').replaceAll(/[^\w\-]/g, '');
+    return str
+        .toLowerCase()
+        .replaceAll(/\s/g, '-')
+        .replaceAll(/[^\w\-]/g, '');
 };
