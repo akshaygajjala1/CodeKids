@@ -4,21 +4,28 @@
     import { page } from '$app/stores';
     import { onMount } from 'svelte';
     import { toTitleCase } from '$lib/helpers/functions';
+    import { io, Socket } from 'socket.io-client';
 
     import logoSrc from '$lib/assets/CodeKidsAcademy Logo.png';
     import copySrc from '$lib/assets/icons/copy.png';
+    import { fade } from 'svelte/transition';
 
     export let fixedHeight: number | undefined = undefined;
     export let fixedOutputHeight: number | undefined = undefined;
 
+    let socket: Socket | null;
     let data: HTMLElement;
     let text: string;
     let textarea: HTMLTextAreaElement;
+    let consoleElement: HTMLElement;
     let initialText: string;
     let outputText: string = 'Output (try running the code)';
-    let outputType: 'success' | 'error' | 'timeout' | undefined = undefined;
+    let outputType: 'success' | 'error' | 'timeout' | 'running' | 'input required' | undefined = undefined;
     let outputTime: number | undefined = undefined;
     let copyText: string = 'Copy';
+    let runDisabled: boolean = false;
+    let askingForInput: boolean = false;
+    let inputPrefix: string | null;
 
     const setHighlightedText = () => {
         data.innerHTML = highlighter.codeToHtml(text, {
@@ -27,8 +34,46 @@
         });
     };
 
+    const connectSocket = async () => {
+        socket = io($page.url.origin, { auth: { code: text }});
+        socket.on('finished', (data) => {
+            outputText = data.output;
+            outputType = data.status;
+            outputTime = data.time;
+            runDisabled = false;
+            askingForInput = false;
+            socket!.disconnect();
+        });
+        socket.on('input', (data) => {
+            outputText = data.output;
+            inputPrefix = outputText;
+            outputType = 'input required';
+            askingForInput = true;
+            setTimeout(() => {
+                consoleElement.focus();
+                let selection = window.getSelection();
+                let focus = selection!.focusNode!;
+                let range = document.createRange();
+                range.selectNode(focus);
+                range.setStart(focus, inputPrefix!.length);
+                range.collapse(true);
+                selection!.removeAllRanges();
+                selection!.addRange(range);
+            }, 100);
+        });
+        outputText = '(running)';
+        outputTime = undefined;
+        runDisabled = true;
+        outputType = 'running';
+        socket.connect();
+    }
+
     const runCode = async () => {
         try {
+            runDisabled = true;
+            outputText = '(running)';
+            outputTime = undefined;
+            outputType = 'running';
             const response = await fetch($page.url.origin + '/python-api/sandbox', {
                 method: 'POST',
                 headers: {
@@ -40,10 +85,16 @@
                 throw new Error('Failed to run code');
             }
             const data = await response.json();
-            outputText = data.output;
-            outputType = data.status;
-            outputTime = data.time;
+            runDisabled = false;
+            if (data.status === 'redirect-ws') {
+                connectSocket();
+            } else {
+                outputText = data.output;
+                outputType = data.status;
+                outputTime = data.time;
+            }
         } catch (err) {
+            runDisabled = false;
             if (err instanceof Error) alert('An unexpected error occurred. ' + err.message);
             else alert('An unexpected error occurred.');
         }
@@ -64,11 +115,41 @@
         }
     };
 
+    const submit = () => {
+        outputText = consoleElement.innerText;
+        askingForInput = false;
+        outputType = 'running';
+        socket!.emit('input', outputText.substring(inputPrefix!.length));
+    }
+
+    const handleConsole = (e: Event) => {
+        if ('key' in e && e.key === 'Enter') {
+            e.preventDefault();
+            submit();
+        }
+    }
+
+    const handleConsoleRelease = () => {
+        if (consoleElement.innerText.substring(0, inputPrefix!.length) !== inputPrefix) {
+            let selection = window.getSelection();
+            let focus = selection!.focusNode!;
+            focus.textContent = inputPrefix;
+            let range = document.createRange();
+            range.selectNode(focus);
+            range.setStart(focus, inputPrefix!.length);
+            range.collapse(true);
+            selection!.removeAllRanges();
+            selection!.addRange(range);
+        }
+    }
+
     onMount(() => {
         text = data?.innerText;
         initialText = text;
         textarea.value = text;
         textarea.onkeydown = handleTab;
+        consoleElement.onkeydown = handleConsole;
+        consoleElement.onkeyup = handleConsoleRelease;
     });
 </script>
 
@@ -117,34 +198,60 @@
             style={fixedOutputHeight
                 ? `height: calc(1.5rem * ${fixedOutputHeight} + 2 * var(--padding-xl));`
                 : ''}>
-            <code class={outputType}>{outputText}</code>
+            <code
+                bind:this={consoleElement}
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                class={outputType} 
+                contenteditable={askingForInput}
+            >{outputText}</code>
         </pre>
     </div>
     <div class="controls">
-        <Button on:click={runCode}>
+        <Button on:click={runCode} disabled={runDisabled}>
             <img src={logoSrc} alt="Logo" />
             <span>Run</span>
         </Button>
         <Button
             variant="ghost"
             on:click={() => {
+                if (socket) {
+                    socket.disconnect();
+                }
                 text = initialText;
                 outputText = 'Output (try running the code)';
                 outputType = undefined;
                 outputTime = undefined;
                 textarea.value = text;
                 copyText = 'Copy';
+                runDisabled = false;
+                askingForInput = false;
                 setHighlightedText();
             }}
         >
             Reset
         </Button>
-        {#if outputType && outputTime}
+        {#if askingForInput}
+            <div transition:fade={{ duration: 300 }}>
+                <Button on:click={submit}>
+                    Submit
+                </Button>
+            </div>
+        {/if}
+        {#if outputType}
             {#if outputType === 'timeout'}
                 <p class={outputType}>{`${toTitleCase(outputType)} • >2s`}</p>
             {:else}
                 <p class={outputType}>
-                    {`${toTitleCase(outputType)} • ${(outputTime * 1000).toFixed(3)}ms`}
+                    {`${toTitleCase(outputType)}`}
+                    {#if outputTime}
+                        {#if outputTime > 1}
+                            {` • ${(outputTime).toFixed(3)}s`}
+                        {:else}
+                            {` • ${(outputTime * 1000).toFixed(3)}ms`}
+                        {/if}
+                    {/if}
                 </p>
             {/if}
         {/if}
@@ -182,6 +289,7 @@
                 background-color: rgb(249, 249, 249) !important;
                 display: grid;
                 width: auto;
+                max-height: calc(10 * 1.5rem + 2 * var(--padding-xl));
 
                 code {
                     font-size: 1.125rem;
@@ -192,12 +300,19 @@
                     font-family: monospace;
                     color: var(--light-gray);
 
+                    &:focus {
+                        border-radius: 0.0625rem;
+                        outline: 0.125rem solid var(--light-gray);
+                        outline-offset: var(--padding-sm);
+                    }
+
                     &.error,
                     &.timeout {
                         color: var(--error);
                     }
 
-                    &.success {
+                    &.success,
+                    &.input {
                         color: var(--gray);
                     }
                 }
@@ -228,6 +343,14 @@
                 &.timeout {
                     color: var(--error);
                 }
+
+                &.running {
+                    color: #d9a404;
+                }
+
+                &.input {
+                    color: var(--primary);
+                }
             }
         }
     }
@@ -235,6 +358,7 @@
     .editable-code-container {
         display: grid;
         overflow: auto;
+        max-height: calc(20 * 1.5rem + 2 * var(--padding-xl));
     }
 
     .editable-code {

@@ -11,6 +11,7 @@
     export let data: PageData;
 
     let loggedIn: boolean;
+    let innerWidth: number;
     let debounceCallbacks: any[] = [];
     let allowScrollAnimations = true;
     const codeSnippet = `# return the nth number in the Fibonacci sequence
@@ -25,7 +26,8 @@ def fibonacci(n: int) -> int:
         a, b = b, a + b 
     return b
 
-print(fibonacci(10))  # edit me!`;
+num = int(input('Enter a number: '))
+print(fibonacci(num))  # edit me!`;
 
     $: loggedIn = data.id !== undefined;
 
@@ -48,7 +50,7 @@ print(fibonacci(10))  # edit me!`;
 
         const observer = new IntersectionObserver(
             ([e]) => {
-                if (!allowScrollAnimations) {
+                if (!allowScrollAnimations || innerWidth <= remToPx('64rem')) {
                     if (e.target === allAboutText[allAboutText.length - 1]) {
                         if (e.boundingClientRect.top > remToPx('4.75rem') + 1) {
                             for (let i = 0; i < allAboutText.length - 1; i++) {
@@ -127,6 +129,8 @@ print(fibonacci(10))  # edit me!`;
         };
     });
 </script>
+
+<svelte:window bind:innerWidth />
 
 <HomeNavbar {loggedIn} />
 <div class="container">

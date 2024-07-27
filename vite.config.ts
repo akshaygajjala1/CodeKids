@@ -18,7 +18,12 @@ export default defineConfig({
             '/python-api': {
                 target: 'http://localhost:5000',
                 changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/python-api/, '')
+                rewrite: (path) => path.replace(/^\/python-api/, ''),
+            },
+            '/socket.io': {
+                target: 'http://localhost:5000',
+                ws: true,
+                changeOrigin: true
             }
         }
     }

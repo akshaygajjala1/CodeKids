@@ -159,6 +159,7 @@
         gap: var(--padding-3xl);
         background: var(--background);
         overflow: auto;
+        z-index: 5;
 
         @media screen and (max-width: 27.5rem) {
             width: 100%;

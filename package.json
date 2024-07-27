@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "vite dev",
-        "dev-server": "cd server && venv/bin/flask run --no-debugger",
+        "dev-server": "cd server && python app.py",
         "dev-server-windows": "cd server && python -m flask run --no-debugger",
         "build": "vite build",
         "preview": "vite preview",
@@ -50,6 +50,7 @@
         "rehype-slug": "^6.0.0",
         "remark-supersub": "^1.0.0",
         "shiki": "^1.10.3",
+        "socket.io-client": "^4.7.5",
         "unist-util-visit": "^5.0.0"
     }
 }
