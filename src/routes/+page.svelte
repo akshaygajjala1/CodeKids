@@ -50,7 +50,7 @@ print(fibonacci(num))  # edit me!`;
 
         const observer = new IntersectionObserver(
             ([e]) => {
-                if (!allowScrollAnimations || innerWidth <= remToPx('64rem')) {
+                if (!allowScrollAnimations || innerWidth <= remToPx('76rem')) {
                     if (e.target === allAboutText[allAboutText.length - 1]) {
                         if (e.boundingClientRect.top > remToPx('4.75rem') + 1) {
                             for (let i = 0; i < allAboutText.length - 1; i++) {
@@ -418,22 +418,7 @@ print(fibonacci(num))  # edit me!`;
                             }
                         }
                     }
-
-                    @media screen and (max-width: 76rem) {
-                        flex-direction: column;
-
-                        .about-text {
-                            &::after {
-                                height: 0;
-                            }
-
-                            .about-text-container {
-                                position: static;
-                                min-height: 0;
-                            }
-                        }
-                    }
-
+                    
                     .prose-container {
                         max-width: 36rem;
                         flex-grow: 1;
@@ -486,6 +471,27 @@ print(fibonacci(num))  # edit me!`;
                             :global(*:last-child) {
                                 margin-bottom: 0;
                             }
+                        }
+                    }
+
+                    @media screen and (max-width: 76rem) {
+                        flex-direction: column;
+
+                        .about-text {
+                            max-width: 60rem;
+
+                            &::after {
+                                height: 0;
+                            }
+
+                            .about-text-container {
+                                position: static;
+                                min-height: 0;
+                            }
+                        }
+
+                        .prose-container {
+                            max-width: 60rem;
                         }
                     }
                 }

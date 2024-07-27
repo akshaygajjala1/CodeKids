@@ -340,12 +340,14 @@
             padding: var(--padding-xl);
             display: flex;
             align-items: center;
-            gap: var(--padding-smd);
+            column-gap: var(--padding-smd);
+            row-gap: var(--padding-xl);
             flex-wrap: wrap;
 
             p {
                 flex: 1 0 0;
                 text-align: end;
+                text-wrap: nowrap;
                 @include paragraph-sm-b;
 
                 & {
