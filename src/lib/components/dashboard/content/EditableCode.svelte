@@ -38,15 +38,23 @@
         socket = io($page.url.origin, { auth: { code: text }});
         socket.on('finished', (data) => {
             outputText = data.output;
+            consoleElement.textContent = outputText;
             outputType = data.status;
             outputTime = data.time;
             runDisabled = false;
             askingForInput = false;
+            inputPrefix = null;
+            window.getSelection()?.removeAllRanges();
             socket!.disconnect();
         });
         socket.on('input', (data) => {
             outputText = data.output;
+            if (outputText.at(-1) === '\n') {
+                console.log('asdf');
+                outputText += '‎';
+            }
             inputPrefix = outputText;
+            consoleElement.textContent = outputText;
             outputType = 'input required';
             askingForInput = true;
             setTimeout(() => {
@@ -62,6 +70,7 @@
             }, 100);
         });
         outputText = '(running)';
+        consoleElement.textContent = outputText;
         outputTime = undefined;
         runDisabled = true;
         outputType = 'running';
@@ -72,6 +81,7 @@
         try {
             runDisabled = true;
             outputText = '(running)';
+            consoleElement.textContent = outputText;
             outputTime = undefined;
             outputType = 'running';
             const response = await fetch($page.url.origin + '/python-api/sandbox', {
@@ -90,6 +100,7 @@
                 connectSocket();
             } else {
                 outputText = data.output;
+                consoleElement.textContent = outputText;
                 outputType = data.status;
                 outputTime = data.time;
             }
@@ -116,7 +127,7 @@
     };
 
     const submit = () => {
-        outputText = consoleElement.innerText;
+        outputText = consoleElement.textContent ?? '';
         askingForInput = false;
         outputType = 'running';
         socket!.emit('input', outputText.substring(inputPrefix!.length));
@@ -127,10 +138,13 @@
             e.preventDefault();
             submit();
         }
+        if ('key' in e && e.key === 'Backspace' && consoleElement.innerText! === inputPrefix) {
+            e.preventDefault();
+        }
     }
 
     const handleConsoleRelease = () => {
-        if (consoleElement.innerText.substring(0, inputPrefix!.length) !== inputPrefix) {
+        if (consoleElement.textContent!.substring(0, inputPrefix!.length) !== inputPrefix) {
             let selection = window.getSelection();
             let focus = selection!.focusNode!;
             focus.textContent = inputPrefix;
@@ -219,8 +233,11 @@
                 if (socket) {
                     socket.disconnect();
                 }
+                inputPrefix = null;
+                window.getSelection()?.removeAllRanges();
                 text = initialText;
                 outputText = 'Output (try running the code)';
+                consoleElement.textContent = outputText;
                 outputType = undefined;
                 outputTime = undefined;
                 textarea.value = text;
