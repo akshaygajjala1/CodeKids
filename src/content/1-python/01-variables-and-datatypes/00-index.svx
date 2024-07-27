@@ -87,6 +87,7 @@ print(calculate_circumference(5))  # Output: 31.4159
 <Note icon="info">
 math.pi is an additional provided method to access a more accurate representation of π!
 </Note>
+
 In this example, *PI* is used as a constant to store the value of π. This makes the code more readable and easier to update if the value of π needs to be adjusted.
 
 <Note icon="info">
