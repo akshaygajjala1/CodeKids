@@ -1,3 +1,95 @@
 ---
-title: Variables and Datatypes
+title: Variables and Constants
 ---
+
+## Variables and Constants in Python
+
+In programming, variables and constants are used to store data that can be used and manipulated throughout your code. Understanding how to use them effectively is fundamental to writing clean and efficient programs.
+
+### Variables
+
+A variable is like a container that holds data. You can think of it as a label that you attach to a value. The value of a variable can change, hence the name "variable."
+
+### Declaring Variables
+
+In Python, you don’t need to declare the type of a variable explicitly. You simply assign a value to a variable, and Python determines its type based on the value assigned.
+
+Example:
+
+```python
+age = 17
+name = "Luna"
+is_student = True
+``` 
+
+In this example, age is an integer, name is a string, and is_student is a boolean.
+
+### Variable Naming Conventions and Best Practices
+
+When naming variables, it's important to follow certain conventions and best practices to make your code more readable and maintainable.
+
+1. **Use descriptive names**: Variable names should be descriptive enough to indicate what they are used for.
+```python
+score = 95
+total_price = 150.75
+```
+2. **Follow naming conventions**: Use lowercase letters and separate words with underscores (snake_case).
+```python
+user_name = "Luna"
+account_balance = 1000.50
+```
+3. **Avoid using reserved words**: Reserved words are part of the Python language syntax and should not be used as variable names (e.g., if, else, while, for, etc.).
+```python
+# Incorrect
+for = 5  # This will cause a syntax error
+
+# Correct
+loop_counter = 5
+```
+4. **Be consistent**: Stick to a consistent naming style throughout your code.
+```python
+# Consistent
+first_name = "Luna"
+last_name = "Smith"
+
+# Inconsistent
+firstName = "Luna"
+last_name = "Smith"
+```
+
+### Constants
+
+A constant is similar to a variable, but its value should not change once it has been set. Constants are typically used to store fixed values that are used throughout your code.
+
+**Declaring Constants**
+
+In Python, constants are usually declared using all uppercase letters with underscores separating words (SNAKE_CASE). Although Python does not have a built-in constant type, using uppercase letters is a convention that indicates the value should not be changed.
+
+Example:
+```python
+PI = 3.14159
+MAX_USERS = 100
+```
+
+**Using Constants**
+
+Constants can make your code easier to read and maintain. They provide a single point of reference for a value that is used in multiple places, reducing the risk of errors if the value needs to be changed.
+
+Example:
+```python
+PI = 3.14159
+
+def calculate_circumference(radius):
+    return 2 * PI * radius
+
+print(calculate_circumference(5))  # Output: 31.4159
+```
+<Note icon="info">
+math.pi is an additional provided method to access a more accurate representation of π!
+</Note>
+
+In this example, *PI* is used as a constant to store the value of π. This makes the code more readable and easier to update if the value of π needs to be adjusted.
+
+<Note icon="info">
+Using meaningful variable names and constants is a key aspect of writing clean and maintainable code. It helps others understand your code more easily and reduces the chance of errors.
+</Note>
