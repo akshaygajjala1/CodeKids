@@ -46,7 +46,9 @@ print(fibonacci(num))  # edit me!`;
 
     onMount(() => {
         const prose = document.querySelector('#about-prose')! as HTMLElement;
-        const allAboutText = document.querySelectorAll('.about-text-container')! as NodeListOf<HTMLElement>;
+        const allAboutText = document.querySelectorAll(
+            '.about-text-container'
+        )! as NodeListOf<HTMLElement>;
 
         const observer = new IntersectionObserver(
             ([e]) => {
@@ -61,8 +63,7 @@ print(fibonacci(num))  # edit me!`;
                     if (e.target === allAboutText[0]) {
                         if (e.boundingClientRect.top <= remToPx('4.75rem') + 1) {
                             prose.style.opacity = '1';
-                        }
-                        else {
+                        } else {
                             prose.style.opacity = '0';
                         }
                     }
@@ -121,11 +122,15 @@ print(fibonacci(num))  # edit me!`;
 
         allAboutText.forEach((e) => observer.observe(e));
 
-        document.querySelectorAll('a[href*=\'#\']').forEach((anchor) => anchor.addEventListener('click', pauseScrollAnimations));
+        document
+            .querySelectorAll("a[href*='#']")
+            .forEach((anchor) => anchor.addEventListener('click', pauseScrollAnimations));
 
         return () => {
             allAboutText.forEach((e) => observer.unobserve(e));
-            document.querySelectorAll('a[href*=\'#\']').forEach((anchor) => anchor.removeEventListener('click', pauseScrollAnimations));
+            document
+                .querySelectorAll("a[href*='#']")
+                .forEach((anchor) => anchor.removeEventListener('click', pauseScrollAnimations));
         };
     });
 </script>
@@ -418,7 +423,7 @@ print(fibonacci(num))  # edit me!`;
                             }
                         }
                     }
-                    
+
                     .prose-container {
                         max-width: 36rem;
                         flex-grow: 1;

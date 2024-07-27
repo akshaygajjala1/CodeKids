@@ -20,7 +20,8 @@
     let consoleElement: HTMLElement;
     let initialText: string;
     let outputText: string = 'Output (try running the code)';
-    let outputType: 'success' | 'error' | 'timeout' | 'running' | 'input required' | undefined = undefined;
+    let outputType: 'success' | 'error' | 'timeout' | 'running' | 'input required' | undefined =
+        undefined;
     let outputTime: number | undefined = undefined;
     let copyText: string = 'Copy';
     let runDisabled: boolean = false;
@@ -35,7 +36,7 @@
     };
 
     const connectSocket = async () => {
-        socket = io($page.url.origin, { auth: { code: text }});
+        socket = io($page.url.origin, { auth: { code: text } });
         socket.on('finished', (data) => {
             outputText = data.output;
             consoleElement.textContent = outputText;
@@ -75,7 +76,7 @@
         runDisabled = true;
         outputType = 'running';
         socket.connect();
-    }
+    };
 
     const runCode = async () => {
         try {
@@ -131,7 +132,7 @@
         askingForInput = false;
         outputType = 'running';
         socket!.emit('input', outputText.substring(inputPrefix!.length));
-    }
+    };
 
     const handleConsole = (e: Event) => {
         if ('key' in e && e.key === 'Enter') {
@@ -141,7 +142,7 @@
         if ('key' in e && e.key === 'Backspace' && consoleElement.innerText! === inputPrefix) {
             e.preventDefault();
         }
-    }
+    };
 
     const handleConsoleRelease = () => {
         if (consoleElement.textContent!.substring(0, inputPrefix!.length) !== inputPrefix) {
@@ -155,7 +156,7 @@
             selection!.removeAllRanges();
             selection!.addRange(range);
         }
-    }
+    };
 
     onMount(() => {
         text = data?.innerText;
@@ -170,20 +171,44 @@
 <div class="container">
     <div class="language-info">
         <p>Python 3.8.10</p>
-        <Button
-            variant="secondary"
-            on:click={() => {
-                try {
-                    navigator.clipboard.writeText(text);
-                    copyText = 'Copied!';
-                } catch (err) {
-                    alert('There was an error copying the code.');
-                }
-            }}
-        >
-            <span>{copyText}</span>
-            <img src={copySrc} alt="copy" />
-        </Button>
+        <div class="top-buttons">
+            <Button
+                variant="ghost"
+                on:click={() => {
+                    if (socket) {
+                        socket.disconnect();
+                    }
+                    inputPrefix = null;
+                    window.getSelection()?.removeAllRanges();
+                    text = initialText;
+                    outputText = 'Output (try running the code)';
+                    consoleElement.textContent = outputText;
+                    outputType = undefined;
+                    outputTime = undefined;
+                    textarea.value = text;
+                    copyText = 'Copy';
+                    runDisabled = false;
+                    askingForInput = false;
+                    setHighlightedText();
+                }}
+            >
+                Reset
+            </Button>
+            <Button
+                variant="secondary"
+                on:click={() => {
+                    try {
+                        navigator.clipboard.writeText(text);
+                        copyText = 'Copied!';
+                    } catch (err) {
+                        alert('There was an error copying the code.');
+                    }
+                }}
+            >
+                <span>{copyText}</span>
+                <img src={copySrc} alt="copy" />
+            </Button>
+        </div>
     </div>
     <div
         class="editable-code-container"
@@ -217,9 +242,9 @@
                 autocorrect="off"
                 autocapitalize="off"
                 spellcheck="false"
-                class={outputType} 
-                contenteditable={askingForInput}
-            >{outputText}</code>
+                class={outputType}
+                contenteditable={askingForInput}>{outputText}</code
+            >
         </pre>
     </div>
     <div class="controls">
@@ -227,32 +252,26 @@
             <img src={logoSrc} alt="Logo" />
             <span>Run</span>
         </Button>
-        <Button
-            variant="ghost"
-            on:click={() => {
-                if (socket) {
-                    socket.disconnect();
-                }
-                inputPrefix = null;
-                window.getSelection()?.removeAllRanges();
-                text = initialText;
-                outputText = 'Output (try running the code)';
-                consoleElement.textContent = outputText;
-                outputType = undefined;
-                outputTime = undefined;
-                textarea.value = text;
-                copyText = 'Copy';
-                runDisabled = false;
-                askingForInput = false;
-                setHighlightedText();
-            }}
-        >
-            Reset
-        </Button>
         {#if askingForInput}
-            <div transition:fade={{ duration: 300 }}>
-                <Button on:click={submit}>
-                    Submit
+            <div class="main-buttons" transition:fade={{ duration: 300 }}>
+                <Button on:click={submit}>Submit</Button>
+                <Button
+                    variant="ghost"
+                    on:click={() => {
+                        if (socket) {
+                            socket.disconnect();
+                        }
+                        inputPrefix = null;
+                        outputText = 'Output (try running the code)';
+                        consoleElement.textContent = outputText;
+                        outputType = undefined;
+                        outputTime = undefined;
+                        runDisabled = false;
+                        askingForInput = false;
+                        window.getSelection()?.removeAllRanges();
+                    }}
+                >
+                    Stop
                 </Button>
             </div>
         {/if}
@@ -264,7 +283,7 @@
                     {`${toTitleCase(outputType)}`}
                     {#if outputTime}
                         {#if outputTime > 1}
-                            {` • ${(outputTime).toFixed(3)}s`}
+                            {` • ${outputTime.toFixed(3)}s`}
                         {:else}
                             {` • ${(outputTime * 1000).toFixed(3)}ms`}
                         {/if}
@@ -287,10 +306,17 @@
             justify-content: space-between;
             padding: var(--padding-smd) var(--padding-xl);
             box-shadow: 0 0.125rem 0.125rem rgba(0, 0, 0, 0.075);
+            flex-wrap: wrap;
+            gap: var(--padding-lg);
 
             p {
                 color: var(--text);
                 @include paragraph-sm-b;
+            }
+
+            .top-buttons {
+                display: flex;
+                gap: var(--padding-smd);
             }
 
             :global(img) {
@@ -343,6 +369,13 @@
             column-gap: var(--padding-smd);
             row-gap: var(--padding-xl);
             flex-wrap: wrap;
+
+            .main-buttons {
+                display: flex;
+                column-gap: var(--padding-smd);
+                row-gap: var(--padding-xl);
+                flex-wrap: wrap;
+            }
 
             p {
                 flex: 1 0 0;
