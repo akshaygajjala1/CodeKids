@@ -6,7 +6,7 @@ title: Variables and Constants
 
 In programming, variables and constants are used to store data that can be used and manipulated throughout your code. Understanding how to use them effectively is fundamental to writing clean and efficient programs.
 
-### Variables
+## Variables
 
 A variable is like a container that holds data. You can think of it as a label that you attach to a value. The value of a variable can change, hence the name "variable."
 
@@ -57,11 +57,11 @@ firstName = "Luna"
 last_name = "Smith"
 ```
 
-### Constants
+## Constants
 
 A constant is similar to a variable, but its value should not change once it has been set. Constants are typically used to store fixed values that are used throughout your code.
 
-**Declaring Constants**
+### Declaring Constants
 
 In Python, constants are usually declared using all uppercase letters with underscores separating words (SNAKE_CASE). Although Python does not have a built-in constant type, using uppercase letters is a convention that indicates the value should not be changed.
 
@@ -71,7 +71,7 @@ PI = 3.14159
 MAX_USERS = 100
 ```
 
-**Using Constants**
+### Using Constants
 
 Constants can make your code easier to read and maintain. They provide a single point of reference for a value that is used in multiple places, reducing the risk of errors if the value needs to be changed.
 
@@ -85,7 +85,7 @@ def calculate_circumference(radius):
 print(calculate_circumference(5))  # Output: 31.4159
 ```
 <Note icon="info">
-math.pi is an additional provided method to access a more accurate representation of π!
+math.pi is a built-in constant which is a more accurate representation of π!
 </Note>
 
 In this example, *PI* is used as a constant to store the value of π. This makes the code more readable and easier to update if the value of π needs to be adjusted.
