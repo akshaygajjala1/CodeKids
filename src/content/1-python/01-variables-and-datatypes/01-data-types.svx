@@ -1,3 +1,15 @@
 ---
 title: Data Types
 ---
+
+## Data types in Python
+
+In Python there are different forms of data, called data types. Data types are integral to the understand of how to manipulate and interact with data, one of the key fundamentals of programming. Different data types have different uses. Think of it like this: you wouldn't use a number to describe your favorite food, you would use words, or a "String" as it's called in Python.
+
+## Different data types
+
+There are many different data types in python. In this course, we'll be looking at 4 of the most important ones; Strings, Integers, Floats, and Booleans.
+
+###Strings
+
+Strings are a series of letters used as text in Python. In Python, strings can be enclosed in single or double quotes. 
