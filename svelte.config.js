@@ -17,9 +17,9 @@ import {
 
 const highlighter = await createHighlighter({
     themes: ['snazzy-light'],
-    langs: ['python', 'py']
+    langs: ['python', 'py', 'sh']
 });
-await highlighter.loadLanguage('python', 'py');
+await highlighter.loadLanguage('python', 'py', 'sh');
 
 const injectTocFrontmatter = () => {
     return (tree, file) => {
