@@ -1,0 +1,82 @@
+---
+title: First Program
+---
+
+## First Program: "Hello, World!"
+
+In this lesson, you will learn how to write and run your first Python script. The "Hello, World!" program is a classic example that is used to introduce beginners to a new programming language. It simply prints "Hello, World!" to the screen.
+
+### Writing Your First Python Script
+
+1. **Open your text editor or IDE**:
+   - You can use any text editor (e.g., Notepad, Sublime Text) or an Integrated Development Environment (IDE) like Visual Studio Code, PyCharm, or IDLE.
+
+2. **Create a new Python file**:
+   - Open your text editor or IDE and create a new file. Save it with a `.py` extension, for example, `hello_world.py`.
+
+3. **Write the code**:
+   - Type the following code into your new file:
+     ```python
+     print("Hello, World!")
+     ```
+
+4. **Save the file**:
+   - Make sure to save your file after typing the code.
+
+### Running Your First Python Script
+
+#### Using the Command Line
+
+1. **Open the command line**:
+   - On Windows, open Command Prompt or PowerShell.
+   - On macOS, open Terminal.
+   - On Linux, open Terminal.
+
+2. **Navigate to the directory containing your script**:
+   - Use the `cd` command (change directory) to navigate to the folder where you saved `hello_world.py`. For example:
+     ```sh
+     cd path/to/your/script
+     ```
+
+3. **Run the script**:
+    Type the following command and press Enter:
+     ```sh
+     python hello_world.py
+     ```
+   - If you are using Python 3 and the above command doesn’t work, try:
+     ```sh
+     python3 hello_world.py
+     ```
+
+4. **See the output**:
+   - You should see the following output on your screen:
+     ```
+     Hello, World!
+     ```
+
+#### Using an IDE
+
+1. **Open your Python file in the IDE**:
+   - Open the `hello_world.py` file in your chosen IDE.
+
+2. **Run the script**:
+   - Most IDEs have a "Run" button or option. Click "Run" or use the IDE’s built-in terminal to run the script.
+
+3. **See the output**:
+   - You should see the output "Hello, World!" in the console or terminal within the IDE.
+
+### Explanation of the Code
+
+The `print` function is a built-in Python function that outputs text to the console. The text to be printed is enclosed in parentheses and quotation marks. In this example, `print("Hello, World!")` tells Python to print the string "Hello, World!".
+
+### Troubleshooting
+
+- **Syntax Errors**: Make sure your code is exactly as shown, with correct indentation and no typos.
+- **File Location**: Ensure you are in the correct directory in the command line where your Python file is saved.
+- **Python Installation**: Verify that Python is installed correctly on your system and that it’s added to your PATH environment variable.
+
+<Note icon="info">
+Writing and running your first Python script is an important step in your programming journey. It introduces you to the basics of how code is written, saved, and executed.
+</Note>
+
+This lesson covers writing and running your first Python script, explaining the process step-by-step and troubleshooting common issues you might encounter.
