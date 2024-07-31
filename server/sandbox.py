@@ -2,13 +2,17 @@ import os
 import io
 import re
 import time
+import json
 import queue
 import traceback
+import concurrent
 from threading import Thread
 from collections import namedtuple
 from multiprocessing import TimeoutError, Event, Queue, Process, Array, get_context
 
 import requests
+from flask import abort
+from pebble import ProcessPool
 from RestrictedPython import compile_restricted_exec
 from RestrictedPython import CompileResult
 from RestrictedPython import (
@@ -26,8 +30,10 @@ from RestrictedPython.Guards import (
 __all__ = ('exec_code_in_process', 
            'exec_code_with_output', 
            'exec_code_with_dynamic_input_in_process', 
+           'exec_problem',
            'send_input',
-           'end_process')
+           'end_process',
+           'run_multi_tests')
 
 
 def _safe_import(name, *args, **kwargs):
@@ -40,6 +46,7 @@ _state = {}
 regex = r"\):([\s\S]*?)File \"<user_input>"
 Output = namedtuple('Output', 'output status')
 ExtendedOutput = namedtuple('ExtendedOutput', 'output status time')
+Answer = namedtuple('Answer', 'info status')
 url_origin = os.environ.get('origin', 'http://localhost:5000')
 custom_globals = {
     '__builtins__': {
@@ -54,7 +61,8 @@ custom_globals = {
         'list': list,
         'tuple': tuple,
         'set': set,
-        'dict': dict
+        'dict': dict,
+        'type': type
     },
     '_getattr_': safer_getattr,
     '_write_': full_write_guard,
@@ -74,7 +82,7 @@ def clean_exception_trace(trace: str) -> str:
     return re.sub(regex, '):\\n  ...(omitted)...\\n  \"<user_input>', trace) 
 
 
-def exec_code(byte_code: CompileResult, extra_builtins=None, out=None) -> Output:
+def exec_code(byte_code: CompileResult, extra_builtins=None, out=None, shorten_error=False, modified=False) -> Output:
     if extra_builtins is None:
         extra_builtins = {}
 
@@ -109,7 +117,14 @@ def exec_code(byte_code: CompileResult, extra_builtins=None, out=None) -> Output
         exec(byte_code.code, c_globals)
     except BaseException as exc:
         status = 'error'
-        tr = clean_exception_trace(''.join(traceback.TracebackException.from_exception(exc).format()))
+        if shorten_error:
+            if modified:
+                tb = exc.__traceback__.tb_next
+            else:
+                tb = exc.__traceback__
+            tr = f'(Line {tb.tb_next.tb_lineno}) {type(exc).__name__}: {str(exc)}'
+        else:
+            tr = clean_exception_trace(''.join(traceback.TracebackException.from_exception(exc).format()))
         out.write(tr)
 
     if (len(out.getvalue()) > 65536):
@@ -125,7 +140,7 @@ def exec_code_with_output(code: str) -> Output:
     byte_code = compile_code(code)
     
     if byte_code.errors:
-        return ExtendedOutput('\n'.join(byte_code.errors), 'error', time.perf_counter() - start)
+        return ExtendedOutput('\n'.join(byte_code.errors), 'compile error', time.perf_counter() - start)
     
     if 'input' in byte_code.used_names:
         return ExtendedOutput('Use interactive websocket execution endpoint', 
@@ -137,20 +152,20 @@ def exec_code_with_output(code: str) -> Output:
     return ExtendedOutput(*output, time.perf_counter() - start)
 
 
-def exec_func_with_output(code: str, func_call: str) -> Output:
+def exec_func_with_output(code: str, func_call: str, shorten_error=True) -> Output:
     start = time.perf_counter()
     code_with_call = f'{code}\nprint({func_call})'
     byte_code = compile_code(code_with_call)
 
     if (byte_code.errors):
-        return ExtendedOutput('\n'.join(byte_code.errors), 'error', time.perf_counter() - start)
+        return ExtendedOutput('\n'.join(byte_code.errors), 'compile error', time.perf_counter() - start)
     
     start = time.perf_counter()
-    output = exec_code(byte_code)
+    output = exec_code(byte_code, shorten_error=shorten_error, modified=True)
     return ExtendedOutput(*output, time.perf_counter() - start)
 
 
-def exec_code_with_inputs(code: str, inputs: "list[str]") -> Output:
+def exec_code_with_inputs(code: str, inputs: "list[str]", shorten_error=True) -> Output:
     start = time.perf_counter()
     
     def new_input(_, /):
@@ -162,11 +177,100 @@ def exec_code_with_inputs(code: str, inputs: "list[str]") -> Output:
     byte_code = compile_code(code)
 
     if (byte_code.errors):
-        return ExtendedOutput('\n'.join(byte_code.errors), 'error', time.perf_counter() - start)
+        return ExtendedOutput('\n'.join(byte_code.errors), 'compile error', time.perf_counter() - start)
     
     start = time.perf_counter()
-    output = exec_code(byte_code, {'input': new_input})
+    output = exec_code(byte_code, {'input': new_input}, shorten_error=shorten_error)
     return ExtendedOutput(*output, time.perf_counter() - start)
+
+
+def exec_multi_in_pool(func, code: str, arg_list: "list") -> "list[ExtendedOutput]":
+    results: "list[ExtendedOutput]" = []
+
+    with ProcessPool(context=get_context('spawn')) as pool:
+        res = pool.map(func, [code] * len(arg_list), arg_list, timeout=2)
+        
+        iterator = res.result()
+        while True:
+            try:
+                result = next(iterator)
+            except StopIteration:
+                break
+            except concurrent.futures.TimeoutError:
+                result = ExtendedOutput('Execution timed out (>2s). Maybe you have an infinite loop?', 'timeout', 2)
+            results.append(result)
+
+    return results
+
+
+def check_multi_results(result: "list[ExtendedOutput]", answers_list: "list[str]"):
+    answers: "list[Answer]" = []
+
+    for index, (res, answer) in enumerate(zip(result, answers_list), start=1):
+        if res.output.strip('\n') == answer:
+            answers.append(Answer(f'Test case {index}: Correct answer', 'correct'))
+        elif res.status == 'compile error':
+            answers.append(Answer(f'Test case {index}: {res.output}', 'error'))
+        elif res.status == 'error':
+            answers.append(Answer(f'Test case {index}: {res.output.split(":")[0]}', 'error'))
+        elif res.status == 'timeout':
+            answers.append(Answer(f'Test case {index}: Timed out (>2s)', 'timeout'))
+        else:
+            answers.append(Answer(f'Test case {index}: Incorrect answer', 'incorrect'))
+    
+    return answers
+
+
+def run_multi_tests(code: str, problem_id: str) -> "list[dict]":
+    problems = json.load(open('problems.json'))
+    if problem_id not in problems:
+        abort(404)
+
+    problem = problems[problem_id]
+    if problem['type'] == 'func':
+        func = exec_func_with_output
+        arg = problem['calls']
+    else:
+        func = exec_code_with_inputs
+        arg = problem['inputs']
+    answers = [str(ans) for ans in problem['answers']]
+    multi_results = exec_multi_in_pool(func, code, arg)
+    return [res._asdict() for res in check_multi_results(multi_results, answers)]
+
+
+def exec_problem(code: str, problem_id: str):
+    problems = json.load(open('problems.json'))
+    if problem_id not in problems:
+        abort(404)
+    problem = problems[problem_id]
+
+    if problem['type'] == 'func':
+        func = exec_func_with_output
+        args = problem['test_call']
+        description = f' for {problem["test_call"]}'
+    else:
+        func = exec_code_with_inputs
+        args = problem["test_input"]
+        description = f' with user-inputted values of [{", ".join([str(_) for _ in problem["test_input"]])}]'
+    test_answer = str(problem['test_answer'])
+    result = exec_code_in_process(func, code, args, shorten_error=False)
+    if result.status == 'timeout':
+        answer = Answer(f'Timed out (>2s) - expected {test_answer}', 'timeout')
+    elif result.status == 'compile error':
+        answer = Answer(f'Compile error - expected {test_answer}', 'error')
+    elif result.status == 'error':
+        answer = Answer(f'Error - expected {test_answer}', 'error')
+    elif result.output.strip('\n') == test_answer:
+        answer = Answer(f'Correct answer - expected & got {test_answer}', 'correct')
+    else:
+        answer = Answer(f'Incorrect answer - expected {test_answer}', 'incorrect')
+
+    if answer.status == 'correct':
+        description = f'Solution accepted {description}'
+    else:
+        description = f'Solution rejected {description}'
+    
+    return {'answer': answer._asdict(), 'output': result._asdict(), 'description': description}
 
 
 def exec_code_with_result_args(
@@ -219,7 +323,7 @@ def exec_code_with_dynamic_input(code: str, sid: str, input_queue: Queue):
     byte_code = compile_code(code)
     
     if byte_code.errors:
-        result = ExtendedOutput('\n'.join(byte_code.errors), 'error', time.perf_counter() - start)
+        result = ExtendedOutput('\n'.join(byte_code.errors), 'compile error', time.perf_counter() - start)
         requests.post(f'{url_origin}/_send_event', 
                       json=result._asdict(), 
                       params={'sid': sid, 'event': 'finished'})
@@ -283,31 +387,29 @@ def exec_code_in_process(func, *args, **kwargs) -> Output:
 
 if __name__ == '__main__':
     source_code = """
-print('Hello, World!')
-import math
+import random
 
-print(math.pi)
+if random.randint(0, 1) == 1:
+    while True:
+        pass
 
-def my_func():
-    return 4
-
-def func_two():
-    return 0
-
-my_list = [1, 2, 3]
-print(1 in my_list)
-for i, num in enumerate(my_list):
-    print(i, num, end="\t")
-print()
-
-a, b, c = my_list
-print(a, b, c)
-print(tuple([a, b, c]))
-
-set()
-dict()
-
-print('🦖')
+def func(num):
+    for _ in range(100000, random.randint(1, 5) * 100000):
+        pass
+    return num
 """
 
-    print(exec_code_in_process(exec_code_with_output, source_code))
+    args = (
+        'func(1)',
+        'func(3)',
+        'func(5)',
+        'func(7)',
+        'func(9)',
+        'func(2)',
+        'func(4)',
+        'func(6)',
+        'func(8)',
+        'func(10)'
+    )
+
+    print(exec_multi_in_pool(exec_func_with_output, source_code, args))

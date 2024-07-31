@@ -472,10 +472,10 @@ print(fibonacci(num))  # edit me!`;
                             :global(h1) {
                                 margin-top: 0;
                             }
-
-                            :global(*:last-child) {
-                                margin-bottom: 0;
-                            }
+                        }
+                        
+                        :global(.prose > *:last-child) {
+                            margin-bottom: 0;
                         }
                     }
 

@@ -1,5 +1,5 @@
 from flask import Flask, request, Response
-from flask_socketio import SocketIO, ConnectionRefusedError, disconnect
+from flask_socketio import SocketIO, ConnectionRefusedError
 
 from sandbox import *
 
@@ -17,6 +17,18 @@ def index():
 def sandbox():
     code = request.json.get('code', '')
     return exec_code_in_process(exec_code_with_output, code)._asdict()
+
+
+@app.route('/sandbox/<problem_id>', methods=['POST'])
+def test_problem(problem_id):
+    code = request.json.get('code', '')
+    return exec_problem(code, problem_id)
+
+
+@app.route('/problem/<problem_id>', methods=['POST'])
+def problem(problem_id):
+    code = request.json.get('code', '')
+    return run_multi_tests(code, problem_id)
 
 
 @app.route('/_send_event', methods=['POST'])

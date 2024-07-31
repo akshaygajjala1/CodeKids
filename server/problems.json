@@ -1,0 +1,41 @@
+{
+    "0": {
+        "name": "Area of Square", 
+        "type": "func",
+        "test_call": "area_of_square(5)",
+        "test_answer": 25,
+        "calls": [
+            "area_of_square(0)",
+            "area_of_square(1)",
+            "area_of_square(2)",
+            "area_of_square(3)",
+            "area_of_square(4)",
+            "area_of_square(5)",
+            "area_of_square(10)",
+            "area_of_square(50)",
+            "area_of_square(100)",
+            "area_of_square(1000)"
+        ],
+        "answers": [
+            0, 1, 4, 9, 16, 25, 100, 2500, 10000, 1000000
+        ]
+    },
+    "1": {
+        "name": "Area of Rectangle",
+        "type": "input",
+        "test_input": [2, 3],
+        "test_answer": "6",
+        "inputs": [
+            [0, 0],
+            [1, 1],
+            [2, 2],
+            [2, 3],
+            [4, 10],
+            [10, 10],
+            [100, 500]
+        ],
+        "answers": [
+            0, 1, 4, 6, 40, 100, 50000
+        ]
+    }
+}

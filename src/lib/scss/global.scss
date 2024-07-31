@@ -180,7 +180,6 @@ a {
     }
 
     .code-container {
-        margin-top: var(--padding-xs);
         min-width: 0;
         display: grid;
         overflow-x: auto;
@@ -188,9 +187,9 @@ a {
         border: 2px solid var(--primary);
     }
 
-    .container:has(.editable-code-container) {
-        margin-top: var(--padding-xs);
-    }
+    // .container:has(.editable-code-container) {
+    //     margin-top: var(--padding-xs);
+    // }
 
     pre:has(code) {
         overflow: auto;
@@ -289,10 +288,6 @@ a {
         border-radius: 0.25rem;
     }
 
-    span .code-container {
-        margin-top: 0;
-    }
-
     .explanation > p > div > *:first-child {
         margin-top: 0;
     }
@@ -363,10 +358,16 @@ a {
         margin-left: var(--padding-sm);
     }
 
+    ul,
+    ol {
+        display: flex;
+        flex-direction: column;
+    }
+
     ul > li,
     ol > li {
         color: var(--gray);
-        margin-bottom: var(--padding-xs);
+        margin: var(--padding-xs) 0;
         @include paragraph-lg();
     }
 

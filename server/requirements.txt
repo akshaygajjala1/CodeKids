@@ -3,3 +3,4 @@ flask-socketio
 python-dotenv
 RestrictedPython
 requests
+Pebble

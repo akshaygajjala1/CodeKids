@@ -52,3 +52,26 @@ Which of the following functions are used to get user input?
 
 </div>
 </Quiz>
+
+Shown below is an example of a free-response quiz-- in this scenario, students complete a function, and upon submitting the code, our platform will automatically test the function with hidden test cases to ensure the student answered the problem correctly.
+
+<EditableCode fixedOutputHeight={1} fixedHeight={2} problemId="0">
+
+```python
+def area_of_square(side_length):
+    return side_length ** 2
+```
+
+</EditableCode>
+
+Here's another free-response quiz-- but this time, our platform will automatically test the program with test values for the input functions used.
+
+<EditableCode fixedOutputHeight={1} fixedHeight={3} problemId="1">
+
+```python
+length = int(input('Enter rectangle length: '))
+width = int(input('Enter rectangle width: '))
+print(length * width)
+```
+
+</EditableCode>

@@ -8,10 +8,14 @@
 
     import logoSrc from '$lib/assets/CodeKidsAcademy Logo.png';
     import copySrc from '$lib/assets/icons/copy.png';
+    import checkSrc from '$lib/assets/icons/check.png';
+    import closeSrc from '$lib/assets/icons/close.png';
+    import removeSrc from '$lib/assets/icons/remove.png';
     import { fade } from 'svelte/transition';
 
     export let fixedHeight: number | undefined = undefined;
     export let fixedOutputHeight: number | undefined = undefined;
+    export let problemId: string | undefined = undefined;
 
     let socket: Socket | null;
     let data: HTMLElement;
@@ -20,13 +24,30 @@
     let consoleElement: HTMLElement;
     let initialText: string;
     let outputText: string = 'Output (try running the code)';
-    let outputType: 'success' | 'error' | 'timeout' | 'running' | 'input required' | undefined =
-        undefined;
+    let outputType:
+        | 'success'
+        | 'error'
+        | 'timeout'
+        | 'running'
+        | 'input required'
+        | 'compile error'
+        | undefined = undefined;
     let outputTime: number | undefined = undefined;
     let copyText: string = 'Copy';
     let runDisabled: boolean = false;
     let askingForInput: boolean = false;
     let inputPrefix: string | null;
+    let testRunAnswerType: 'correct' | 'incorrect' | 'timeout' | 'error' | undefined = undefined;
+    let testRunInfo: string | undefined = undefined;
+    let testRunDescription: string | undefined = undefined;
+    let submissionResults: { info: string, status: 'correct' | 'incorrect' | 'timeout' | 'error' }[] = [];
+    let submissionResult: 'correct' | 'incorrect' | 'running' | undefined = undefined;
+
+    const submitIconsMap: Record<string, any> = {
+        'correct': checkSrc,
+        'incorrect': closeSrc,
+        'error': removeSrc
+    };
 
     const setHighlightedText = () => {
         data.innerHTML = highlighter.codeToHtml(text, {
@@ -34,6 +55,33 @@
             theme: 'snazzy-light'
         });
     };
+
+    const submitCode = async () => {
+        try {
+            submissionResults = [];
+            submissionResult = 'running';
+            const response = await fetch($page.url.origin + `/python-api/problem/${problemId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code: text })
+            });
+            if (!response.ok) {
+                throw new Error('Failed to run code');
+            }
+            submissionResults = await response.json();
+            if (submissionResults.every((val) => val.status === 'correct')) {
+                submissionResult = 'correct';
+            } else {
+                submissionResult = 'incorrect';
+            }
+        } catch (err) {
+            submissionResult = undefined;
+            if (err instanceof Error) alert('An unexpected error occurred. ' + err.message);
+            else alert('An unexpected error occurred.');
+        }
+    }
 
     const connectSocket = async () => {
         socket = io($page.url.origin, { auth: { code: text } });
@@ -51,7 +99,6 @@
         socket.on('input', (data) => {
             outputText = data.output;
             if (outputText.at(-1) === '\n') {
-                console.log('asdf');
                 outputText += '‎';
             }
             inputPrefix = outputText;
@@ -84,8 +131,15 @@
             outputText = '(running)';
             consoleElement.textContent = outputText;
             outputTime = undefined;
+            testRunAnswerType = undefined;
+            testRunInfo = undefined;
+            testRunDescription = undefined;
             outputType = 'running';
-            const response = await fetch($page.url.origin + '/python-api/sandbox', {
+            let url = $page.url.origin + '/python-api/sandbox';
+            if (problemId !== undefined) {
+                url += `/${problemId}`;
+            }
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -99,6 +153,14 @@
             runDisabled = false;
             if (data.status === 'redirect-ws') {
                 connectSocket();
+            } else if (problemId !== undefined) {
+                outputText = data.output.output;
+                consoleElement.textContent = outputText;
+                outputTime = data.output.time;
+                outputType = data.output.status;
+                testRunDescription = data.description;
+                testRunAnswerType = data.answer.status;
+                testRunInfo = data.answer.info;
             } else {
                 outputText = data.output;
                 consoleElement.textContent = outputText;
@@ -189,8 +251,14 @@
                     copyText = 'Copy';
                     runDisabled = false;
                     askingForInput = false;
+                    testRunAnswerType = undefined;
+                    testRunInfo = undefined;
+                    testRunDescription = undefined;
+                    submissionResults = [];
+                    submissionResult = undefined;
                     setHighlightedText();
                 }}
+                disabled={submissionResult === 'running'}
             >
                 Reset
             </Button>
@@ -250,7 +318,13 @@
     <div class="controls">
         <Button on:click={runCode} disabled={runDisabled}>
             <img src={logoSrc} alt="Logo" />
-            <span>Run</span>
+            <span>
+                {#if problemId}
+                    Test
+                {:else}
+                    Run
+                {/if}
+            </span>
         </Button>
         {#if askingForInput}
             <div class="main-buttons" transition:fade={{ duration: 300 }}>
@@ -275,13 +349,13 @@
                 </Button>
             </div>
         {/if}
-        {#if outputType}
+        {#if outputType && testRunAnswerType === undefined}
             {#if outputType === 'timeout'}
                 <p class={outputType}>{`${toTitleCase(outputType)} • >2s`}</p>
             {:else}
                 <p class={outputType}>
                     {`${toTitleCase(outputType)}`}
-                    {#if outputTime}
+                    {#if outputTime && outputType !== 'compile error'}
                         {#if outputTime > 1}
                             {` • ${outputTime.toFixed(3)}s`}
                         {:else}
@@ -291,7 +365,44 @@
                 </p>
             {/if}
         {/if}
+        {#if testRunAnswerType && testRunInfo}
+            <p class={testRunAnswerType}>
+                {testRunDescription} • {testRunInfo}
+                {#if outputTime && outputType !== 'compile error'}
+                    {#if outputTime > 1}
+                        {` • ${outputTime.toFixed(3)}s`}
+                    {:else}
+                        {` • ${(outputTime * 1000).toFixed(3)}ms`}
+                    {/if}
+                {/if}
+            </p>
+        {/if}
     </div>
+    {#if problemId}
+        <div class="problem-submit">
+            <Button variant="secondary" disabled={submissionResult === 'running'} on:click={submitCode}>
+                Submit
+            </Button>
+            {#if submissionResult}
+                <div class="results">
+                    <p class={submissionResult}>
+                        {#if submissionResult === 'correct'}
+                            All test cases passed
+                        {:else if submissionResult === 'running'}
+                            Running
+                        {:else}
+                            One or more test cases failed
+                        {/if}
+                    </p>
+                    {#each submissionResults as result, i (i)}
+                        <div class="result {result.status}" title={result.info}>
+                            <img src={submitIconsMap[result.status]} alt={result.status} />
+                        </div>
+                    {/each}
+                </div>
+            {/if}
+        </div>
+    {/if}
 </div>
 
 <style lang="scss">
@@ -362,13 +473,16 @@
             }
         }
 
-        .controls {
+        .controls, .problem-submit {
             padding: var(--padding-xl);
             display: flex;
             align-items: center;
             column-gap: var(--padding-smd);
             row-gap: var(--padding-xl);
             flex-wrap: wrap;
+        }
+
+        .controls {
 
             .main-buttons {
                 display: flex;
@@ -378,20 +492,16 @@
             }
 
             p {
-                flex: 1 0 0;
-                text-align: end;
-                text-wrap: nowrap;
+                min-width: fit-content;
+                margin-left: auto;
                 @include paragraph-sm-b;
 
-                & {
-                    line-height: 1;
-                }
-
-                &.success {
+                &.success, &.correct {
                     color: #2dae58;
                 }
 
                 &.error,
+                &.incorrect,
                 &.timeout {
                     color: var(--error);
                 }
@@ -402,6 +512,68 @@
 
                 &.input {
                     color: var(--primary);
+                }
+            }
+        }
+
+        .problem-submit {
+            padding: var(--padding-lg) 0;
+            margin: 0 var(--padding-lg);
+            border-top: 1px solid var(--light-gray);
+            column-gap: var(--padding-lg);
+            flex-wrap: nowrap;
+            align-items: flex-start;
+
+            .results {
+                margin-left: auto;
+                display: flex;
+                column-gap: var(--padding-sm);
+                row-gap: var(--padding-sm);
+                flex-wrap: wrap;
+
+                p {
+                    margin-right: var(--padding-sm);
+                    @include paragraph-sm-b;
+
+                    & {
+                        line-height: 2rem;
+                    }
+
+                    &.correct {
+                        color: #2dae58;
+                    }
+
+                    &.incorrect {
+                        color: var(--error);
+                    }
+
+                    &.running {
+                        color: #d9a404;
+                    }
+                }
+                
+                .result {
+                    margin: auto 0;
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    border-radius: 50%;
+                    display: grid;
+                    place-items: center;
+
+                    &.correct {
+                        background-color: #2dae58;
+                    }
+
+                    &.incorrect,
+                    &.error {
+                        background-color: var(--error);
+                    }
+
+                    img {
+                        width: 1.25rem;
+                        height: 1.25rem;
+                        filter: brightness(0) invert(1);
+                    }
                 }
             }
         }
