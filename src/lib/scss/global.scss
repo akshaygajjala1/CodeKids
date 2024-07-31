@@ -358,10 +358,22 @@ a {
         margin-left: var(--padding-sm);
     }
 
+    h3:has(+ ul),
+    h3:has(+ ol),
+    h4:has(+ ul),
+    h4:has(+ ol) {
+        margin-bottom: var(--padding-md);
+    }
+
     ul,
     ol {
         display: flex;
         flex-direction: column;
+
+        .code-container,
+        .container:has(.editable-code-container) {
+            margin: var(--padding-md) 0;
+        }
     }
 
     ul > li,
