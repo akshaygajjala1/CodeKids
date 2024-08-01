@@ -29,33 +29,33 @@ In this example, age is an integer, name is a string, and is_student is a boolea
 When naming variables, it's important to follow certain conventions and best practices to make your code more readable and maintainable.
 
 1. **Use descriptive names**: Variable names should be descriptive enough to indicate what they are used for.
-```python
-score = 95
-total_price = 150.75
-```
+   ```python
+   score = 95
+   total_price = 150.75
+   ```
 2. **Follow naming conventions**: Use lowercase letters and separate words with underscores (snake_case).
-```python
-user_name = "Luna"
-account_balance = 1000.50
-```
+   ```python
+   user_name = "Luna"
+   account_balance = 1000.50
+   ```
 3. **Avoid using reserved words**: Reserved words are part of the Python language syntax and should not be used as variable names (e.g., if, else, while, for, etc.).
-```python
-# Incorrect
-for = 5  # This will cause a syntax error
-
-# Correct
-loop_counter = 5
-```
+   ```python
+   # Incorrect
+   for = 5  # This will cause a syntax error
+   
+   # Correct
+   loop_counter = 5
+   ```
 4. **Be consistent**: Stick to a consistent naming style throughout your code.
-```python
-# Consistent
-first_name = "Luna"
-last_name = "Smith"
-
-# Inconsistent
-firstName = "Luna"
-last_name = "Smith"
-```
+   ```python
+   # Consistent
+   first_name = "Luna"
+   last_name = "Smith"
+   
+   # Inconsistent
+   firstName = "Luna"
+   last_name = "Smith"
+   ```
 
 ## Constants
 
