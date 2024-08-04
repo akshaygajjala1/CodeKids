@@ -262,7 +262,7 @@
                 <DropdownItem href="/" on:click={() => (accountDropdownOpen = false)}>
                     Home
                 </DropdownItem>
-                <DropdownItem form="logout">
+                <DropdownItem form="logout" on:click={() => (accountDropdownOpen = false)}>
                     <span style="color: var(--error);">Log out</span>
                 </DropdownItem>
             </Dropdown>
