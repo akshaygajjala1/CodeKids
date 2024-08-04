@@ -13,13 +13,19 @@
     import { toUrlSafe } from '$lib/helpers/functions';
     import { fade, slide } from 'svelte/transition';
     import Breadcrumb from '$lib/components/dashboard/Breadcrumb.svelte';
+    import Button from '$lib/components/Button.svelte';
 
     import closeIconSrc from '$lib/assets/icons/close.png';
+    import downArrowSrc from '$lib/assets/icons/keyboard_arrow_down.png';
+    import accountIconSrc from '$lib/assets/icons/account_circle.png';
+    import Dropdown from '$lib/components/Dropdown.svelte';
+    import DropdownItem from '$lib/components/DropdownItem.svelte';
+    import { enhance } from '$app/forms';
 
     export let data: LayoutData;
     let innerWidth: number;
     let menuActive = true;
-    let isDesktop: boolean;
+    let accountDropdownOpen = false;
     let isMobile = false;
     let observer: IntersectionObserver;
     let collapseToc: boolean = false;
@@ -49,7 +55,7 @@
     };
 
     const onResize = () => {
-        const isNowDesktop = pxToRem(innerWidth) > 64;
+        // const isNowDesktop = pxToRem(innerWidth) > 64;
         // if (isDesktop !== undefined && isDesktop !== isNowDesktop) {
         //     if (!isNowDesktop) {
         //         menuActive = false;
@@ -57,7 +63,7 @@
         //         menuActive = true;
         //     }
         // }
-        isDesktop = isNowDesktop;
+        // isDesktop = isNowDesktop;
         isMobile = pxToRem(innerWidth) > 25;
 
         const scrollContainer = document.querySelector('#content-container')! as HTMLElement;
@@ -76,8 +82,8 @@
         return $page.data.lesson.toc.indexOf(heading);
     };
 
-    const onScrollContainerScroll = (event) => {
-        const { scrollHeight, scrollTop, clientHeight } = event.target;
+    const onScrollContainerScroll = (event: Event) => {
+        const { scrollHeight, scrollTop, clientHeight } = event.target! as HTMLElement;
         const scrollContainer = document.querySelector('#content-container')! as HTMLElement;
 
         if (Math.abs(scrollHeight - clientHeight - scrollTop) <= 5) {
@@ -226,14 +232,42 @@
 
 <div class="container">
     <nav>
-        <MenuToggle bind:menuActive />
-        {#if isMobile}
-            <LogoText />
-        {:else}
-            <a href="/">
-                <Logo />
-            </a>
-        {/if}
+        <div class="left">
+            <MenuToggle bind:menuActive />
+            {#if isMobile}
+                <LogoText />
+            {:else}
+                <a href="/">
+                    <Logo />
+                </a>
+            {/if}
+        </div>
+        <div class="account-dropdown">
+            <Button variant="ghost" on:click={() => (accountDropdownOpen = !accountDropdownOpen)}>
+                <img src={accountIconSrc} alt="Account" />
+                My Account
+                <img
+                    src={downArrowSrc}
+                    alt="Dropdown"
+                    class="arrow {accountDropdownOpen ? 'open' : ''}"
+                />
+            </Button>
+            <Dropdown open={accountDropdownOpen}>
+                <DropdownItem disabled>
+                    {data.name}
+                </DropdownItem>
+                <DropdownItem href="/dashboard" on:click={() => (accountDropdownOpen = false)}>
+                    Dashboard
+                </DropdownItem>
+                <DropdownItem href="/" on:click={() => (accountDropdownOpen = false)}>
+                    Home
+                </DropdownItem>
+                <DropdownItem form="logout">
+                    <span style="color: var(--error);">Log out</span>
+                </DropdownItem>
+            </Dropdown>
+            <form id="logout" action="/?/logout" method="POST" use:enhance></form>
+        </div>
     </nav>
     <main>
         {#if menuActive}
@@ -381,13 +415,35 @@
             background: var(--background);
             border-radius: 0.5rem;
             display: flex;
+            justify-content: space-between;
             align-items: center;
             padding: 0 var(--padding-md);
             gap: var(--padding-md);
 
+            .left {
+                display: flex;
+                gap: var(--padding-md);
+            }
+
             :global(#menu-button) {
                 display: grid;
                 margin-left: 0;
+            }
+
+            .account-dropdown {
+                position: relative;
+
+                & > :global(button > img) {
+                    filter: brightness(0);
+                }
+
+                :global(img.arrow) {
+                    transition: transform 300ms ease;
+                }
+
+                :global(img.arrow.open) {
+                    transform: rotate(180deg);
+                }
             }
         }
 

@@ -40,13 +40,16 @@
     let testRunAnswerType: 'correct' | 'incorrect' | 'timeout' | 'error' | undefined = undefined;
     let testRunInfo: string | undefined = undefined;
     let testRunDescription: string | undefined = undefined;
-    let submissionResults: { info: string, status: 'correct' | 'incorrect' | 'timeout' | 'error' }[] = [];
+    let submissionResults: {
+        info: string;
+        status: 'correct' | 'incorrect' | 'timeout' | 'error';
+    }[] = [];
     let submissionResult: 'correct' | 'incorrect' | 'running' | undefined = undefined;
 
     const submitIconsMap: Record<string, any> = {
-        'correct': checkSrc,
-        'incorrect': closeSrc,
-        'error': removeSrc
+        correct: checkSrc,
+        incorrect: closeSrc,
+        error: removeSrc
     };
 
     const setHighlightedText = () => {
@@ -81,7 +84,7 @@
             if (err instanceof Error) alert('An unexpected error occurred. ' + err.message);
             else alert('An unexpected error occurred.');
         }
-    }
+    };
 
     const connectSocket = async () => {
         socket = io($page.url.origin, { auth: { code: text } });
@@ -380,7 +383,11 @@
     </div>
     {#if problemId}
         <div class="problem-submit">
-            <Button variant="secondary" disabled={submissionResult === 'running'} on:click={submitCode}>
+            <Button
+                variant="secondary"
+                disabled={submissionResult === 'running'}
+                on:click={submitCode}
+            >
                 Submit
             </Button>
             {#if submissionResult}
@@ -473,7 +480,8 @@
             }
         }
 
-        .controls, .problem-submit {
+        .controls,
+        .problem-submit {
             padding: var(--padding-xl);
             display: flex;
             align-items: center;
@@ -483,7 +491,6 @@
         }
 
         .controls {
-
             .main-buttons {
                 display: flex;
                 column-gap: var(--padding-smd);
@@ -496,7 +503,8 @@
                 margin-left: auto;
                 @include paragraph-sm-b;
 
-                &.success, &.correct {
+                &.success,
+                &.correct {
                     color: #2dae58;
                 }
 
@@ -551,7 +559,7 @@
                         color: #d9a404;
                     }
                 }
-                
+
                 .result {
                     margin: auto 0;
                     width: 1.5rem;

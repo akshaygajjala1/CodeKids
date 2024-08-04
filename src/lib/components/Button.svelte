@@ -16,6 +16,7 @@
 
 <style lang="scss">
     .button {
+        position: relative;
         display: flex;
         height: 2rem;
         min-width: max-content;
