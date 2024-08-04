@@ -41,8 +41,7 @@ export const actions = {
                 .onConflictDoUpdate({
                     target: [confirmations.userId, confirmations.confirmationType],
                     set: { uuid: token, created: sql`timezone('utc', now())` }
-                })
-                .returning();
+                });
 
             // redirect user to after signup page with a cookie
             setAfterCookie(cookies, email);

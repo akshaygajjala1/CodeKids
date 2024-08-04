@@ -6,7 +6,11 @@ export default defineConfig({
     schema: './src/lib/server/db/schema/*',
     out: './drizzle',
     dbCredentials: {
-        url: (process.env.DATABASE_URL ?? '') + '?sslmode=require',
+        user: 'avnadmin',
+        password: process.env.DATABASE_PASSWORD ?? '',
+        host: 'codekids-db-codekids-academy.i.aivencloud.com',
+        port: 19949,
+        database: 'defaultdb',
         ssl: {
             rejectUnauthorized: true,
             ca: readFileSync('.env.pg-cert.pem').toString()
