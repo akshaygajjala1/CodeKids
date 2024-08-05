@@ -76,6 +76,10 @@
     };
 
     const indexOfEntry = (target: Element) => {
+        if (!$page.data.lesson) {
+            return;
+        }
+
         const heading = $page.data.lesson.toc.find((heading: { text: string }) => {
             return heading.text === target.id;
         });
@@ -104,6 +108,10 @@
 
             observer = new IntersectionObserver(
                 ([entry]) => {
+                    if (!$page.data.lesson) {
+                        return;
+                    }
+
                     const containerRect = scrollContainer.getBoundingClientRect();
                     if (
                         entry.isIntersecting &&
