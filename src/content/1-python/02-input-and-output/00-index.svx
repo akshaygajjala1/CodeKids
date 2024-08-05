@@ -2,78 +2,110 @@
 title: Advanced Printing
 ---
 
-# Python String `format()` Method
+## Concatenation With Other Datatypes
 
-## Example
-
-Insert the price inside the placeholder; the price should be in fixed point, two-decimal format:
-
-```python
-txt = "For only {price:.2f} dollars!"
-print(txt.format(price=49))
-```
-
-## Definition and Usage
-
-The `format()` method formats the specified value(s) and inserts them inside the string's placeholder.
-
-The placeholder is defined using curly brackets: `{}`. Read more about the placeholders in the Placeholder section below.
-
-The `format()` method returns the formatted string.
-
-## Syntax
+In Python, we can use a technique called string formatting to help us format the output of our code better.
+For example, take the following scenario:
 
 ```python
-string.format(value1, value2...)
+dollars = 5
+print("I have " + dollars + " dollars.")  # [!code error] 
+# [!code error] TypeError: can only concatenate str (not "int") to str
 ```
 
-## Parameter Values
+If we try to run this code, we get a TypeError, and Python tells us we can only concatenate a string (str)
+with another string. In the example above, we tried to concatenate an integer (int) to a string, as 
+the type of dollars is an integer, but this is not possible. To fix this, we can simply **cast**[^1] the integer
+to a string as shown below:
 
-| Parameter       | Description                                                                                       |
-|-----------------|---------------------------------------------------------------------------------------------------|
-| value1, value2... | Required. One or more values that should be formatted and inserted in the string. The values can be of any data type. |
-
-The values are either a list of values separated by commas, a key=value list, or a combination of both.
-
-## The Placeholders
-
-The placeholders can be identified using named indexes `{price}`, numbered indexes `{0}`, or even empty placeholders `{}`.
-
-### Example
-
-Using different placeholder values:
+<EditableCode fixedHeight={2} fixedOutputHeight={1}>
 
 ```python
-txt1 = "My name is {fname}, I'm {age}".format(fname="John", age=36)
-txt2 = "My name is {0}, I'm {1}".format("John", 36)
-txt3 = "My name is {}, I'm {}".format("John", 36)
+dollars = 5
+print("I have " + str(dollars) + " dollars.")
 ```
 
-## Formatting Types
+</EditableCode>
 
-Inside the placeholders, you can add a formatting type to format the result:
+However, there is a more elegant way to do this, without having to explicitly cast the type of `dollars`.
 
-> `:<` : Left aligns the result (within the available space)
-> `:>` : Right aligns the result (within the available space)
-> `:^` : Center aligns the result (within the available space)
-> `:=` : Places the sign to the leftmost position
-> `:+` : Use a plus sign to indicate if the result is positive or negative
-> `:-` : Use a minus sign for negative values only
-> `: ` : Use a space to insert an extra space before positive numbers (and a minus sign before negative numbers)
-> `:,` : Use a comma as a thousand separator
-> `:_` : Use an underscore as a thousand separator
-> `:b` : Binary format
-> `:c` : Converts the value into the corresponding unicode character
-> `:d` : Decimal format
-> `:e` : Scientific format, with a lower case e
-> `:E` : Scientific format, with an upper case E
-> `:f` : Fixed point number format
-> `:F` : Fixed point number format, in uppercase format (show inf and nan as INF and NAN)
-> `:g` : General format
-> `:G` : General format (using an upper case E for scientific notations)
-> `:o` : Octal format
-> `:x` : Hex format, lower case
-> `:X` : Hex format, upper case
-> `:n` : Number format
-> `:%` : Percentage format
+## F-Strings
 
+F-Strings are the recommended way to format strings in Python >= 3.6. Using an f-string is simple: just
+prepend the string literal with the character `f`, and by using curly brackets `{}` inside the string,
+Python will automatically type cast the variable that you pass inside the braces to a string.
+Let's see the same example above, but with an f-string:
+
+<EditableCode fixedHeight={2} fixedOutputHeight={1}>
+
+```python
+dollars = 5
+print(f"I have {dollars} dollars.")
+```
+
+</EditableCode>
+
+### Advanced Techniques
+
+Using f-strings enables us to format strings in many more ways. For example, by adding an equal sign
+after the variable inserted in an f-string, we can quickly get a representation of the variable we printed.
+
+<EditableCode>
+
+```python
+my_variable = 5
+print(f'{my_variable=}')
+
+my_other_variable = 10
+print(f'{my_other_variable = }')
+```
+
+</EditableCode>
+
+We can make use of many more formatting techniques other than just the equal sign, however.
+For a full list, click here [link](https://docs.python.org/3/library/string.html#format-string-syntax).
+
+Here are a few more examples of ways you could use these formatting techniques:
+
+<EditableCode>
+
+```python
+my_number = 3.141592
+
+print(f'{my_number:.2f}')  # rounds to 2 decimal places
+print(f'{my_number:.3f}')  # rounds to 3 decimal places
+print()
+
+my_big_number = 1234567890
+
+print(f'{my_big_number:,}')  # use commas as thousands seperator in large numbers
+print(f'{my_big_number:_}')  # use underscores
+print()
+
+my_text = 'text'
+
+print(f'{my_text:<20}')  # left align within 20 spaces
+print(f'{my_text:>20}')  # right align within 20 spaces
+print(f'{my_text:^20}')  # center align within 20 spaces 
+print()
+print(f'{my_text:~<20}')  # do the same, but using a ~
+print(f'{my_text:~>20}')
+print(f'{my_text:~^20}')
+print()
+
+my_other_number = -2.718281
+
+print(f'{my_number:+f} {my_other_number:+f}')  # always show sign
+print(f'{my_number: f} {my_other_number: f}')  # show space for positive
+print(f'{my_number:-f} {my_other_number:-f}')  # only show minus, same as using `:f`
+print()
+
+# now, all together
+large_number = 101202303.4321
+print(f'{large_number:~^+25,.2f}')
+```
+
+</EditableCode>
+
+
+[^1]: Casting means changing the datatype of a variable into another.
