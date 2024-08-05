@@ -10,6 +10,110 @@ In Python there are different forms of data, called data types. Data types are i
 
 There are many different data types in python. In this course, we'll be looking at 4 of the most important ones; Strings, Integers, Floats, and Booleans.
 
-###Strings
+### Strings 
 
-Strings are a series of letters used as text in Python. In Python, strings can be enclosed in single or double quotes. 
+A String (or str) is a series of letters used as text in Python. In Python, strings can be enclosed in single or double quotes. 
+In our last lesson, we learned how to declare variables. Now, we'll learn how to assign a String data type to a variable and then edit these String variables.
+
+Example:
+
+<EditableCode fixedOutputHeight={3} fixedHeight={6}>
+
+```python
+string1 = "Hello"
+string2 = " World"
+string3 = string1 + string2
+print(string3) #output is Hello World
+print(string3[0]) #output is H
+print(string3[3:8]) #output is lo Wo
+``` 
+
+</EditableCode>
+
+In this example, two variables are declared and assigned String values: string1 and string2. We declare a third variable, **string3**, combining the values of two other String variables. This is called **concatenation** in python, and it is a very handy tool. Keep in mind though, you can only concatenate a str variable with another str variable.
+
+You can access specific letters of a String in Python. Note how calling the index 0 of the variable **string3** returned the first letter in the string **string3**. This is because the index of a String starts at 0 for the first value and continues upwards until there are no more index values. For example, the 9th letter in the String would have an index value of 8. To access the very last letter in the String, you would use the index -1.
+
+You can also access a specific substring, or part of a String. By declaring a starting and ending index to find, you can pull out a small part of the String. Our starting index is 3, or "l" and our ending index is 8 or "r", so it prints out "lo Wo", since that is what is in between indexes 3 and 8. Keep in mind that Python will not print out the value of the last index, only what letters are before that.
+
+Escape sequences are ways to insert special characters or formatting into a string, and they use the \ operator.
+
+Example:
+
+<EditableCode fixedOutputHeight={4} fixedHeight={6}>
+
+```python
+print("Hello\nWorld")
+print("Hello\tWorld")
+print("Hello \\\"World\\\"")
+print("Hello \\\'World\\\'")
+``` 
+
+</EditableCode>
+
+The first line uses \n to create a new line between strings. The second line uses \t to create a tab space between strings. Finally, the third and fourth lines are ways to input quotation marks within a String output, using \" and \'.
+
+### Integers
+
+Integers in python can be positive or negative numbers, but they must be whole numbers. They are sometimes used for math, indexing, or counting.
+
+<EditableCode fixedOutputHeight={5} fixedHeight={8}>
+
+```python
+x = 20
+y = 10
+print(x+y)
+print(x-y)
+print(x*y)
+print(x/y)
+i = 0
+str = "String"
+print(str[i])
+``` 
+
+</EditableCode>
+
+By declaring two variables, x and y, and setting them to numerical values, Python automatically identifies them as integers. Next we go through the basic math functions of python: addition, subtraction, multiplication and divison. Notice how only for the divison operator, the result is a float. 
+
+
+Aditionally, we can use integers as indexes of strings. Notice how the variable i is assigned the integer 0. When we check the String str at index at i, we get the value "S", or the index 0 value.
+
+
+### Floats
+
+Floats are decimal values in python, and are usually used to do precice math problems.
+
+<EditableCode fixedOutputHeight={4} fixedHeight={6}>
+
+```python
+x = 2.588
+y = 1.45
+print(x+y)
+print(x-y)
+print(x*y)
+print(x/y)
+
+``` 
+
+</EditableCode>
+
+Two decimal float values are assigned to variables x and y. Math operators are performed with these variables to get much more precice values,
+
+### Booleans
+
+Booleans are true or false values in python. They are usually used to check conditional statements and to conduct logic in python.
+
+<EditableCode fixedOutputHeight={4} fixedHeight={6}>
+
+```python
+x = True
+y = False
+print(x and y)
+print (x or y)
+print(not x)
+print(not y)
+``` 
+
+</EditableCode>
+
+The variables x and y are set to true and false respectively. Logical boolen operators of and, or, and not are used. For the value of the logical operator "and" to be true, both booleans being tested have to be true. For the operator "or" to return true, only one of the tested booleans have to be true. The "not" operator flips the value of the boolean. True becomes false and vice versa.
