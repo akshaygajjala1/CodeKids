@@ -1,5 +1,6 @@
 ---
 title: Intro to Programming
+lockedUntil: 2024-09-04T18:00:00-05:00
 ---
 
 ## What is Programming?

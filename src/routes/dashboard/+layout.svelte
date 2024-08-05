@@ -211,20 +211,15 @@
                     scrollContainer.style.setProperty('--contents-tracker', index.toString());
                 }, 400);
             }
-        } else {
-            const scrollContainer = document.getElementById('content-container')!;
-            setTimeout(() => {
-                scrollContainer.scroll({ top: 0, behavior: 'instant' });
-            }, 300);
         }
-        setTimeout(() => {
-            registerTocLinks();
-            observe();
-            setProseHeight();
-        }, 300);
-        setTimeout(() => {
-            registerTocLinks();
-        }, 600);
+        // setTimeout(() => {
+        //     registerTocLinks();
+        //     observe();
+        //     setProseHeight();
+        // }, 300);
+        // setTimeout(() => {
+        //     registerTocLinks();
+        // }, 600);
     });
 </script>
 
@@ -306,6 +301,8 @@
                                                         `/${toUrlSafe(section.title)}${i !== 0 ? `/${lesson.slug}` : ''}`
                                                     )}
                                                     href={`/dashboard/${toUrlSafe($page.data.course.title)}/${toUrlSafe(section.title)}${i !== 0 ? `/${lesson.slug}` : ''}`}
+                                                    locked={section.lockedUntil &&
+                                                        section.lockedUntil.getTime() > Date.now()}
                                                 />
                                             {/each}
                                         </div>
@@ -322,7 +319,27 @@
                 <div class="lesson-container">
                     <div class="prose-container">
                         {#key data.url}
-                            <PageTransition on:outrostart={beforePageTransition}>
+                            <PageTransition
+                                on:outroend={(e) => {
+                                    const scrollContainer =
+                                        document.getElementById('content-container');
+                                    scrollContainer?.scroll({ top: 0, behavior: 'instant' });
+                                    setTimeout(() => {
+                                        beforePageTransition(e);
+                                        registerTocLinks();
+                                        observe();
+                                        setProseHeight();
+                                    }, 110);
+                                }}
+                                on:introend={(e) => {
+                                    setTimeout(() => {
+                                        beforePageTransition(e);
+                                        registerTocLinks();
+                                        observe();
+                                        setProseHeight();
+                                    }, 100);
+                                }}
+                            >
                                 <div class="prose">
                                     {#key $page.data.lesson}
                                         {#if $page.data.content}

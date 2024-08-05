@@ -1,5 +1,6 @@
 ---
-title: Variables and Constants
+title: Variables & Constants
+lockedUntil: 2024-09-11T18:00:00-05:00
 ---
 
 ## Variables and Constants in Python

@@ -2,10 +2,16 @@
     export let text: string;
     export let current: boolean = false;
     export let href: string;
+    export let locked: boolean = false;
+
+    import lockSrc from '$lib/assets/icons/lock.png';
 </script>
 
-<a class="text-container" {href}>
-    <p class={current ? 'current' : ''}>{text}</p>
+<a class="text-container {locked ? 'locked' : ''}" {href}>
+    <p class:current>{text}</p>
+    {#if locked}
+        <img class:current src={lockSrc} alt="Locked" />
+    {/if}
 </a>
 
 <style lang="scss">
@@ -32,12 +38,23 @@
             flex-direction: column;
             justify-content: center;
             flex: 1 0 0;
-            color: var(--colors-gray, #565656);
+            color: var(--gray, #565656);
             @include paragraph-xl;
 
             &.current {
-                color: var(--colors-dark-gray, #383838);
+                color: var(--dark-gray, #383838);
                 @include paragraph-xl-b;
+            }
+        }
+
+        img {
+            width: 1.25rem;
+            height: 1.25rem;
+            filter: brightness(0) saturate(100%) invert(86%) sepia(0%) saturate(1%)
+                hue-rotate(196deg) brightness(96%) contrast(87%);
+
+            &.current {
+                filter: brightness(0) saturate(100%);
             }
         }
     }

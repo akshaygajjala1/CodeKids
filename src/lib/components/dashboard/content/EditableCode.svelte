@@ -491,6 +491,10 @@
         }
 
         .controls {
+            :global(button:disabled > img) {
+                filter: grayscale(1);
+            }
+
             .main-buttons {
                 display: flex;
                 column-gap: var(--padding-smd);

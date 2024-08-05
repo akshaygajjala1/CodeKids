@@ -20,19 +20,22 @@ export const getContent = async (): Promise<Course[]> => {
 
             const dirPath = `./src/content/${courseDir}/${sectionDir}/`;
             const lessonFiles = fs.readdirSync(dirPath).filter((file) => file.endsWith('.svx'));
-            lessonFiles.forEach(async (lessonFile) => {
+            for (let lessonFile of lessonFiles) {
                 const fileName = lessonFile.split('.svx')[0];
                 const lesson = getLesson(
                     await import(`../../content/${courseDir}/${sectionDir}/${fileName}.svx`),
                     lessonFile
                 );
-                if (lesson) lessons.push(lesson);
-            });
+                if (lesson) {
+                    lessons.push(lesson);
+                }
+            }
 
             lessons.sort((a, b) => a.index - b.index);
             const sectionName = toTitleCase(sectionDir.replace(/\d+-/, '').replace(/-/g, ' '));
             const index = parseInt(sectionDir.split('-')[0] ?? '');
-            const section: Section = { title: sectionName, lessons, index };
+            const lockedUntil = lessons.at(0)?.lockedUntil;
+            const section: Section = { title: sectionName, lessons, index, lockedUntil };
             sections.push(section);
         }
 

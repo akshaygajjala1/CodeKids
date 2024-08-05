@@ -4,4 +4,13 @@
     export let data: PageData;
 </script>
 
-<svelte:component this={data.content} />
+{#if data.locked && !data.admin}
+    <svelte:component this={data.content}>
+        <h1>{data.section.title}</h1>
+        <p>
+            This section is locked until {data.lockedUntil?.toLocaleDateString()} at {data.lockedUntil?.toLocaleTimeString()}.
+        </p>
+    </svelte:component>
+{:else}
+    <svelte:component this={data.content} />
+{/if}

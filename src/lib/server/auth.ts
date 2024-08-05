@@ -18,7 +18,8 @@ export const lucia = new Lucia(adapter, {
             // attributes has the type of DatabaseUserAttributes
             id: attributes.id,
             name: attributes.name,
-            email: attributes.email
+            email: attributes.email,
+            admin: attributes.admin
         };
     }
 });
@@ -35,4 +36,5 @@ interface DatabaseUserAttributes {
     id: number;
     name: string;
     email: string;
+    admin: boolean;
 }
