@@ -392,7 +392,7 @@ print(fibonacci(num))  # edit me!`;
                         .about-text-container {
                             position: sticky;
                             top: 4.75rem;
-                            min-height: 50vh;
+                            height: clamp(0rem, 50vh, 32rem);
                             display: flex;
                             flex-direction: column;
                             gap: var(--padding-md);
@@ -414,7 +414,7 @@ print(fibonacci(num))  # edit me!`;
                             }
 
                             &:last-child {
-                                min-height: 0;
+                                height: auto;
                             }
 
                             .powered-by {
@@ -459,6 +459,7 @@ print(fibonacci(num))  # edit me!`;
                             width: 100%;
                             padding: var(--page-padding);
                             height: calc(100vh - 4.75rem - var(--page-padding));
+                            max-height: 50rem;
                             border-radius: 0.5rem;
                             outline: 0.125rem solid var(--primary);
                             box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.25);

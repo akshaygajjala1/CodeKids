@@ -64,7 +64,7 @@
         //     }
         // }
         // isDesktop = isNowDesktop;
-        isMobile = pxToRem(innerWidth) > 25;
+        isMobile = pxToRem(innerWidth) < 38;
 
         const scrollContainer = document.querySelector('#content-container')! as HTMLElement;
         collapseToc = pxToRem(scrollContainer.getBoundingClientRect().width) < 64;
@@ -230,11 +230,11 @@
         <div class="left">
             <MenuToggle bind:menuActive />
             {#if isMobile}
-                <LogoText />
-            {:else}
                 <a href="/">
                     <Logo />
                 </a>
+            {:else}
+                <LogoText />
             {/if}
         </div>
         <div class="account-dropdown">
