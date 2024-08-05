@@ -63,7 +63,7 @@ print(f'{my_other_variable = }')
 </EditableCode>
 
 We can make use of many more formatting techniques other than just the equal sign, however.
-For a full list, click here [link](https://docs.python.org/3/library/string.html#format-string-syntax).
+For a full list, click [here](https://docs.python.org/3/library/string.html#format-string-syntax).
 
 Here are a few more examples of ways you could use these formatting techniques:
 
@@ -103,6 +103,7 @@ print()
 # now, all together
 large_number = 101202303.4321
 print(f'{large_number:~^+25,.2f}')
+print(f'{large_number = :~^+25,.2f}')
 ```
 
 </EditableCode>
