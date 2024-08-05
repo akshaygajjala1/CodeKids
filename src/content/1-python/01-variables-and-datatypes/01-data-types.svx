@@ -97,7 +97,7 @@ print(x/y)
 
 </EditableCode>
 
-Two decimal float values are assigned to variables x and y. Math operators are performed with these variables to get much more precice values,
+Two decimal float values are assigned to variables x and y. Math operators are performed with these variables to get much more precice values.
 
 ### Booleans
 
