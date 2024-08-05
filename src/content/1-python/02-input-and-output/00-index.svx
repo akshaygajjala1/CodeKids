@@ -1,5 +1,6 @@
 ---
 title: Advanced Printing
+lockedUntil: 2024-09-18T18:00:00-05:00
 ---
 
 ## Concatenation With Other Datatypes
@@ -16,7 +17,7 @@ print("I have " + dollars + " dollars.")  # [!code error]
 If we try to run this code, we get a TypeError, and Python tells us we can only concatenate a string (str)
 with another string. In the example above, we tried to concatenate an integer (int) to a string, as 
 the type of dollars is an integer, but this is not possible. To fix this, we can simply **cast**[^1] the integer
-to a string as shown below:
+to a string using `str()` as shown below:
 
 <EditableCode fixedHeight={2} fixedOutputHeight={1}>
 
@@ -44,6 +45,9 @@ print(f"I have {dollars} dollars.")
 ```
 
 </EditableCode>
+
+Notice how we did not have to manually cast `dollars` to a string-- instead, the f-string took care of that
+for us *implicitly*. 
 
 ### Advanced Techniques
 
