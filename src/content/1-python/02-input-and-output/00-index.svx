@@ -112,5 +112,17 @@ print(f'{large_number = :~^+25,.2f}')
 
 </EditableCode>
 
+### Caveats
+
+Prior to Python 3.12, using the same types of quotes inside the curly brackets inside of an f-string as the 
+string itself was not possible, and you had to use a different type of quote. 
+
+```python
+# Python < 3.12
+print(f"My friend's name is {"bob"}.")  # [!code --]
+print(f"My friend's name is {'bob'}.")  # [!code ++] 
+# notice the single quotes inside the braces!
+```
+
 
 [^1]: Casting means changing the datatype of a variable into another.
