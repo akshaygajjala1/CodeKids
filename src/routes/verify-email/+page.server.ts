@@ -28,5 +28,5 @@ export const load = (async ({ url, cookies }) => {
         ...sessionCookie.attributes
     });
 
-    redirect(302, '/');
+    redirect(302, '/dashboard');
 }) satisfies PageServerLoad;
