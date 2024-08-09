@@ -49,7 +49,8 @@
     const submitIconsMap: Record<string, any> = {
         correct: checkSrc,
         incorrect: closeSrc,
-        error: removeSrc
+        error: removeSrc,
+        timeout: removeSrc
     };
 
     const setHighlightedText = () => {
@@ -577,7 +578,8 @@
                     }
 
                     &.incorrect,
-                    &.error {
+                    &.error,
+                    &.timeout {
                         background-color: var(--error);
                     }
 

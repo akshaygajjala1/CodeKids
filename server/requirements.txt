@@ -4,3 +4,5 @@ python-dotenv
 RestrictedPython
 requests
 Pebble
+gunicorn
+simple-websocket

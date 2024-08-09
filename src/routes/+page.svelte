@@ -492,7 +492,7 @@ print(fibonacci(num))  # edit me!`;
 
                             .about-text-container {
                                 position: static;
-                                min-height: 0;
+                                height: auto;
                             }
                         }
 
