@@ -13,7 +13,7 @@ export default defineConfig({
         database: 'defaultdb',
         ssl: {
             rejectUnauthorized: true,
-            ca: readFileSync('.env.pg-cert.pem').toString()
+            ca: process.env.DATABASE_CERTIFICATE ?? readFileSync('.env.pg-cert.pem').toString()
         }
     },
     verbose: true,
