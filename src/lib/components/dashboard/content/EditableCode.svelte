@@ -1,6 +1,6 @@
 <script lang="ts">
     import Button from '$lib/components/Button.svelte';
-    import { highlighter } from '$lib/helpers/shiki';
+    import { getHighlighter } from '$lib/helpers/shiki';
     import { page } from '$app/stores';
     import { onMount } from 'svelte';
     import { toTitleCase } from '$lib/helpers/functions';
@@ -54,9 +54,11 @@
     };
 
     const setHighlightedText = () => {
-        data.innerHTML = highlighter.codeToHtml(text, {
-            lang: 'python',
-            theme: 'snazzy-light'
+        getHighlighter().then((highlighter) => {
+            highlighter.codeToHtml(text, {
+                lang: 'python',
+                theme: 'snazzy-light'
+            });
         });
     };
 

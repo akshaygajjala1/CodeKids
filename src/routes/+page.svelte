@@ -5,7 +5,6 @@
     import HomeMainAction from '$lib/components/home/MainAction.svelte';
     import EditableCode from '$lib/components/dashboard/content/EditableCode.svelte';
     import type { PageData } from './$types';
-    import { highlighter } from '$lib/helpers/shiki';
     import Label from '$lib/components/Label.svelte';
 
     export let data: PageData;
@@ -156,7 +155,7 @@ print(fibonacci(num))  # edit me!`;
                 <div class="prose">
                     <EditableCode>
                         <div class="code-container">
-                            {@html highlighter.codeToHtml(codeSnippet, {
+                            {@html data.highlighter.codeToHtml(codeSnippet, {
                                 lang: 'python',
                                 theme: 'snazzy-light'
                             })}
