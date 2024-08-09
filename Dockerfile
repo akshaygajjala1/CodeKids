@@ -16,10 +16,11 @@ RUN npm run build
 COPY ./default.conf.template /etc/nginx/conf.d/
 COPY ./nginx.conf /etc/nginx/
 COPY ./proxy_params /etc/nginx/
-RUN chmod u+w /etc/nginx/ -R
 RUN chmod +x ./entrypoint.sh
 
 RUN adduser -D myuser
+RUN chown -R myuser:myuser /etc/nginx/
+RUN chmod 755 /etc/nginx/
 USER myuser
 
 EXPOSE 8080
