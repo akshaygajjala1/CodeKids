@@ -5,6 +5,7 @@
     import HomeMainAction from '$lib/components/home/MainAction.svelte';
     import EditableCode from '$lib/components/dashboard/content/EditableCode.svelte';
     import type { PageData } from './$types';
+    import { highlighter } from '$lib/helpers/shiki';
     import Label from '$lib/components/Label.svelte';
 
     export let data: PageData;
@@ -27,6 +28,20 @@ def fibonacci(n: int) -> int:
 
 num = int(input('Enter a number: '))
 print(fibonacci(num))  # edit me!`;
+    let htmlCode: string;
+    if (highlighter) {
+        htmlCode = highlighter.codeToHtml(codeSnippet, {
+            lang: 'python',
+            theme: 'snazzy-light'
+        });
+    }
+    
+    onMount(() => {
+        htmlCode = highlighter.codeToHtml(codeSnippet, {
+            lang: 'python',
+            theme: 'snazzy-light'
+        });
+    })
 
     $: loggedIn = data.id !== undefined;
 
@@ -155,10 +170,7 @@ print(fibonacci(num))  # edit me!`;
                 <div class="prose">
                     <EditableCode>
                         <div class="code-container">
-                            {@html data.highlighter.codeToHtml(codeSnippet, {
-                                lang: 'python',
-                                theme: 'snazzy-light'
-                            })}
+                            {@html htmlCode}
                         </div>
                     </EditableCode>
                 </div>
