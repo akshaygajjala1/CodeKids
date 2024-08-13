@@ -1,0 +1,109 @@
+---
+title: Loops
+---
+
+## Introduction to Loops
+
+Loops are a fundamental concept in programming that allow you to execute a block of code repeatedly. Python provides two primary types of loops:
+
+- **`for` loop**: Used to iterate over a sequence (e.g., list, tuple, string) or other iterable objects.
+- **`while` loop**: Repeatedly executes a block of code as long as a given condition is true.
+
+## The `for` Loop
+
+The `for` loop in Python is used to iterate over a sequence (such as a list, tuple, or string) or any other iterable object. It’s particularly useful when you know the number of iterations ahead of time.
+
+### Syntax
+
+```python
+for item in iterable:
+    # Execute code block
+```
+
+### Practical Use Case
+
+Here’s an example of iterating over a list of numbers and printing each one:
+
+```python
+numbers = [1, 2, 3, 4, 5]
+for num in numbers:
+    print(num)
+```
+
+Output:
+
+```
+1
+2
+3
+4
+5
+```
+
+### Using `range()` with `for`
+
+The `range()` function generates a sequence of numbers, which is often used with `for` loops.
+
+```python
+for i in range(5):
+    print(i)
+```
+
+Output:
+
+```
+0
+1
+2
+3
+4
+```
+
+## The `while` Loop
+
+The `while` loop repeatedly executes a block of code as long as the specified condition is `True`. It’s particularly useful when the number of iterations isn’t known in advance, and you need to keep running the loop until a certain condition is met.
+
+### Syntax
+
+```python
+while condition:
+    # Execute code block
+```
+
+### Practical Use Case
+
+Here’s an example of a `while` loop that continues to print numbers until a certain condition is met:
+
+```python
+count = 0
+while count < 5:
+    print(count)
+    count += 1
+```
+
+Output:
+
+```
+0
+1
+2
+3
+4
+```
+
+### Infinite Loops
+
+Be cautious with `while` loops, as it’s easy to create an infinite loop (a loop that never stops). This happens when the condition never becomes `False`.
+
+```python
+while True:
+    print("This will run forever")
+```
+
+To avoid this, ensure that your loop condition will eventually be met.
+
+<Note icon="help">
+Loops are essential for repetitive tasks, automating processes, and iterating over collections of data. Understanding how to use `for` and `while` loops effectively is a key skill in programming.
+</Note>
+
+
