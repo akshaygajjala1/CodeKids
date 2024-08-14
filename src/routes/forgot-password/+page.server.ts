@@ -5,6 +5,7 @@ import { users } from '$lib/server/db/schema/users';
 import { confirmations } from '$lib/server/db/schema/confirmations';
 import { eq, sql } from 'drizzle-orm';
 import { setAfterCookie } from '$lib/server/db/ephemeral-state';
+import { sendMail } from '$lib/server/email';
 
 export const actions = {
     default: async ({ request, url, cookies }) => {
@@ -22,8 +23,16 @@ export const actions = {
 
         const token = crypto.randomUUID();
         const returnURL = `${url.origin}/reset-password?token=${token}`;
-        // TODO: send the email with returnURL
-        console.log(returnURL);
+        const emailSuccess = await sendMail({
+            toEmail: email,
+            subject: 'Reset Your Password',
+            text: `If you made a request to change your password, click on the link below to reset your password.\n${returnURL}` +
+                  `\n\nIf you did not make a request to change your password or believe this email was sent in error, ` + 
+                  `you can safely ignore this email.`
+        });
+        if (!emailSuccess) {
+            return fail(400, { error: 'Password reset email failed to send, try again later.' });
+        }
 
         const user = userRes[0];
         await db

@@ -3,6 +3,7 @@ import { db } from '$lib/server/db';
 import { setAfterCookie } from '$lib/server/db/ephemeral-state';
 import { confirmations } from '$lib/server/db/schema/confirmations';
 import { users } from '$lib/server/db/schema/users';
+import { sendMail } from '$lib/server/email';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import * as argon2 from 'argon2';
 import { sql, eq } from 'drizzle-orm';
@@ -39,8 +40,15 @@ export const actions = {
 
         const token = crypto.randomUUID();
         const returnURL = `${url.origin}/verify-email?token=${token}`;
-        // TODO: send the email with returnURL
-        console.log(returnURL);
+        const emailSuccess = await sendMail({
+            toEmail: email,
+            subject: 'Verify Your Email',
+            text: `Thank you for signing up for CodeKids Academy! Please click the following link to verify your email.\n${returnURL}` +
+                  `\n\nIf you did not sign up or believe you recieved this email in error, you can safely ignore this email.`
+        });
+        if (!emailSuccess) {
+            return fail(400, { error: 'Email verification failed to send, try again later.' });
+        }
         const hash = await argon2.hash(password);
         const userRes = await db.insert(users).values({ name, email, hash }).returning();
         const user = userRes[0];

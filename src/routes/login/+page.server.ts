@@ -8,6 +8,7 @@ import * as crypto from 'node:crypto';
 import { confirmations } from '$lib/server/db/schema/confirmations';
 import { setAfterCookie } from '$lib/server/db/ephemeral-state';
 import { lucia } from '$lib/server/auth';
+import { sendMail } from '$lib/server/email';
 
 export const actions = {
     default: async ({ request, cookies, url }) => {
@@ -33,8 +34,15 @@ export const actions = {
         if (!user[0].verified) {
             const token = crypto.randomUUID();
             const returnURL = `${url.origin}/verify-email?token=${token}`;
-            // TODO: send the email with returnURL
-            console.log(returnURL);
+            const emailSuccess = await sendMail({
+                toEmail: email,
+                subject: 'Verify Your Email',
+                text: `Thank you for signing up for CodeKids Academy! Please click the following link to verify your email.\n${returnURL}` +
+                      `\n\nIf you did not sign up or believe you recieved this email in error, you can safely ignore this email.`
+            });
+            if (!emailSuccess) {
+                return fail(400, { error: 'Email verification failed to send, try again later.' });
+            }
             await db
                 .insert(confirmations)
                 .values({ uuid: token, userId: user[0].id, confirmationType: 'signup' })

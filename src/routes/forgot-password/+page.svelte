@@ -32,7 +32,6 @@
                 errorText = result.data?.error;
                 emailComponent.setValidity('error');
             } else {
-                console.log(result.status);
                 update();
             }
         };

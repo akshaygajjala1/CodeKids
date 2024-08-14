@@ -172,7 +172,6 @@
             );
 
             return () => {
-                console.log('disconnect');
                 observer.disconnect();
             };
         }
