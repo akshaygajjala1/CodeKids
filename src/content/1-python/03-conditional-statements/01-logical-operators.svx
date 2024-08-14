@@ -1,0 +1,63 @@
+---
+title: Comparison/Logical 
+lockedUntil: 2024-09-25T18:00:00-05:00
+---
+
+## Comparison operators
+
+There are 6 main comparison operators built into Python syntax. 
+
+- `==` equal to
+- `!=` not equal to
+- `>` greater than
+- `<` less than
+- `>=` greater than or equal to
+- `<=`less than or equal to
+
+### Example
+
+<EditableCode fixedOutputHeight={6} fixedHeight={10}>
+
+```python
+x = 5
+y = 10
+print(x == y)  # Output: False
+print(x != y)  # Output: True
+print(x > y)   # Output: False
+print(x < y)   # Output: True
+print(x >= y)  # Output: False
+print(x <= y)  # Output: True
+```
+</EditableCode>
+
+These can also be used within if statements as the conditional statement, to conduct numerical logic in Python.
+
+## Logical operators
+
+There are 3 main logical operators in Python
+
+- `and` returns True if both conditions are true
+- `or` returns True if at least one condition is true
+- `not` inverts the value of a condition
+
+### Syntax
+
+<EditableCode fixedOutputHeight={6} fixedHeight={10}>
+
+```python
+x = 5
+y = 10
+z = 15
+
+print (x < y and y < z) #Returns True
+print(x > y or y < z)  # Output: True
+print(not (x < y))  # Output: False
+```
+</EditableCode>
+
+In the first line, both conditional statements are true, so the and statement returns true. In the second line, even though one of the 
+statements is false, the "or" operator only requires one statement to be true, so it returns true. In the third line, the conditional 
+statement by itself is true, but the "not" operator inverts it, making it false.
+
+
+

@@ -1,0 +1,23 @@
+---
+title: Nested conditionals
+lockedUntil: 2024-09-25T18:00:00-05:00
+---
+
+## Nested conditional statements
+Nested conditional statements are conditional statements inside other ones, with the goal of having more complex logic. 
+
+### Syntax
+
+```python
+if check1:
+    if check2:
+        # code to execute if both conditions are true
+    else:
+        # code to execute if check1 is true but check2 is false
+else:
+    # code to execute if check1 is false (check2 is not even checked)
+```
+
+Nested if statements are an excellent way to make more complex decisions and logic in Python computing. However, it can easily
+get overcomplicated which leads to logical errors. An easier way to mitigate this is using logical operators within the conditionals
+to reduce the amount of conditions needed.
