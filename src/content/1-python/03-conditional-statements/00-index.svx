@@ -1,0 +1,80 @@
+---
+title: Conditional Statements
+lockedUntil: 2024-09-25T18:00:00-05:00
+---
+## Introduction to Conditional Statements
+
+Conditional statements are a vital part of logic in Python, and it is used to execute different parts of code depending on 
+whether a condition is true or false. This allows the computer to make decisions without us directly telling it what to do.
+
+- **`if` statement**: Code is executed if conditional statement is true
+- **`elif` statement**: If the original "if" statement is false, the "elif" line is checked for True/False.
+- **`else` statement**: If the original "if" statement and all "elif" statements are false, this code is executed. 
+
+## If statements
+
+The if statement is the first condition tested, and if it returns as true, a code block is executed.
+
+### Example
+
+<EditableCode fixedOutputHeight={2} fixedHeight={4}>
+
+```python
+test = True
+if (test):
+    print("This is an executable code block")
+
+```
+
+</EditableCode>
+
+
+## Elif statements
+
+If the original if statement returns as false, then the elif statements are checked. 
+As soon as one of the elif statements is true, the code is executed and the conditional statement is terminated. 
+Elif statements that come after the first true statement are not even read by the computer, even if they are true.
+
+### Example
+
+<EditableCode fixedOutputHeight={4} fixedHeight={13}>
+
+```python
+test = False
+test2 = False
+test3 = True
+test4 = True
+if (test):
+    print("Executable block for a false if statement") #Will not show
+elif (test2):
+    print("Executable block for a false elif statement") #Will not show
+elif (test3):
+    print("Executable block for TRUE elif statement 1")
+elif (test4):
+    print("Executable block for TRUE elif statement 2") #Will not show
+```
+
+</EditableCode>
+
+## Else statements
+
+If the original if statement returns as false, and all the elif statements return as false, the final else condition is run. An else 
+statement isn't necessary, but if the statements before it are all false, it will result in an error.
+
+### Example   
+
+
+<EditableCode fixedOutputHeight={2} fixedHeight={8}>
+
+```python
+test = False
+test2 = False
+if (test):
+    print("Executable block for a false if statement") #Will not show
+elif (test2):
+    print("Executable block for a false elif statement") #Will not show
+else:
+    print("This will execute")
+```
+
+</EditableCode>
