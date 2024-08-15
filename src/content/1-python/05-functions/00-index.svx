@@ -1,0 +1,98 @@
+---
+title: Functions
+---
+
+### What are functions?
+
+Functions are reusable blocks of code that perform a specific task. They allow you to break down your program into smaller, manageable pieces.
+
+## Defining a Function
+
+To define a function in Python, use the `def` keyword followed by the function name and parentheses `()`:
+
+```python
+def greet():
+    print("Hello, world!")
+```
+
+This function, `greet()`, simply prints a greeting.
+
+## Calling a Function
+
+Once defined, you can call a function by using its name followed by parentheses:
+
+```python
+greet()
+```
+
+**Output:**
+
+```
+Hello, world!
+```
+
+## Parameters and Arguments
+
+Functions can accept inputs called parameters. These are specified within the parentheses during the function definition:
+
+```python
+def greet(name):
+    print(f"Hello, {name}!")
+```
+
+You can pass arguments to the function when calling it:
+
+```python
+greet("Student")
+```
+
+**Output:**
+
+```
+Hello, Student!
+```
+
+## Default Parameter Values
+
+You can provide default values for parameters, making them optional when calling the function:
+
+```python
+def greet(name="world"):
+    print(f"Hello, {name}!")
+```
+
+Calling `greet()` without an argument uses the default value:
+
+```python
+greet()
+```
+
+**Output:**
+
+```
+Hello, world!
+```
+
+## Return Values
+
+Functions can return a value using the `return` statement. This allows you to pass the result of a function to other parts of your program:
+
+```python
+def add(a, b):
+    return a + b
+```
+
+You can store the returned value in a variable:
+
+```python
+result = add(5, 3)
+print(result)
+```
+
+**Output:**
+
+```
+8
+```
+
+Defining functions with parameters, default values, and return values makes your code modular, reusable, and easier to manage.

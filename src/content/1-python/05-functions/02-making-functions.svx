@@ -1,0 +1,84 @@
+---
+title: Practical Functions
+---
+
+### Functions are designed to perform specific tasks!
+
+Modular functions allow you to divide complex problems into manageable pieces that do **specific things**. This makes your code more readable, easier to debug, and enables you to reuse these functions in different parts of your program or in other projects.
+
+## Example : Mathematical Functions
+
+Let’s start by creating a few simple mathematical functions. These functions will each perform a specific calculation and can be reused throughout your program.
+
+### Function: Calculating the Area of a Circle
+
+```python
+import math
+
+def area_of_circle(radius):
+    return math.pi * (radius ** 2)
+```
+
+You can call this function to calculate the area of a circle with any given radius:
+
+```python
+print(area_of_circle(5))  # Output: 78.53981633974483
+```
+
+## Example : Data Processing Functions
+
+Let’s create a function that processes a list of numbers, such as finding the average or filtering out negative values.
+
+### Function: Calculating the Average of a List
+
+```python
+def calculate_average(numbers):
+    if len(numbers) == 0:
+        return 0
+    return sum(numbers) / len(numbers)
+```
+
+You can use this function to calculate the average of any list of numbers:
+
+```python
+data = [10, 20, 30, 40, 50]
+print(calculate_average(data))  # Output: 30.0
+```
+
+### Function: Filtering Out Negative Values
+
+```python
+def filter_negatives(numbers):
+    return [num for num in numbers if num >= 0]
+```
+
+This function returns a new list containing only the non-negative values:
+
+```python
+data = [-10, 20, -30, 40, -50]
+print(filter_negatives(data))  # Output: [20, 40]
+```
+
+## Building Modular Functions
+
+Combining simple functions into more complex, modular functions allows you to tackle larger problems more efficiently. For example, you can create a data processing pipeline by combining the above functions:
+
+### Example : Data Processing Pipeline
+
+```python
+def process_data(numbers):
+    filtered = filter_negatives(numbers)
+    average = calculate_average(filtered)
+    return average
+```
+
+This combined function filters out negative values and then calculates the average of the remaining numbers:
+
+```python
+data = [-10, 20, -30, 40, -50]
+print(process_data(data))  # Output: 30.0
+```
+
+> #### Make sure you know!
+>
+>Modular functions allow you to build complex systems from simple, reusable components. This approach enhances code readability, reusability, and maintainability.

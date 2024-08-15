@@ -1,0 +1,81 @@
+---
+title: Variable Scope
+---
+
+### Scope and Lifetime of Variables
+
+In Python, the **scope** of a variable refers to the region of the code where the variable is accessible. The **lifetime** of a variable is the duration for which the variable exists in memory during program execution.
+
+## Local Scope
+
+Variables defined inside a function are in the **local scope**. They are only accessible within that function and are created when the function is called, then destroyed when the function exits.
+
+### Example: Local Scope
+
+```python
+def greet():
+    message = "Hello, world!"  # local variable
+    print(message)
+
+greet()
+print(message)  # This line is an error!
+```
+> This will raise an error because 'message' is not accessible outside the function.
+
+**Output:**
+
+```
+Hello, world!
+```
+
+The second `print(message)` will raise a `NameError` because `message` is only available within `greet()`.
+
+## Global Scope
+
+Variables defined outside of any function are in the **global scope**. They are accessible from any part of the program, including inside functions.
+
+### Example: Global Scope
+
+```python
+message = "Hello, world!"  # global variable
+
+def greet():
+    print(message)
+
+greet()  # This will print "Hello, world!" because 'message' is globally accessible.
+```
+
+**Output:**
+
+```
+Hello, world!
+```
+
+## Modifying Global Variables
+
+To modify a global variable inside a function, use the `global` keyword. This allows the function to access and modify the global variable directly.
+
+### Example: Modifying Global Variables
+
+```python
+counter = 0  # global variable
+
+def increment():
+    global counter
+    counter += 1
+
+increment()
+print(counter)  # Output: 1
+```
+
+**Output:**
+
+```
+1
+```
+
+Without the `global` keyword, Python would treat `counter` as a local variable within `increment()`, leading to an error when trying to modify it.
+
+<Note icon="warning">
+Be cautious when using global variables, as they can make debugging more difficult. Prefer local variables and pass them as parameters when possible.
+</Note>
