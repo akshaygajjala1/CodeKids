@@ -1,0 +1,77 @@
+---
+title: Lists
+---
+
+## Lists
+
+Lists in python are a sequential data type in python, and it is used to store collection of multple items. Lists can have multiple
+different data types within it. For example, it can contain integers, floatsm, booleans, and Strings. Lists are mutable, which means
+you can add or delete items after you create the list. Most of the examples in this lesson will use integers for the 
+sake of simplicity, but any data type can be used.
+
+### Syntax
+
+```python
+list = [1, 2, 3.0, "Four", "Car", "Book", 2.6, True, False]
+```
+
+### Accessing list elements
+
+By using indexing, you can access specific elements within a list. 
+
+<EditableCode fixedOutputHeight={9} fixedHeight={5}>
+
+```python
+list = [1, 2, 3.0, "Four", "Car", "Book", 2.6, True, False]
+#Feel free to change the logic here and pull different values
+for i in range(len(list)): 
+    print(list[i])
+```
+</EditableCode>
+
+In this code, we loop through the elements of the list using a for loop, printing each element one at a time. This is 
+the most efficient to print out each value of the list, but to access specific elements you would search for the index the 
+specific value you want to return.
+
+
+### Modifying lists 
+
+In python, you can replace existing values in a list with other values.
+
+<EditableCode fixedOutputHeight={4} fixedHeight={6}>
+
+```python
+num_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+print(num_list)
+num_list[2] = 8
+num_list[6] = 72
+print(num_list)
+#notice the differences!
+```
+</EditableCode>
+
+You can also add or remove items to a list, changing the size.
+
+<EditableCode fixedOutputHeight={4} fixedHeight={12}>
+
+```python
+num_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+print(num_list)
+num_list.append(11)
+num_list.insert(0, 0)
+print(num_list)
+#notice how we added 2 values to the list!
+num_list.remove(10)
+num_list.pop(4)
+print(num_list)
+#notice the changes now.
+```
+</EditableCode>
+
+Python has 4 main functions for adding and removing items from a list. 
+
+- `.append(x)` adds whatever value you put inside the parenthesis to the end of the list.
+- `.insert(0, x)` inserts whatever value you want at the index you choose. The first parameter is the index, and the second is the value.
+- `.remove(x)` doesn't use indexing, and will remove the first instance of the value you provide, if it exists in the list.
+- `.pop(0)` removes whatever value exists at a selected index. The parameter provided is the index selected.
+

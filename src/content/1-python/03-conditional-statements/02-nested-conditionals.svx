@@ -21,3 +21,26 @@ else:
 Nested if statements are an excellent way to make more complex decisions and logic in Python computing. However, it can easily
 get overcomplicated which leads to logical errors. An easier way to mitigate this is using logical operators within the conditionals
 to reduce the amount of conditions needed.
+
+### Example
+
+
+    <EditableCode fixedOutputHeight={6} fixedHeight={10}>
+
+```python
+age = 29 #try changing this number and run again
+if age >= 18:
+    if age >= 21:
+        print("You can drink alcohol.")
+    else:
+        print("You can vote.")
+else:
+    print("You are a minor.")
+```
+</EditableCode>
+
+
+
+In this example, the first if statement is tested to see if you are over 18. If the first if statement returns false,
+you immediately return the else condition code. If the first if statement passes, another condition is checked to see
+if you are also 21.
