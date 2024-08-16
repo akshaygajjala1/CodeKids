@@ -9,6 +9,8 @@ different data types within it. For example, it can contain integers, floatsm, b
 you can add or delete items after you create the list. Most of the examples in this lesson will use integers for the 
 sake of simplicity, but any data type can be used.
 
+Tuples are another form of data storage, but they are immutable and have less uses than lists, so this course will cover just lists.
+
 ### Syntax
 
 ```python
