@@ -1,0 +1,81 @@
+---
+title: Data Structures
+---
+
+## Dictionaries: Key-Value Pairs
+
+A **dictionary** in Python is a collection of key-value pairs, where each key is unique. Dictionaries are defined using curly braces `{}` with keys and values separated by a colon `:`.
+
+### Example: Creating a Dictionary
+
+```python
+student = {
+    "name": "Albert",
+    "age": 17,
+    "grade": "A"
+}
+```
+
+In this example, `"name"`, `"age"`, and `"grade"` are keys, and `"Albert"`, `17`, and `"A"` are their corresponding values.
+
+## Accessing and Modifying Dictionary Elements
+
+### Accessing Elements
+
+You can access a value in a dictionary by referring to its key:
+
+```python
+print(student["name"])  # Output: Albert
+```
+
+### Modifying Elements
+
+You can modify a value in a dictionary by assigning a new value to a key:
+
+```python
+student["age"] = 18
+print(student["age"])  # Output: 18
+```
+
+### Adding New Elements
+
+To add a new key-value pair, simply assign a value to a new key:
+
+```python
+student["school"] = "Liberty High"
+print(student["school"])  # Output: Liberty High
+```
+
+## Dictionary Methods
+
+Python provides several useful methods to interact with dictionaries:
+
+- **`get()`**: Retrieves the value for a given key. If the key doesn’t exist, it returns `None` or a specified default value.
+
+    ```python
+    print(student.get("name"))  # Output: Albert
+    print(student.get("address", "Not available"))  # Output: Not available
+    ```
+
+- **`keys()`**: Returns a view object containing all the keys in the dictionary.
+
+    ```python
+    print(student.keys())  # Output: dict_keys(['name', 'age', 'grade', 'school'])
+    ```
+
+- **`values()`**: Returns a view object containing all the values in the dictionary.
+
+    ```python
+    print(student.values())  # Output: dict_values(['Albert', 18, 'A', 'Liberty High'])
+    ```
+
+- **`items()`**: Returns a view object containing the dictionary’s key-value pairs as tuples.
+
+    ```python
+    print(student.items())  # Output: dict_items([('name', 'Albert'), ('age', 18), ('grade', 'A'), ('school', 'Liberty High')])
+    ```
+
+<Note icon="help">
+Dictionaries provide an efficient way to store and retrieve data using key-value pairs, making them essential for managing structured data in Python.
+</Note>
+

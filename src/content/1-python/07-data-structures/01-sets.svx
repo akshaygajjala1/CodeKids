@@ -1,0 +1,85 @@
+---
+title: Sets and Set Operations
+---
+
+## Sets: Unique Elements
+
+A **set** in Python is an unordered collection of unique elements. Sets are defined using curly braces `{}` or the `set()` function. They are particularly useful for removing duplicates from a list and performing common mathematical set operations.
+
+### Example: Creating a Set
+
+```python
+fruits = {"apple", "banana", "cherry"}
+```
+
+You can also create a set from a list to automatically remove duplicates:
+
+```python
+numbers = [1, 2, 2, 3, 4, 4, 5]
+unique_numbers = set(numbers)
+print(unique_numbers)  # Output: {1, 2, 3, 4, 5}
+```
+
+## Adding and Removing Elements
+
+### Adding Elements to a Set
+
+Use the `add()` method to add an element to a set:
+
+```python
+fruits.add("orange")
+print(fruits)  # Output: {'orange', 'banana', 'apple', 'cherry'}
+```
+
+### Removing Elements from a Set
+
+Use the `remove()` method to remove an element from a set. If the element does not exist, `remove()` raises a `KeyError`.
+
+```python
+fruits.remove("banana")
+print(fruits)  # Output: {'orange', 'apple', 'cherry'}
+```
+
+You can also use the `discard()` method, which does not raise an error if the element is not found:
+
+```python
+fruits.discard("banana")
+```
+
+## Set Operations
+
+Python sets support several operations that are common in mathematics, such as union, intersection, difference, and symmetric difference.
+
+### Union
+
+The `union()` method returns a new set containing all elements from both sets. You can also use the `|` operator.
+
+```python
+a = {1, 2, 3}
+b = {3, 4, 5}
+union_set = a.union(b)
+print(union_set)  # Output: {1, 2, 3, 4, 5}
+```
+
+### Intersection
+
+The `intersection()` method returns a new set containing only the elements that are common to both sets. You can also use the `&` operator.
+
+```python
+intersection_set = a.intersection(b)
+print(intersection_set)  # Output: {3}
+```
+
+### Difference
+
+The `difference()` method returns a new set containing elements that are in the first set but not in the second. You can also use the `-` operator.
+
+```python
+difference_set = a.difference(b)
+print(difference_set)  # Output: {1, 2}
+```
+
+<Note icon="help">
+Sets are powerful for managing unique elements and performing operations like union, intersection, and difference. They are especially useful when dealing with large datasets where uniqueness and membership tests are crucial.
+</Note>
+
