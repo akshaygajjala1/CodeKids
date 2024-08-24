@@ -261,9 +261,10 @@ print(fibonacci(num))  # edit me!`;
                     <div class="tutor-profile">
                         <div class="picture"></div>
                         <div class="tutor-info">
-                            <Label>asdf</Label>
-                            <h3>Name</h3>
-                            <p>asdf</p>
+                            <Label>Developer & Founder</Label>
+                            <h3>Akshay Gajjala</h3>
+                            <p>
+                                Hey! I'm Akshay, a senior in high school, with a passion for physics, math, and coding. I've been exploring programming for 3 years and love creating projects that make learning accessible. I'm excited to help others discover and grow their programming skills! </p>
                         </div>
                     </div>
                     <div class="tutor-profile">
@@ -282,9 +283,9 @@ print(fibonacci(num))  # edit me!`;
                     <div class="tutor-profile">
                         <div class="picture"></div>
                         <div class="tutor-info">
-                            <Label>asdf</Label>
-                            <h3>Name</h3>
-                            <p>asdf</p>
+                            <Label>Loading...</Label>
+                            <h3>Still Loading...</h3>
+                            <p>Loading...</p>
                         </div>
                     </div>
                 </div>
