@@ -2,66 +2,10 @@
 title: Python
 ---
 
-asdfasdfasdf
+Python is a beginner friendly yet widely-used programming language, and it is going to be the language that 
+we will teach in this class. Learning Python will help you improve your problem solving skills, and if you
+do decide to pursue computer science, learning Python now will be a nice headstart. Even if you end up using
+a different programming language, you will be able to learn other languages faster than had you not learned 
+Python now.
 
-<EditableCode fixedOutputHeight={1} fixedHeight={6}>
-
-```python
-import math  # the newlines in the markdown file are necessary!
-
-def area_of_sphere(radius: float) -> float:
-    return 4 / 3 * math.pi * radius ** 3
-
-print(area_of_sphere(100))
-```
-
-</EditableCode>
-
-quiz example!
-
-<Quiz
-    answers={[
-        "raw_input",
-        "input",
-        "get_input",
-        "scan"
-    ]}
-    correctAnswerIndex={1}
->
-Which of the following functions are used to get user input?
-<div slot="explanation">
-
-`raw_input` was renamed to `input` in Python 3 (the version we are using). `get_input` and `scan` are not builtin functions.
-
-> #### blockquote
-> 
-> asdfasdfasdf
-> - asdf
-> - asdf 2
-> - asdf 3
-> 
-> asdfasdfasdf
-> 1. asdf
-> 2. asdf
-> 3. asdf
-
-code block within explanation
-
-```python
-print('code block!')
-```
-
-woah
-1. asdf
-2. asdf
-
-<Note icon="info">
-nested components!
-</Note>
-
-woah!!!
-- asdf
-- asdf
-
-</div>
-</Quiz>
+Enough said, why not get started! Click the right arrow to start learning about programming.

@@ -3,3 +3,7 @@ layout: false
 ---
 
 # Welcome
+
+Welcome to the CodeKids Academy dashboard! You can visit the [Home course](/dashboard/home) to get 
+familiarized with CodeKids Academy, or you can jump straight into
+the [Python course!](/dashboard/python) We are so excited to help you kickstart your coding journey!

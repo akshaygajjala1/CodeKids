@@ -161,7 +161,7 @@
                 {
                     root: scrollContainer,
                     threshold: 1,
-                    rootMargin: '-84px 0px 0px 0px'
+                    rootMargin: '-84px 0px -84px 0px'
                 }
             );
 
