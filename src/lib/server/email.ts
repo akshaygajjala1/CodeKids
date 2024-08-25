@@ -12,7 +12,15 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-export const sendMail = async ({ toEmail, subject, text } : { toEmail: string, subject: string, text: string }) : Promise<boolean> => {
+export const sendMail = async ({
+    toEmail,
+    subject,
+    text
+}: {
+    toEmail: string;
+    subject: string;
+    text: string;
+}): Promise<boolean> => {
     try {
         await transporter.sendMail({
             from: 'contact@codekidsacademy.org',
@@ -21,10 +29,8 @@ export const sendMail = async ({ toEmail, subject, text } : { toEmail: string, s
             text: text
         });
         return true;
-    }
-    catch (exc) {
+    } catch (exc) {
         console.log(exc);
         return false;
     }
-}
-
+};

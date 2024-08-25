@@ -35,13 +35,13 @@ print(fibonacci(num))  # edit me!`;
             theme: 'snazzy-light'
         });
     }
-    
+
     onMount(() => {
         htmlCode = highlighter.codeToHtml(codeSnippet, {
             lang: 'python',
             theme: 'snazzy-light'
         });
-    })
+    });
 
     $: loggedIn = data.id !== undefined;
 
@@ -264,13 +264,17 @@ print(fibonacci(num))  # edit me!`;
                             <Label>Developer & Founder</Label>
                             <h3>Akshay Gajjala</h3>
                             <p>
-                                Hey! I'm Akshay, a senior in high school, with a passion for physics, math, and coding. I've been exploring programming for 3 years and love creating projects that make learning accessible. I'm excited to help others discover and grow their programming skills! </p>
+                                Hey! I'm Akshay, a senior in high school, with a passion for
+                                physics, math, and coding. I've been exploring programming for 3
+                                years and love creating projects that make learning accessible. I'm
+                                excited to help others discover and grow their programming skills!
+                            </p>
                         </div>
                     </div>
                     <div class="tutor-profile">
                         <div class="picture"></div>
                         <div class="tutor-info">
-                            <Label>Lead Developer & Founder</Label>
+                            <Label emphasized>Lead Developer, Designer & Founder</Label>
                             <h3>Pranav Pakanati</h3>
                             <p>
                                 Hi! I'm Pranav, a senior in high school. I've been coding in Python
