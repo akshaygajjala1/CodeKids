@@ -10,7 +10,7 @@ Printing is one of the most basic and essential functions in programming. In Pyt
 
 The `print()` function in Python is used to output text or variables to the console. It's a great way to see the results of your code or to debug programs. Here’s a simple example:
 
-<EditableCode height={1} fixedOutputHeight={1}>
+<EditableCode fixedHeight={1} fixedOutputHeight={1}>
 
 ```python
 print("Hello, World!")

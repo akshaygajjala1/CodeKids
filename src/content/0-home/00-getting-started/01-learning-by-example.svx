@@ -12,7 +12,7 @@ programming. We want you to be able to learn programming by example, not just by
 To allow you to learn programming by example, we have created a system where you can run and edit Python
 code without ever having to leave this website.
 
-<EditableCode height={1} outputHeight={1}>
+<EditableCode fixedHeight={1} fixedOutputHeight={1}>
 
 ```python
 print('Edit me!')

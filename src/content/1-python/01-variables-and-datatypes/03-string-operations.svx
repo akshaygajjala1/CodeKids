@@ -1,0 +1,37 @@
+---
+title: String Operations
+---
+
+## String Concatentation
+
+As we discussed earlier, the `+` operator allows us to concatenate--or add--strings.
+However, we are only able to concatenate strings to other strings. Attempting to do so with
+a non-string data type will result in a `TypeError`. We will look at ways to solve this in the
+next section.
+
+```python
+# TypeError: can only concatenate str (not "int") to str
+print("I am " + 17 + " years old.") # [!code error]
+```
+
+## String (Sequence) Repetition
+
+Take the following example:
+
+```python
+print("Hello! " * 3)
+```
+
+One might think that this would result in an error. After all, multiplying a string and a number together
+doesn't really make sense, does it?
+
+<EditableCode fixedHeight={1} fixedOutputHeight={1}>
+
+```python
+print("Hello! " * 3)
+```
+
+</EditableCode>
+
+Well, in Python, multiplying an integer to a string will actually repeat that string a specified number of times.
+In this case, it repeats the string `Hello!` 3 times.
