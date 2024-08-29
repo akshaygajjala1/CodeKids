@@ -27,7 +27,7 @@ def fibonacci(n: int) -> int:
     return b
 
 num = int(input('Enter a number: '))
-print(fibonacci(num))  # edit me!`;
+print(f'fibonacci({num}) = {fibonacci(num)}')  # edit me!`;
     let htmlCode: string;
     if (highlighter) {
         htmlCode = highlighter.codeToHtml(codeSnippet, {

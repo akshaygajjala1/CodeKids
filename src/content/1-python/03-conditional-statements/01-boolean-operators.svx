@@ -14,8 +14,6 @@ There are 6 main comparison operators used in Python.
 - `>=` greater than or equal to
 - `<=`less than or equal to
 
-### Example
-
 <EditableCode fixedOutputHeight={6} fixedHeight={8}>
 
 ```python
@@ -39,8 +37,6 @@ There are 3 main logical operators in Python
 - `and` returns True if both conditions are true
 - `or` returns True if at least one condition is true
 - `not` inverts the value of a condition
-
-### Syntax
 
 <EditableCode fixedOutputHeight={3} fixedHeight={7}>
 
