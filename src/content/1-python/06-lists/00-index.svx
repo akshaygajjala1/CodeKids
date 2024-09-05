@@ -2,9 +2,9 @@
 title: Lists
 ---
 
-## Lists
+## What are lists?
 
-Lists in python are a sequential data type in python, and it is used to store collection of multple items. Lists can have multiple
+Lists in python are no different than the lists you currently know of: they store a collection of multple items. Lists can have multiple
 different data types within it. For example, it can contain integers, floatsm, booleans, and Strings. Lists are mutable, which means
 you can add or delete items after you create the list. Most of the examples in this lesson will use integers for the 
 sake of simplicity, but any data type can be used.
