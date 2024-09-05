@@ -287,9 +287,13 @@ print(f'fibonacci({num}) = {fibonacci(num)}')  # edit me!`;
                     <div class="tutor-profile">
                         <div class="picture"></div>
                         <div class="tutor-info">
-                            <Label>Loading...</Label>
-                            <h3>Still Loading...</h3>
-                            <p>Loading...</p>
+                            <Label>Developer & Founder</Label>
+                            <h3>Ram Sarma</h3>
+                            <p>Hey! I'm Ram, and I'm a high school senior. I love anything STEM related,
+                                whether it be math, chemisty, computer science, or anything else. I've
+                                created several computer science apps and projects, and I'm excited
+                                to help you start your journey as well!
+                            </p>
                         </div>
                     </div>
                 </div>
