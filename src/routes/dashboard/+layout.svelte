@@ -161,7 +161,7 @@
                 {
                     root: scrollContainer,
                     threshold: 1,
-                    rootMargin: '-84px 0px 0px 0px'
+                    rootMargin: '-84px 0px -84px 0px'
                 }
             );
 
@@ -181,6 +181,12 @@
         const el = e?.target as HTMLElement;
         el.style.maxHeight = `${containerHeight}px`;
         el.style.maxWidth = `${el.getBoundingClientRect().width}px`;
+    };
+
+    const afterPageTransition = () => {
+        const el = document.querySelector('.prose-container > .transition')! as HTMLElement;
+        el.style.removeProperty('max-height');
+        el.style.removeProperty('max-width');
     };
 
     onMount(() => {
@@ -204,7 +210,7 @@
         }
     });
 
-    afterNavigate((navigation) => {
+    afterNavigate(() => {
         if ($page.url.hash) {
             const element = document.getElementById($page.url.hash.slice(1));
             if (element) {
@@ -219,6 +225,10 @@
                 }, 400);
             }
         }
+
+        setTimeout(() => {
+            afterPageTransition();
+        }, 1000);
         // setTimeout(() => {
         //     registerTocLinks();
         //     observe();

@@ -1,12 +1,15 @@
 ---
-title: First Program
+title: Running Locally
 ---
 
-## First Program: "Hello, World!"
+## Writing and Running `Hello World!` Locally
+
+**Note:** This lesson is only applicable to you if you have downloaded Python on your computer.
+Otherwise, you can skip this lesson.
 
 In this lesson, you will learn how to write and run your first Python script. The "Hello, World!" program is a classic example that is used to introduce beginners to a new programming language. It simply prints "Hello, World!" to the screen.
 
-### Writing Your First Python Script
+## Writing Your First Python Script
 
 1. **Open your text editor or IDE**:
    - You can use any text editor (e.g., Notepad, Sublime Text) or an Integrated Development Environment (IDE) like Visual Studio Code, PyCharm, or IDLE.
@@ -23,9 +26,9 @@ In this lesson, you will learn how to write and run your first Python script. Th
 4. **Save the file**:
    - Make sure to save your file after typing the code.
 
-### Running Your First Python Script
+## Running Your First Python Script
 
-#### Using the Command Line
+### Using the Command Line
 
 1. **Open the command line**:
    - On Windows, open Command Prompt or PowerShell.
@@ -54,7 +57,7 @@ In this lesson, you will learn how to write and run your first Python script. Th
      Hello, World!
      ```
 
-#### Using an IDE
+### Using an IDE
 
 1. **Open your Python file in the IDE**:
    - Open the `hello_world.py` file in your chosen IDE.
@@ -65,11 +68,7 @@ In this lesson, you will learn how to write and run your first Python script. Th
 3. **See the output**:
    - You should see the output "Hello, World!" in the console or terminal within the IDE.
 
-### Explanation of the Code
-
-The `print` function is a built-in Python function that outputs text to the console. The text to be printed is enclosed in parentheses and quotation marks. In this example, `print("Hello, World!")` tells Python to print the string "Hello, World!".
-
-### Troubleshooting
+## Troubleshooting
 
 - **Syntax Errors**: Make sure your code is exactly as shown, with correct indentation and no typos.
 - **File Location**: Ensure you are in the correct directory in the command line where your Python file is saved.

@@ -26,9 +26,10 @@ export const actions = {
         const emailSuccess = await sendMail({
             toEmail: email,
             subject: 'Reset Your Password',
-            text: `If you made a request to change your password, click on the link below to reset your password.\n${returnURL}` +
-                  `\n\nIf you did not make a request to change your password or believe this email was sent in error, ` + 
-                  `you can safely ignore this email.`
+            text:
+                `If you made a request to change your password, click on the link below to reset your password.\n${returnURL}` +
+                `\n\nIf you did not make a request to change your password or believe this email was sent in error, ` +
+                `you can safely ignore this email.`
         });
         if (!emailSuccess) {
             return fail(400, { error: 'Password reset email failed to send, try again later.' });

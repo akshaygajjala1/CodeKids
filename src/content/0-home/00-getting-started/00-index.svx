@@ -1,3 +1,24 @@
 ---
 title: Getting Started
 ---
+
+## Dashboard Layout
+
+### Navigation Menu
+On the left-hand side of your screen, there is a collapsible navigation menu that allows you to see
+where you are in the course at any given time, and also allows you to quickly switch between courses 
+and lessons.
+
+<img width="200" src="/course-content/home/getting-started/navigation.png" alt="A picture of the left-hand navigation.">
+
+### Main Content
+Most of the screen encompasses the main content panel, which shows the content of the lesson that you
+are currently viewing, alongside some additional information about where you are in the course with
+a breadcrumb navigation near the top, and arrows at the bottom that allow you to quickly move back and
+forth within the course.
+
+<img src="/course-content/home/getting-started/content.png" alt="A picture of the content of the dashboard">
+
+Aditionally, there is also a visualization of the topics within a lesson on the right side of your 
+screen (which can be shown by clicking on the `In this lesson` text at the top of the page on mobile)
+which shows your progress through an individual lesson.

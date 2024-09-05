@@ -1,0 +1,82 @@
+---
+title: Math
+---
+
+## Basic Math Operators
+
+Python allows us to very clearly calculate expressions using math operators that we know, such as addition, 
+subtraction, multiplication, and division, as seen below:
+
+<EditableCode fixedHeight={6} fixedOutputHeight={4}>
+
+```python
+a = 10
+b = 5
+print(a + b)
+print(a - b)
+print(a * b)
+print(a / b)
+```
+
+</EditableCode>
+
+Take note of how division is the only operation that forces the output to be a float.
+Typically, when you use a math operation between two numbers, the output will be a float only if one or both
+numbers is a float.
+
+<EditableCode fixedHeight={3} fixedOutputHeight={3}>
+
+```python
+print(1 + 2)
+print(1.0 + 2)
+print(1.0 + 2.0)
+```
+
+</EditableCode>
+
+### Order of Operations
+
+Just like regular arithmetic, order of operations still applies. That means expressions in parentheses 
+get applied first, then exponents, then multiplication and division (from left to right), and then
+finally addition and subtraction (from left to right)
+
+<EditableCode fixedHeight={1} fixedOutputHeight={1}>
+
+```python
+print(1 * 5 + 3 - (4 / 2))
+```
+
+</EditableCode>
+
+## Other Operators
+
+### Floor Division
+
+In Python, the floor division operator `//` allows us to get the largest whole number quotient of a 
+division operation, without the fractional or decimal part.
+
+<EditableCode fixedHeight={2} fixedOutputHeight={2}>
+
+```python
+print(100 // 3)
+print(4.0 // 2)
+```
+
+</EditableCode>
+
+Notice how the type returned by the expression follows the same rules as addition, subtraction, and multiplication--
+if one or both numbers in an expression are floating-point numbers, then the entire expression will result in a float,
+even though the floor division operation will never give a fractional or decimal value.
+
+### Exponentiation
+
+You might try to use exponentiation using the `^` operator-- however, this is known as the bitwise XOR operator,
+and is out of the scope for this course. To exponentiate, Python provides the `**` operator:
+
+<EditableCode fixedHeight={1} fixedOutputHeight={1}>
+
+```python
+print(2 ** 4)
+```
+
+</EditableCode>

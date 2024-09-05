@@ -1,12 +1,11 @@
 ---
-title: Nested conditionals
+title: Nested Conditionals
 lockedUntil: 2024-09-25T18:00:00-05:00
 ---
 
-## Nested conditional statements
-Nested conditional statements are conditional statements inside other ones, with the goal of having more complex logic. 
-
-### Syntax
+## Nested Conditional Statements
+Nested conditional statements are conditional statements inside other ones, which are needed when logic needs to
+be more complex. 
 
 ```python
 if check1:
@@ -22,13 +21,10 @@ Nested if statements are an excellent way to make more complex decisions and log
 get overcomplicated which leads to logical errors. An easier way to mitigate this is using logical operators within the conditionals
 to reduce the amount of conditions needed.
 
-### Example
-
-
-    <EditableCode fixedOutputHeight={6} fixedHeight={10}>
+<EditableCode fixedOutputHeight={2} fixedHeight={8}>
 
 ```python
-age = 29 #try changing this number and run again
+age = int(input("Enter your age: "))
 if age >= 18:
     if age >= 21:
         print("You can drink alcohol.")
@@ -39,8 +35,21 @@ else:
 ```
 </EditableCode>
 
-
-
 In this example, the first if statement is tested to see if you are over 18. If the first if statement returns false,
 you immediately return the else condition code. If the first if statement passes, another condition is checked to see
 if you are also 21.
+
+See if you can think of a way to rewrite this code without having nested conditional logic.
+(Hint: there are multiple ways to do so.)
+
+```python
+# Here's how to create the same logic as above, 
+# but without a nested conditional.
+age = int(input("Enter your age: "))
+if age >= 21:
+    print("You can drink alcohol.")
+elif age >= 18:
+    print("You can vote.")
+else:
+    print("You are a minor.")
+```

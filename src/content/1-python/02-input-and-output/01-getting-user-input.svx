@@ -2,8 +2,6 @@
 title: Getting User Input
 ---
 
-# Getting User Input and Handling Different Types in Python
-
 ## Getting User Input with `input()`
 
 In Python, the `input()` function is used to take input from the user. It reads a line from input (usually from the user), converts it into a string, and returns that string.
@@ -12,10 +10,14 @@ In Python, the `input()` function is used to take input from the user. It reads 
 
 To get user input, you simply call the `input()` function. You can also pass a prompt to `input()` to display a message to the user:
 
+<EditableCode fixedHeight={2} fixedOutputHeight={2}>
+
 ```python
 name = input("Enter your name: ")
 print(f"Hello, {name}!")
 ```
+
+</EditableCode>
 
 In this example, the program asks the user for their name and then greets them.
 
@@ -27,41 +29,38 @@ By default, the `input()` function returns the input as a string. However, in ma
 
 If you expect the user to enter a number and you need to perform arithmetic operations on that number, you should convert the input to an integer using `int()`:
 
+<EditableCode fixedHeight={2} fixedOutputHeight={2}>
+
 ```python
 age = int(input("Enter your age: "))
 print(f"You are {age} years old.")
 ```
 
+</EditableCode>
+
 In this example, the user's input is converted to an integer before being stored in the `age` variable.
+We would then be able to perform math with the `age` variable.
 
 ### Converting Input to a Float
 
 Similarly, if you expect the user to input a decimal number, you can convert the input to a float using `float()`:
+
+<EditableCode fixedHeight={2} fixedOutputHeight={2}>
 
 ```python
 height = float(input("Enter your height in meters: "))
 print(f"Your height is {height} meters.")
 ```
 
+</EditableCode>
+
 This converts the user's input to a floating-point number.
 
-### Handling Invalid Input
-
-When converting input, it's important to handle cases where the user might enter invalid data (e.g., entering text when a number is expected). You can handle such errors using a `try-except` block:
-
-```python
-try:
-    age = int(input("Enter your age: "))
-    print(f"You are {age} years old.")
-except ValueError:
-    print("That's not a valid number!")
-```
-
-In this example, if the user enters something that can't be converted to an integer, the program will catch the `ValueError` and display an appropriate message.
-
-### Example: Multiple Inputs
+### Multiple Inputs
 
 You can also take multiple inputs from the user and handle them accordingly:
+
+<EditableCode fixedHeight={5} fixedOutputHeight={4}>
 
 ```python
 name = input("Enter your name: ")
@@ -71,9 +70,14 @@ height = float(input("Enter your height in meters: "))
 print(f"Name: {name}, Age: {age}, Height: {height} meters")
 ```
 
+</EditableCode>
+
 This example asks the user for their name, age, and height, and then prints all the information.
 
-<Note icon="help">
-Using `input()` effectively allows you to create interactive Python programs. Remember to always validate and convert your input to the correct type before using it in your program.
+<Note icon="info">
+
+Using `input()` effectively allows you to create interactive Python programs, so that anyone who knows 
+how to operate a keyboard will be able to use your program.
+
 </Note>
 

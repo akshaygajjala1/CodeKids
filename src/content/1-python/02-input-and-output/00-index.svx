@@ -1,7 +1,10 @@
 ---
-title: Advanced Printing
+title: Input and Output
 lockedUntil: 2024-09-18T18:00:00-05:00
 ---
+
+Interacting with user input and returning information in a program's output is a important concept to learn.
+In this lesson, we will cover important output and string formatting techniques.
 
 ## Concatenation With Other Datatypes
 
@@ -27,6 +30,14 @@ print("I have " + str(dollars) + " dollars.")
 ```
 
 </EditableCode>
+
+<Note icon="info">
+
+Note that the datatype of `dollars` remains unchanged-- we just get the representation of the integer 
+as a string with `str`. If we saved the `str` expression to a variable, then that variable would have a 
+string datatype.
+
+</Note>
 
 However, there is a more elegant way to do this, without having to explicitly cast the type of `dollars`.
 

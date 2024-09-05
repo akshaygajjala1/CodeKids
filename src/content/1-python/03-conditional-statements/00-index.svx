@@ -5,76 +5,73 @@ lockedUntil: 2024-09-25T18:00:00-05:00
 ## Introduction to Conditional Statements
 
 Conditional statements are a vital part of logic in Python, and it is used to execute different parts of code depending on 
-whether a condition is true or false. This allows the computer to make decisions without us directly telling it what to do.
+whether a condition is true or false. This allows the computer to make different decisions based on a value at runtime.
 
 - **`if` statement**: Code is executed if conditional statement is true
 - **`elif` statement**: If the original "if" statement is false, the "elif" line is checked for True/False.
 - **`else` statement**: If the original "if" statement and all "elif" statements are false, this code is executed. 
 
-## If statements
+You are able to create `if` statements without needing to use an `elif` or `else` block. 
+
+## If Statement
 
 The if statement is the first condition tested, and if it returns as true, a code block is executed.
 
-### Example
-
-<EditableCode fixedOutputHeight={2} fixedHeight={4}>
+<EditableCode fixedOutputHeight={1} fixedHeight={3}>
 
 ```python
 test = True
-if (test):
-    print("This is an executable code block")
-
+if test:
+    print("This is inside the if-statement.")
 ```
 
 </EditableCode>
 
+Note how we must start the code block that is inside an if statement on the next line, and indented.
 
-## Elif statements
+## Elif Statement
 
-If the original if statement returns as false, then the elif statements are checked. 
+If the original if statement is false, then the elif statements are checked. 
 As soon as one of the elif statements is true, the code is executed and the conditional statement is terminated. 
 Elif statements that come after the first true statement are not even read by the computer, even if they are true.
 
-### Example
-
-<EditableCode fixedOutputHeight={4} fixedHeight={13}>
+<EditableCode fixedOutputHeight={1} fixedHeight={12}>
 
 ```python
 test = False
 test2 = False
 test3 = True
 test4 = True
-if (test):
-    print("Executable block for a false if statement") #Will not show
-elif (test2):
-    print("Executable block for a false elif statement") #Will not show
-elif (test3):
-    print("Executable block for TRUE elif statement 1")
-elif (test4):
-    print("Executable block for TRUE elif statement 2") #Will not show
+if test:
+    print("one") 
+elif test2:
+    print("two")
+elif test3:
+    print("three")
+elif test4:
+    print("four")
 ```
 
 </EditableCode>
 
-## Else statements
+Note how test3 was the first condition that was true, and caused that `elif` block to run, and it skipped any remaining 
+`elif` blocks.
 
-If the original if statement returns as false, and all the elif statements return as false, the final else condition is run. An else 
-statement isn't necessary, but if the statements before it are all false, it will result in an error.
+## Else Statement
 
-### Example   
-
+If the original if statement is false, and all the elif statements are false, the final else condition is run.
 
 <EditableCode fixedOutputHeight={2} fixedHeight={8}>
 
 ```python
 test = False
 test2 = False
-if (test):
-    print("Executable block for a false if statement") #Will not show
-elif (test2):
-    print("Executable block for a false elif statement") #Will not show
+if test:
+    print("This will not run") 
+elif test2:
+    print("This will also not run") 
 else:
-    print("This will execute")
+    print("This will run")
 ```
 
 </EditableCode>

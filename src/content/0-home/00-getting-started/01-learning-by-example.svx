@@ -1,0 +1,61 @@
+---
+title: Learning By Example
+---
+
+## Interactivity
+
+Interactivity is a focal point of CodeKids Academy, and we believe that it is the key to learning
+programming. We want you to be able to learn programming by example, not just by reading.
+
+### Editable Code
+
+To allow you to learn programming by example, we have created a system where you can run and edit Python
+code without ever having to leave this website.
+
+<EditableCode fixedHeight={1} fixedOutputHeight={1}>
+
+```python
+print('Edit me!')
+```
+
+</EditableCode>
+
+You'll learn more about the print statement and Python programming in the actual Python course, but for now, 
+try experimenting with changing the text where it says `Edit me!` (make sure to leave the opening and closing 
+quotes `'` intact).
+
+### Quizzes
+
+We also have quizzes throughout each section as to check your understanding of a topic.
+
+<Quiz
+    answers={[
+        "A cup of coffee",
+        "Two snakes",
+        "A crab",
+        "A bird"
+    ]}
+    correctAnswerIndex={1}
+>
+What is the Python logo?
+<div slot="explanation">
+The Python logo features two intertwined snakes.
+</div>
+</Quiz>
+
+### Code Quizzes
+
+Finally, later on in the course, you will start to see coding challenges that are similar to those you 
+would see on websites like Leetcode or Hackerrank, where you have to complete code to solve a problem, 
+and make sure that any and all test cases (even hidden ones) will still result in the correct output.
+
+<EditableCode fixedOutputHeight={1} fixedHeight={2} problemId="0">
+
+```python
+def area_of_square(side_length):
+    return side_length ** 2
+```
+
+</EditableCode>
+
+Now that you've learned the ins-and-outs of CodeKids Academy, why not start learning [Python!](/dashboard/python)
