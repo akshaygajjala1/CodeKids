@@ -12,7 +12,7 @@ First, we'll be focusing on `breaks`.
 
 The `break` statement is used to exit a loop prematurely when a certain condition is met.
 
-### Example
+<EditableCode fixedHeight={4} fixedOutputHeight={5}>
 
 ```python
 for i in range(10):
@@ -21,15 +21,7 @@ for i in range(10):
     print(i)
 ```
 
-**Output:**
-
-```
-0
-1
-2
-3
-4
-```
+</EditableCode>
 
 In this example, the loop stops when `i` equals 5.
 
@@ -37,7 +29,7 @@ In this example, the loop stops when `i` equals 5.
 
 The `continue` statement is used to skip the rest of the code inside the loop for the current iteration and move on to the next iteration.
 
-### Example
+<EditableCode fixedHeight={4} fixedOutputHeight={5}>
 
 ```python
 for i in range(10):
@@ -46,18 +38,12 @@ for i in range(10):
     print(i)
 ```
 
-**Output:**
-
-```
-1
-3
-5
-7
-9
-```
+</EditableCode>
 
 In this example, even numbers are skipped, so only odd numbers are printed.
 
 <Note icon="help">
+
 Use `break` and `continue` to control loop execution and optimize your code efficiently.
+
 </Note>

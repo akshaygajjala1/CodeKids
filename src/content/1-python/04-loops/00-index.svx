@@ -24,40 +24,30 @@ for item in iterable:
 
 Here’s an example of iterating over a list of numbers and printing each one:
 
+<EditableCode fixedHeight={3} fixedOutputHeight={5}>
+
 ```python
-numbers = [1, 2, 3, 4, 5]
+numbers = [1, 2, 3, 4, 5] 
 for num in numbers:
-    print(num)
+    print(num) 
 ```
 
-Output:
+</EditableCode>
 
-```
-1
-2
-3
-4
-5
-```
+<Note icon="info">
+We haven't learned lists yet, but keep in mind this is one way you can use loops!
+</Note>
 
 ### Using `range()` with `for`
 
 The `range()` function generates a sequence of numbers, which is often used with `for` loops.
+<EditableCode fixedHeight={2} fixedOutputHeight={5}>
 
 ```python
 for i in range(5):
     print(i)
 ```
-
-Output:
-
-```
-0
-1
-2
-3
-4
-```
+</EditableCode>
 
 ## The `while` Loop
 
@@ -74,6 +64,8 @@ while condition:
 
 Here’s an example of a `while` loop that continues to print numbers until a certain condition is met:
 
+<EditableCode fixedHeight={4} fixedOutputHeight={5}>
+
 ```python
 count = 0
 while count < 5:
@@ -81,15 +73,7 @@ while count < 5:
     count += 1
 ```
 
-Output:
-
-```
-0
-1
-2
-3
-4
-```
+</EditableCode>
 
 ### Infinite Loops
 
@@ -103,7 +87,9 @@ while True:
 To avoid this, ensure that your loop condition will eventually be met.
 
 <Note icon="help">
+
 Loops are essential for repetitive tasks, automating processes, and iterating over collections of data. Understanding how to use `for` and `while` loops effectively is a key skill in programming.
+
 </Note>
 
 

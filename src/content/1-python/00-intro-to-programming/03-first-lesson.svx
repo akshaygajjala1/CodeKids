@@ -78,5 +78,3 @@ The `print` function is a built-in Python function that outputs text to the cons
 <Note icon="info">
 Writing and running your first Python script is an important step in your programming journey. It introduces you to the basics of how code is written, saved, and executed.
 </Note>
-
-This lesson covers writing and running your first Python script, explaining the process step-by-step and troubleshooting common issues you might encounter.

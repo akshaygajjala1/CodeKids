@@ -6,7 +6,7 @@ title: Nested Loops
 
 A nested loop is simply a loop inside another loop. Each time the outer loop runs, the inner loop runs completely.
 
-### Example: Multiplication Table
+<EditableCode fixedHeight={4} fixedOutputHeight={5}>
 
 ```python
 for i in range(1, 6):
@@ -15,15 +15,8 @@ for i in range(1, 6):
     print()
 ```
 
-**Output:**
+</EditableCode>
 
-```
-1 2 3 4 5 
-2 4 6 8 10 
-3 6 9 12 15 
-4 8 12 16 20 
-5 10 15 20 25 
-```
 
 In this example, the outer loop controls the rows, and the inner loop controls the columns.
 
@@ -31,7 +24,7 @@ In this example, the outer loop controls the rows, and the inner loop controls t
 
 Nested loops can significantly increase the time complexity of your code, especially if each loop iterates over a large dataset.
 
-### Example: Pattern Generation
+<EditableCode fixedHeight={4} fixedOutputHeight={5}>
 
 ```python
 n = 5
@@ -41,21 +34,13 @@ for i in range(n):
     print()
 ```
 
+</EditableCode>
+
 <Note icon="warning">
 Increased time complexity can mean an increased run time!
 </Note>
 
-**Output:**
-
-```
-*
-**
-***
-****
-*****
-```
-
-<Note icon="warning">
+<Note icon="info">
 Be mindful of the number of iterations in nested loops. For large datasets, consider whether there's a more efficient way to achieve the same result without deeply nested loops.
 </Note>
 
