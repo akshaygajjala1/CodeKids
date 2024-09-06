@@ -261,7 +261,7 @@ print(f'fibonacci({num}) = {fibonacci(num)}')  # edit me!`;
                     <div class="tutor-profile">
                         <div class="picture"></div>
                         <div class="tutor-info">
-                            <Label>Developer & Founder</Label>
+                            <Label>Developer, Curriculum Lead & Founder</Label>
                             <h3>Akshay Gajjala</h3>
                             <p>
                                 Hey! I'm Akshay, a senior in high school, with a passion for

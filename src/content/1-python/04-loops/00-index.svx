@@ -9,7 +9,7 @@ Loops are a fundamental concept in programming that allow you to execute a block
 - **`for` loop**: Used to iterate over a sequence (e.g., list, tuple, string) or other iterable objects.
 - **`while` loop**: Repeatedly executes a block of code as long as a given condition is true.
 
-## The `for` Loop
+## For Loops
 
 The `for` loop in Python is used to iterate over a sequence (such as a list, tuple, or string) or any other iterable object. It’s particularly useful when you know the number of iterations ahead of time.
 
@@ -41,6 +41,9 @@ We haven't learned lists yet, but keep in mind this is one way you can use loops
 ### Using `range()` with `for`
 
 The `range()` function generates a sequence of numbers, which is often used with `for` loops.
+`range()` generates a sequence of numbers. By default, it starts from `0` 
+and increments by `1` until it reaches (but does not include) the specified number. 
+
 <EditableCode fixedHeight={2} fixedOutputHeight={5}>
 
 ```python
@@ -49,7 +52,33 @@ for i in range(5):
 ```
 </EditableCode>
 
-## The `while` Loop
+You can also specify a starting point using `range(start, stop)`.
+
+<EditableCode fixedHeight={2} fixedOutputHeight={4}>
+
+```python
+for i in range(1, 5):
+    print(i)
+```
+
+</EditableCode>
+
+> When there is no `step`, the range function will increment by one.
+
+You can also specify a step (how much the numbers increase by) using `range(start, stop, step)`.
+
+<EditableCode fixedHeight={2} fixedOutputHeight={5}>
+
+```python
+for i in range(2, 10, 2):
+    print(i)
+```
+
+</EditableCode>
+
+> This starts at `2` and increments by `2` until reaching (but not including) `10`.
+
+## While Loops
 
 The `while` loop repeatedly executes a block of code as long as the specified condition is `True`. It’s particularly useful when the number of iterations isn’t known in advance, and you need to keep running the loop until a certain condition is met.
 
@@ -70,7 +99,7 @@ Here’s an example of a `while` loop that continues to print numbers until a ce
 count = 0
 while count < 5:
     print(count)
-    count += 1
+    count = count + 1
 ```
 
 </EditableCode>

@@ -2,7 +2,7 @@
 title: Functions
 ---
 
-### What are functions?
+## What are functions?
 
 Functions are reusable blocks of code that perform a specific task. They allow you to break down your program into smaller, manageable pieces.
 
@@ -56,22 +56,19 @@ Hello, Student!
 
 You can provide default values for parameters, making them optional when calling the function:
 
+<EditableCode fixedHeight={4} fixedOutputHeight={1}>
+
 ```python
-def greet(name="world"):
+def greet(name="world"): 
     print(f"Hello, {name}!")
+
+greet() 
 ```
 
-Calling `greet()` without an argument uses the default value:
+</EditableCode>
 
-```python
-greet()
-```
-
-**Output:**
-
-```
-Hello, world!
-```
+> Calling `greet()` without an argument uses the default value
+> Try experimenting by changing the name!
 
 ## Return Values
 
