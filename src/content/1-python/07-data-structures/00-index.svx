@@ -2,6 +2,10 @@
 title: Data Structures
 ---
 
+At its simplest definition, a data structure is a collection of data, and the ways
+that the data can be accessed or updated. We already went over lists, and in this lesson, we will go
+over dictionaries.
+
 ## Dictionaries: Key-Value Pairs
 
 A **dictionary** in Python is a collection of key-value pairs, where each key is unique. Dictionaries are defined using curly braces `{}` with keys and values separated by a colon `:`.
@@ -74,6 +78,24 @@ Python provides several useful methods to interact with dictionaries:
     ```python
     print(student.items())  # Output: dict_items([('name', 'Albert'), ('age', 18), ('grade', 'A'), ('school', 'Liberty High')])
     ```
+
+> ### Iterating on a Dictionary
+> You may have noticed how the last three methods all return a view object. This is just an 
+> object that can be iterated over (e.g. using a for loop). Try using the different methods
+> (`.keys()`, `.values()`, and `.items()`) in the following example:
+>
+> <EditableCode>
+> 
+> ```python
+> my_dict = {'a': 1, 'b': 2, 'c': 3}
+> for thing in my_dict.keys():
+>     print(thing)
+> ```
+> 
+> </EditableCode>
+>
+> Try seeing what happens when you iterate over just the dictionary, not calling any of the methods.
+
 
 <Note icon="help">
 Dictionaries provide an efficient way to store and retrieve data using key-value pairs, making them essential for managing structured data in Python.
