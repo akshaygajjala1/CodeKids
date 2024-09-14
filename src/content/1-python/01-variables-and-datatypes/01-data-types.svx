@@ -52,7 +52,7 @@ You can see how we are able to do basic math operations with integers, such as a
 
 ### Floats
 
-Floating-point numbers (floats for short) are numbers (like integers), but instead of being limited to whole numbers, 
+Floating-point numbers (floats for short) are numbers (like integers), but instead of being limited to non-decimal numbers, 
 you are able to represent any real[^2] number with floats.
 
 <EditableCode fixedOutputHeight={3} fixedHeight={5}>
