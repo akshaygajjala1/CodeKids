@@ -259,7 +259,9 @@ print(f'fibonacci({num}) = {fibonacci(num)}')  # edit me!`;
                 </div>
                 <div class="meet-tutor-profiles">
                     <div class="tutor-profile">
-                        <div class="picture"></div>
+                        <div class="picture">
+                            <img src='/akshay.png' alt='This is Akshay.' />
+                        </div>
                         <div class="tutor-info">
                             <Label>Developer, Curriculum Lead & Founder</Label>
                             <h3>Akshay Gajjala</h3>
@@ -272,7 +274,9 @@ print(f'fibonacci({num}) = {fibonacci(num)}')  # edit me!`;
                         </div>
                     </div>
                     <div class="tutor-profile">
-                        <div class="picture"></div>
+                        <div class="picture">
+                            <img src='/pranav.jpeg' alt='This is Pranav.' />
+                        </div>
                         <div class="tutor-info">
                             <Label emphasized>Lead Developer, Designer & Founder</Label>
                             <h3>Pranav Pakanati</h3>
@@ -285,7 +289,9 @@ print(f'fibonacci({num}) = {fibonacci(num)}')  # edit me!`;
                         </div>
                     </div>
                     <div class="tutor-profile">
-                        <div class="picture"></div>
+                        <div class="picture">
+                            <img src='/ram.jpg' alt='This is Ram.' />
+                        </div>
                         <div class="tutor-info">
                             <Label>Developer & Founder</Label>
                             <h3>Ram Sarma</h3>
@@ -563,12 +569,18 @@ print(f'fibonacci({num}) = {fibonacci(num)}')  # edit me!`;
                             flex: 1 0 0;
 
                             .picture {
-                                width: 10rem;
-                                height: 10rem;
-                                border-radius: 50%;
-                                background: var(--background);
-                                border: 0.25rem solid var(--primary);
-                                box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5);
+                                display: grid;
+                                place-items: center;
+
+                                img {
+                                    object-fit: cover;
+                                    width: 10rem;
+                                    height: 10rem;
+                                    border-radius: 50%;
+                                    background: var(--background);
+                                    border: 0.25rem solid var(--primary);
+                                    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5);
+                                }
                             }
 
                             .tutor-info {
