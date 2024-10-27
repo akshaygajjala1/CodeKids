@@ -156,9 +156,11 @@ print(f'fibonacci({num}) = {fibonacci(num)}')  # edit me!`;
     <div class="content">
         <section id="home">
             <div class="title-container">
+                <Label>Spring 2025 — now enrolling!</Label>
                 <h2>
                     Empowering the next generation of coders <span class="desktop-only">—</span>
-                    through a dynamic teaching platform <span class="desktop-only">—</span> supercharged
+                    through a dynamic teaching platform <span class="desktop-only">—</span> 
+                    <span class="gradient-text">supercharged</span>
                     with code execution.
                 </h2>
                 <p>
@@ -364,6 +366,12 @@ print(f'fibonacci({num}) = {fibonacci(num)}')  # edit me!`;
                     gap: var(--padding-md);
                     text-align: center;
                     text-wrap: balance;
+
+                    .gradient-text {
+                        background: linear-gradient(to right, #C984EF, var(--primary));
+                        background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                    }
 
                     @media screen and (max-width: 74rem) {
                         .desktop-only {
