@@ -8,5 +8,6 @@ services:
       - .env
     environment:
       - PORT=8080
+      - ORIGIN=http://localhost:8080
     volumes:
       - .:/opt/app
