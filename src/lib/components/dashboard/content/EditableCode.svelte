@@ -236,7 +236,7 @@
 
 <div class="container">
     <div class="language-info">
-        <p>Python 3.8.10</p>
+        <p>Python 3.12.11</p>
         <div class="top-buttons">
             <Button
                 variant="ghost"
