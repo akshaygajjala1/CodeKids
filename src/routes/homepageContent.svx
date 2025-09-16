@@ -24,10 +24,10 @@ Try running (and editing!) the code below.
 ```python
 import math
 
-def area_of_sphere(radius):
+def volume_of_sphere(radius):
     return 4 / 3 * math.pi * radius ** 3
 
-print(area_of_sphere(100))
+print(volume_of_sphere(100))
 ```
 
 </EditableCode>
